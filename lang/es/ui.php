@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'navigation' => [
         'menu' => 'Menú de Navegación',
@@ -73,7 +72,7 @@ return [
             'required' => 'El campo :attribute es obligatorio.',
             'email' => 'El campo :attribute debe ser una dirección de correo válida.',
             'min' => [
-                'string' => 'El campo :attribute debe tener al menos :min caracteres.',
+                'string' => 'El campo :attribute debe tener al menos :min caracteres',
             ],
             'max' => [
                 'string' => 'El campo :attribute no debe tener más de :max caracteres.',
@@ -104,6 +103,13 @@ return [
         'per_page' => 'Por página',
         'no_results' => 'No hay resultados',
     ],
+    'createUser' => [
+        'pwd' => 'incluyendo letras y números',
+        'Header' => [
+            'newUser'=> 'Crear Nuevo Usuario',
+            'h2'=>'Ingresa la información para crear un nuevo usuario en el sistema',
+        ],
+    ],
     'users' => [
         'title' => 'Usuarios',
         'create' => 'Crear Usuario',
@@ -128,9 +134,9 @@ return [
             'email' => 'Email del usuario',
         ],
         'placeholders' => [
-            'name' => 'Nombre del usuario',
-            'email' => 'Email del usuario',
-            'password' => 'Contraseña del usuario',
+            'name' => 'Nombre completo del usuario',
+            'email' => 'correo@ejemplo.com',
+            'password' => 'Contraseña segura',
             'search' => 'Buscar usuarios...',
         ],
         'buttons' => [

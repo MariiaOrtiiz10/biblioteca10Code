@@ -15,6 +15,7 @@ import { FiltersTable, FilterConfig } from "@/components/stack-table/FiltersTabl
 import { toast } from "sonner";
 import { ColumnDef, Row } from "@tanstack/react-table";
 
+//Página principal que muestra una lista de usuarios.
 export default function UsersIndex() {
   const { t } = useTranslations();
   const { url } = usePage();

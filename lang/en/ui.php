@@ -72,10 +72,10 @@ return [
            'required' => 'The :attribute field is required.',
             'email' => 'The :attribute field must be a valid email address.',
             'min' => [
-                'string' => 'The :attribute field must be at least :min characters.',
+                'string' => 'The :attribute field must be at least :min characters',
             ],
             'max' => [
-                'string' => 'The :attribute field must not be greater than :max characters.',
+                'string' => 'The :attribute field must not be greater than :max characters',
             ],
             'unique' => 'The :attribute has already been taken.',
             'confirmed' => 'The :attribute confirmation does not match.',
@@ -103,6 +103,13 @@ return [
         'per_page' => 'Per page',
         'no_results' => 'No results',
     ],
+    'createUser' => [
+        'pwd' => 'including characters and numbers',
+        'Header' => [
+            'newUser'=> 'Create New User',
+            'h2'=> 'Enter the information to create a new user in the system',
+        ],
+    ],
     'users' => [
         'title' => 'Users',
         'create' => 'Create User',
@@ -127,9 +134,9 @@ return [
             'email' => 'User email',
         ],
         'placeholders' => [
-            'name' => 'User name',
-            'email' => 'User email',
-            'password' => 'User password',
+            'name' => 'Full username',
+            'email' => 'mail@example.com',
+            'password' => 'Secure password',
             'search' => 'Search users...',
         ],
         'buttons' => [
