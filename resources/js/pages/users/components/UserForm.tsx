@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import { User, Mail, Lock} from "lucide-react";
+import { User, Mail, Lock, X, Eye, Save} from "lucide-react";
 //import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 //Para invalidar y actualizar datos en caché después de un cambio
@@ -107,15 +107,16 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
     };
     
     return (
-        <div className="">
+        <div className="rounded-lg shadow-lg">
             <header className="">
             <div className="flex items-center gap-2">
             <Icon iconNode={User} className="w-6 h-6 text-blue-500" />
             <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>
             <br></br>   
             </div>
-            <p>{t("ui.createUser.Header.h2")}</p>
-            </header>    
+            <p className="mb-3">{t("ui.createUser.Header.h2")}</p>
+            </header>  
+            <hr></hr>  
         <form onSubmit={handleSubmit} className="space-y-4 mt-4" noValidate>
                 <div>
                 {/* Name field */}
@@ -221,6 +222,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                     : t("ui.users.fields.password")}
                             </Label>
                             </div>
+                            <div className="relative">
                             <Input
                                 id={field.name}
                                 name={field.name}
@@ -233,51 +235,16 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                 autoComplete="off"
                                 required={false}
                             />
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                                <Icon iconNode={Eye} className="w-5 h-5" />
+                            </div>
+                            </div>
                             <FieldInfo field={field} />
                         </div>
                     )}
                 </form.Field>
             </div>
-            {/* <div>
-                <form.Field
-                    name="pwd2"
-                    validators={{
-                        onChangeAsync: async ({ value }) => {
-                            await new Promise((resolve) => setTimeout(resolve, 500));
-                            if (!initialData && (!value || value.length === 0)) {
-                                return t("ui.validation.required", { attribute: t("ui.users.fields.password").toLowerCase() });
-                            }
-                            if (value && value.length > 0 && value.length < 8) {
-                                return t("ui.validation.min.string", { attribute: t("ui.users.fields.password").toLowerCase(), min: "8" })+ ", " + t("ui.stringsCreados.pwd");
-                            }
-                            return undefined;
-                        },
-                    }}
-                >
-                    {(field) => (
-                        <>
-                            <Label htmlFor={field.name}>
-                                {initialData
-                                    ? t("ui.users.fields.password_optional")
-                                    : t("ui.users.fields.password")}
-                            </Label>
-                            <Input
-                                id={field.name}
-                                name={field.name}
-                                type="password"
-                                value={field.state.value}
-                                onChange={(e) => field.handleChange(e.target.value)}
-                                onBlur={field.handleBlur}
-                                placeholder={t("ui.users.placeholders.password")}
-                                disabled={form.state.isSubmitting}
-                                autoComplete="off"
-                                required={false}
-                            />
-                            <FieldInfo field={field} />
-                        </>
-                    )}
-                </form.Field>
-            </div> */}
+            <hr></hr>
 
             {/* Form buttons */}
             <div className="grid grid-cols-2 justify-items-end gap-4"> {/* Por defecto al final a la derecha (2 columnas y 1 fila)*/}
@@ -297,6 +264,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                     }}
                     disabled={form.state.isSubmitting}
                 >
+                    <Icon iconNode={X} className="w-5 h-5" />
                     {t("ui.users.buttons.cancel")}
                 </Button>
 
@@ -305,6 +273,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                 >
                     {([canSubmit, isSubmitting]) => (
                         <Button className="bg-blue-500" type="submit" disabled={!canSubmit} >
+                            <Icon iconNode={Save} className="w-5 h-5" />
                             {isSubmitting
                                 ? t("ui.users.buttons.saving")
                                 : initialData
