@@ -18,7 +18,7 @@ export default function Dashboard() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-3 ">
                 <DashboardCard
                     title="Usuarios"
                     description="Gestiona los usuarios del sistema"

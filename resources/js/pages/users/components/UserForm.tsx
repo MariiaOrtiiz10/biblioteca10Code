@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import { User, Mail, Lock, X, Eye, Save} from "lucide-react";
-//import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { User, Mail, Lock, X, Eye, Save, Shield } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+    Card,
+  } from "@/components/ui/card"
+import{} from "@/components/ui/select";
 //Para invalidar y actualizar datos en caché después de un cambio
 import { useQueryClient } from "@tanstack/react-query";
 //Para la navegación y envío de formularios sin recargar la página
@@ -50,7 +53,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 
 export function UserForm({ initialData, page, perPage }: UserFormProps) {
     const { t } = useTranslations();//función que traduce los textos del form
-    const queryClient = useQueryClient();//para actualizar caché
+    const queryClient = useQueryClient();//para actualizar caché  
 
     // TanStack Form setup
     const form = useForm({
@@ -59,7 +62,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
             name: initialData?.name ?? "", 
             email: initialData?.email ?? "",
             password: "",
-            // pwd2: "",
+            role: "",
         },
         //enviar formulario
         onSubmit: async ({ value }) => {
@@ -107,18 +110,39 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
     };
     
     return (
-        <div className="rounded-lg shadow-lg">
-            <header className="">
+        <div className=" ">
+            <div className="rounded-lg shadow-md">
+            <header className="bg-gray-100 ml-5">
             <div className="flex items-center gap-2">
             <Icon iconNode={User} className="w-6 h-6 text-blue-500" />
-            <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>
-            <br></br>   
+            <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>        
             </div>
-            <p className="mb-3">{t("ui.createUser.Header.h2")}</p>
-            </header>  
-            <hr></hr>  
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4" noValidate>
-                <div>
+            <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
+            </header> 
+            <div className="p-2 bg-gray-100"></div>
+            {/* DIV DE INFORMACIÓN BÁSICA*/} 
+
+            <hr></hr>
+            <div className="p-2"></div>  
+            <Tabs defaultValue="basicInformation" className="mr-3 ml-3">
+                <TabsList className="grid w-full h-15 grid-cols-2">
+                    <TabsTrigger className="capitalize p-3 " value="basicInformation">{t("ui.createUser.Tab.basicInformation.title")}</TabsTrigger>
+                    <TabsTrigger className="p-3" value="r-p">{t("ui.createUser.Tab.roles_permission.title")}</TabsTrigger>
+                </TabsList>
+                <TabsContent value="basicInformation">
+                    <Card>
+                        <p>hola</p>
+                    </Card>
+                 </TabsContent>
+                <TabsContent value="r-p">
+                    <Card>
+                        <p>adios</p>
+                    </Card>
+                </TabsContent>
+            </Tabs>
+            <div className="ml-5 mr-5">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4" noValidate>
+                <div className="">
                 {/* Name field */}
                 <form.Field
                     name="name"
@@ -157,7 +181,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
             </div>
             
             {/* Email field */}
-            <div>
+            <div className="">
                 <form.Field
                     name="email"
                     validators={{
@@ -196,7 +220,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
             </div>
 
             {/* Password field */}
-            <div>
+            <div className="">
                 <form.Field
                     name="password"
                     validators={{
@@ -244,12 +268,81 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                     )}
                 </form.Field>
             </div>
+        </form>
+    </div>   
+    <br></br>   
+        <hr></hr>
+        {/* DIV DEL ROLES Y PERMISOS*/}
+        <div className="ml-5 mr-5 mt-5">
+            <div className="flex items-center gap-2">
+                <Icon iconNode={Shield} className="w-5 h-5" />
+                <Label className="font-black capitalize">{t("ui.createUser.Rol.create")}</Label>
+            </div>
+            <div className="">
+                {/*select*/}
+                <form.Field
+                    name="role"
+                    validators={{
+                        onChangeAsync: async ({ value }) => {
+                            await new Promise((resolve) => setTimeout(resolve, 300));
+                            return !value
+                                ? t("ui.validation.required", { attribute: t("ui.users.fields.role").toLowerCase() })
+                                : value === "1"
+                                    ? t("ui.createUser.Rol.select.msg")
+                                    : undefined;
+                },
+            }}
+            
+                >
+                    {(field) => (
+                <div>
+                    <select
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    className="mt-3 border-2 w-full py-2 px-1 rounded-md">
+                        <option value="1">{t("ui.createUser.Rol.select.op1")}</option>
+                        <option value="2">{t("ui.createUser.Rol.select.op2")}</option>
+                        <option value="3">{t("ui.createUser.Rol.select.op3")}</option>
+                    </select>
+                    <FieldInfo field={field} />
+                </div>
+            )}
+                </form.Field>
+                
+            </div>
+            <div className="p-3"></div>
             <hr></hr>
+            <div className=" mt-5 mb-5 flex items-center gap-2">
+                <Icon iconNode={Shield} className="w-5 h-5 text-blue-500" />
+                <Label className="font-black capitalize">{t("ui.createUser.Rol.permission.title")}</Label>
+            </div>
+            {/*DIV DE LOS 4 DIVS */}
+            <div className="mb-4 grid grid-cols-2 grid-rows-2 gap-4 ">
+                <div className="border p-4 rounded-lg bg-gray-100">
 
-            {/* Form buttons */}
-            <div className="grid grid-cols-2 justify-items-end gap-4"> {/* Por defecto al final a la derecha (2 columnas y 1 fila)*/}
+                </div>
+                <div className="border p-4 rounded-lg bg-gray-100">
+
+                </div>
+                <div className="border p-4 rounded-lg bg-gray-100">
+
+                </div>
+                <div className="border p-4 rounded-lg bg-gray-100">
+
+                </div>
+
+            </div>
+
+        </div>
+        <hr></hr>
+        <div className="p-3 bg-gray-100"></div>
+        {/* DIV BOTONES */}
+        <div className="grid grid-cols-2 justify-items-end gap-4 bg-gray-100 "> {/* Por defecto al final a la derecha (2 columnas y 1 fila)*/}
                 <Button
-                className="justify-self-start hover:bg-red-500"
+                className="justify-self-start hover:bg-red-500 ml-4"
                     type="button"
                     variant="outline"
                     onClick={() => {
@@ -272,7 +365,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                     selector={(state) => [state.canSubmit, state.isSubmitting]}
                 >
                     {([canSubmit, isSubmitting]) => (
-                        <Button className="bg-blue-500" type="submit" disabled={!canSubmit} >
+                        <Button className="bg-blue-500 mr-4" type="submit" disabled={!canSubmit} >
                             <Icon iconNode={Save} className="w-5 h-5" />
                             {isSubmitting
                                 ? t("ui.users.buttons.saving")
@@ -283,7 +376,10 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                     )}
                 </form.Subscribe>
             </div>
-        </form>
+            <div className="p-2.5 bg-gray-100"></div>
+            <div>
+            </div>
+        </div>
 </div>
     );
 }

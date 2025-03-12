@@ -109,6 +109,27 @@ return [
             'newUser'=> 'Create New User',
             'h2'=> 'Enter the information to create a new user in the system',
         ],
+        'Tab' => [
+            'basicInformation' => [
+                'title' => 'Basic information',
+
+            ],
+            'roles_permission' => [
+                'title' => 'Roles and Permissions',
+            ],
+        ],
+        'Rol' =>[
+            'create' => 'Main role',
+            'select' => [
+                'op1' => 'Select a role',
+                'op2' => 'Role 1',
+                'op3' =>'Role 2',
+                'msg' => 'The role determines the level of general access of the user',
+            ],
+            'permission'=>[
+                'title' => 'Specific permission',
+            ],
+        ],
     ],
     'users' => [
         'title' => 'Users',
@@ -118,6 +139,7 @@ return [
             'name' => 'Name',
             'email' => 'Email',
             'password' => 'Password',
+            'role' => 'Role',
             'password_optional' => 'Password (optional)',
             'created_at' => 'Created at',
             'actions' => 'Actions',

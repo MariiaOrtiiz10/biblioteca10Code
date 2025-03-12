@@ -105,9 +105,30 @@ return [
     ],
     'createUser' => [
         'pwd' => 'incluyendo letras y números',
+        'Tab' => [
+            'basicInformation' => [
+                'title' => 'Información básica',
+
+            ],
+            'roles_permission' => [
+                'title' => 'Roles y Permisos',
+            ],
+        ],
         'Header' => [
             'newUser'=> 'Crear Nuevo Usuario',
             'h2'=>'Ingresa la información para crear un nuevo usuario en el sistema',
+        ],
+        'Rol' =>[
+            'create' => 'Rol princicpal',
+            'select' => [
+                'op1' => 'Selecciona un rol',
+                'op2' => 'Rol 1',
+                'op3' =>'Rol 2',
+                'msg' => 'El rol determina el nivel de acceso general del usuario',
+            ],
+            'permission'=>[
+                'title' => 'Permisos específicos',
+            ],
         ],
     ],
     'users' => [
@@ -118,6 +139,7 @@ return [
             'name' => 'Nombre',
             'email' => 'Email',
             'password' => 'Contraseña',
+            'role' => 'Rol',
             'password_optional' => 'Contraseña (opcional)',
             'created_at' => 'Fecha de creación',
             'actions' => 'Acciones',
