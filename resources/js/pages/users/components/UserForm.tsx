@@ -3,12 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import { User, Mail, Lock, X, Eye, Save, Shield } from "lucide-react";
+import {} from "@/components/ui/checkbox";
+import { User, Mail, Lock, X, Eye, Save, Shield, Users,  PackageOpen, FileText, Settings} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-    Card,
-  } from "@/components/ui/card"
-import{} from "@/components/ui/select";
+import { Card } from "@/components/ui/card"
+import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 //Para invalidar y actualizar datos en caché después de un cambio
 import { useQueryClient } from "@tanstack/react-query";
 //Para la navegación y envío de formularios sin recargar la página
@@ -21,7 +20,8 @@ import { useTranslations } from "@/hooks/use-translations";
 import { useForm } from "@tanstack/react-form";
 //tipo de datos para definir un campo en el form
 import type { AnyFieldApi } from "@tanstack/react-form";
-//import {BasicInformation} from ;
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 
 
 //Datos que puede recibe el formulario(Esto sirve para editar usuario)
@@ -112,14 +112,13 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
     return (
         <div className="">
             <div className="rounded-lg shadow-md shadow-gray-400">
-            <header className="bg-gray-100 px-5 dark:bg-[#272726]">
+            <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
             <div className="flex items-center gap-2">
             <Icon iconNode={User} className="w-6 h-6 text-blue-500" />
             <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>        
             </div>
             <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
             </header> 
-            <div className="p-2 bg-gray-100"></div>
 
            
             <hr></hr>
@@ -274,6 +273,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                             {/*select*/}
                             <form.Field
                                 name="role"
+                                defaultValue="1"
                                 validators={{
                                     onChangeAsync: async ({ value }) => {
                                         await new Promise((resolve) => setTimeout(resolve, 300));
@@ -288,17 +288,20 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                             >
                                 {(field) => (
                                     <div>
-                                        <select
-                                        id={field.name}
-                                        name={field.name}
-                                        value={field.state.value}
-                                        onChange={(e) => field.handleChange(e.target.value)}
-                                        onBlur={field.handleBlur}
-                                        className="mt-3 border-2 w-full py-2 px-1 rounded-md">
-                                            <option value="1">{t("ui.createUser.Rol.select.op1")}</option>
-                                            <option value="2">{t("ui.createUser.Rol.select.op2")}</option>
-                                            <option value="3">{t("ui.createUser.Rol.select.op3")}</option>
-                                        </select>
+                                            <Select
+                                            value={field.state.value} 
+                                            onValueChange={(value) => field.handleChange(value)}
+                                        >
+                                            <SelectTrigger className="mt-3 border-2 w-full py-2 px-1 rounded-md dark:bg-[#272726]">
+                                            <SelectValue/>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                            <SelectItem value="1">{t("ui.createUser.Rol.select.op1")}</SelectItem>
+                                            <SelectItem value="2">{t("ui.createUser.Rol.select.op2")}</SelectItem>
+                                            <SelectItem value="3">{t("ui.createUser.Rol.select.op3")}</SelectItem>
+                                            <SelectItem value="4">{t("ui.createUser.Rol.select.op4")}</SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                         <FieldInfo field={field} />
                                     </div>
                                 )}
@@ -313,16 +316,87 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                             </div>
                             {/*DIV DE LOS 4 DIVS */}
                             <div className="mb-4 grid grid-cols-2 grid-rows-2 gap-4 ">
-                                <div className="border p-4 rounded-lg bg-gray-100">
-
+                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <Icon iconNode={Users} className="w-4 h-4 text-blue-500" />
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.users.title")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="usuarios.1" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="usuarios.1" className="text-sm">{t("ui.createUser.Rol.permission.users.1")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="usuarios.2" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="usuarios.2" className="text-sm">{t("ui.createUser.Rol.permission.users.2")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                    <Checkbox id="usuarios.3" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="usuarios.3" className="text-sm">{t("ui.createUser.Rol.permission.users.3")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                    <Checkbox id="usuarios.4" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="usuarios.4" className="text-sm">{t("ui.createUser.Rol.permission.users.4")}</Label>        
+                                    </div>
                                 </div>
-                                <div className="border p-4 rounded-lg bg-gray-100">
 
-                                </div>
-                                <div className="border p-4 rounded-lg bg-gray-100">
 
+                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <Icon iconNode={PackageOpen} className="w-4 h-4 text-blue-500" />
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.products.title")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="productos.1" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="productos.1" className="text-sm">{t("ui.createUser.Rol.permission.products.1")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="productos.2" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="productos.2" className="text-sm">{t("ui.createUser.Rol.permission.products.2")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="productos.3" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="productos.3" className="text-sm">{t("ui.createUser.Rol.permission.products.3")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="productos.4" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="productos.4" className="text-sm">{t("ui.createUser.Rol.permission.products.4")}</Label>        
+                                    </div>
                                 </div>
-                                <div className="border p-4 rounded-lg bg-gray-100">
+
+
+                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <Icon iconNode={FileText} className="w-4 h-4 text-blue-500" />
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.reports.title")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="reportes.1" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="reportes.1" className="text-sm">{t("ui.createUser.Rol.permission.reports.1")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="reportes.2" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="reportes.2" className="text-sm">{t("ui.createUser.Rol.permission.reports.2")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="reportes.3" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="reportes.3" className="text-sm">{t("ui.createUser.Rol.permission.reports.3")}</Label>        
+                                    </div>
+                                </div>
+
+
+                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <Icon iconNode={Settings} className="w-4 h-4 text-blue-500" />
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.settings.title")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="conf.1" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="conf.1" className="text-sm">{t("ui.createUser.Rol.permission.settings.1")}</Label>        
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox id="conf.2" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
+                                        <Label htmlFor="conf.2" className="text-sm">{t("ui.createUser.Rol.permission.settings.2")}</Label>        
+                                    </div>
 
                                 </div>
 
@@ -372,7 +446,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                     )}
                 </form.Subscribe>
             </div>
-            <div className="p-2.5 bg-gray-100 dark:bg-[#272726]"></div>
+            <div className="rounded-b-lg p-2.5 bg-gray-100 dark:bg-[#272726]"></div>
         </div>
 </div>
     );

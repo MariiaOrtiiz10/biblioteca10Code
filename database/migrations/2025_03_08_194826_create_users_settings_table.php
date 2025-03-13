@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('users_settings', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
-            $table->json('preferences')->default(json_encode(['locale' => config('app.locale')]));
+            $table->json('preferencejs')->default(json_encode(['locale' => config('app.locale')]));
             $table->timestamps();
         });
     }

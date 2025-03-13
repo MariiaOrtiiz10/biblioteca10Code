@@ -103,6 +103,7 @@ return [
         'per_page' => 'Por página',
         'no_results' => 'No hay resultados',
     ],
+
     'createUser' => [
         'pwd' => 'incluyendo letras y números',
         'Tab' => [
@@ -122,12 +123,39 @@ return [
             'create' => 'Rol princicpal',
             'select' => [
                 'op1' => 'Selecciona un rol',
-                'op2' => 'Rol 1',
-                'op3' =>'Rol 2',
+                'op2' => 'Administrador',
+                'op3' => 'Lector',
+                'op4' =>'Editor',
+
                 'msg' => 'El rol determina el nivel de acceso general del usuario',
             ],
             'permission'=>[
                 'title' => 'Permisos específicos',
+                'users' =>[
+                    'title' => 'Usuarios',
+                    '1' => 'Ver usuarios',
+                    '2' => 'Crear usuarios',
+                    '3' => 'Editar usuarios',
+                    '4' => 'Eliminar usuarios',
+                ],
+                'products' => [
+                    'title' => 'Productos',
+                    '1' => 'Ver productos',
+                    '2' => 'Crear productos',
+                    '3' => 'Editar productos',
+                    '4' => 'Eliminar productos',
+                ],
+                'reports'=>[
+                    'title' => 'Reportes',
+                    '1' => 'Ver reportes',
+                    '2' => 'Exportar reportes',
+                    '3' => 'Imprimir reportes',
+                ],
+                'settings' => [
+                    'title'=> 'Configuración',
+                    '1' => 'Acceso a configuración',
+                    '2' => 'Modificar Configuración',
+                ],
             ],
         ],
     ],

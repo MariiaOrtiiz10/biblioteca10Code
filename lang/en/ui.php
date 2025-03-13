@@ -122,12 +122,39 @@ return [
             'create' => 'Main role',
             'select' => [
                 'op1' => 'Select a role',
-                'op2' => 'Role 1',
-                'op3' =>'Role 2',
+                'op2' => 'Admin',
+                'op3' =>'Editor',
+                'op4' => 'Reader'
                 'msg' => 'The role determines the level of general access of the user',
             ],
             'permission'=>[
                 'title' => 'Specific permission',
+                'users' =>[
+                    'title' => 'Users',
+                    '1' => 'See users',
+                    '2' => 'Create users',
+                    '3' => 'Edit users',
+                    '4' => 'Delete users',
+
+                ],
+                'products' => [
+                    'title' => 'Products',
+                    '1' => 'See products',
+                    '2' => 'Create products',
+                    '3' => 'Edit products',
+                    '4' => 'Delete products',
+                ],
+                'reports'=>[
+                    'title' => 'Reports',
+                    '1' => 'See reports',
+                    '2' => 'Export reports',
+                    '3' => 'Print reports',
+                ],
+                'settings' => [
+                    'title'=> 'Settings',
+                    '1' => 'Access to settings',
+                    '2' => 'Modify settings',
+                ],
             ],
         ],
     ],
