@@ -124,14 +124,14 @@ return [
                 'op1' => 'Select a role',
                 'op2' => 'Admin',
                 'op3' =>'Editor',
-                'op4' => 'Reader'
+                'op4' => 'Reader',
                 'msg' => 'The role determines the level of general access of the user',
             ],
             'permission'=>[
                 'title' => 'Specific permission',
                 'users' =>[
                     'title' => 'Users',
-                    '1' => 'See users',
+                    '1' => 'View users',
                     '2' => 'Create users',
                     '3' => 'Edit users',
                     '4' => 'Delete users',
@@ -139,14 +139,14 @@ return [
                 ],
                 'products' => [
                     'title' => 'Products',
-                    '1' => 'See products',
+                    '1' => 'View products',
                     '2' => 'Create products',
                     '3' => 'Edit products',
                     '4' => 'Delete products',
                 ],
                 'reports'=>[
                     'title' => 'Reports',
-                    '1' => 'See reports',
+                    '1' => 'View reports',
                     '2' => 'Export reports',
                     '3' => 'Print reports',
                 ],
