@@ -126,6 +126,7 @@ return [
                 'op2' => 'Administrador',
                 'op3' => 'Lector',
                 'op4' =>'Editor',
+                'op5' => 'Empleado',
 
                 'msg' => 'El rol determina el nivel de acceso general del usuario',
             ],

@@ -31,12 +31,26 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
+            //'permissions' => ['required', 'array'],
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
+        // $user = $action($validator->validated());
+        // if ($request->has('permissions')) {
+        //     $permissions = [];
+        //     foreach ($request->permissions as $category => $actions) {
+        //         foreach ($actions as $action => $value) {
+        //             if ($value) {
+        //                 $permissions[] = "$category.$action";
+        //             }
+        //         }
+        //     }
+        //     $user->syncPermissions($permissions); // Usar el modelo User
+        // }
+        
         $action($validator->validated());
 
         return redirect()->route('users.index')
@@ -71,6 +85,10 @@ class UserController extends Controller
         }
 
         $action($user, $validator->validated());
+        
+        if ($request->has('permissions')) {
+            $user->syncPermissions($request->permissions);
+        }
 
         $redirectUrl = route('users.index');
         
