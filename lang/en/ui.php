@@ -125,6 +125,7 @@ return [
                 'op2' => 'Admin',
                 'op3' =>'Editor',
                 'op4' => 'Reader',
+                'op5' => 'Employer',
                 'msg' => 'The role determines the level of general access of the user',
             ],
             'permission'=>[

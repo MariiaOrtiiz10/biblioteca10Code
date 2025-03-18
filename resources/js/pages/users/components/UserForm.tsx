@@ -21,7 +21,7 @@ import { useForm } from "@tanstack/react-form";
 //tipo de datos para definir un campo en el form
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field } from "@headlessui/react";
+
 
 
 
@@ -65,10 +65,16 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
             reports: { view: true, export: true, print: true },
             settings: { access: true, modify: true },
         },
+        employer: {
+            users: { view: true, create: false, edit: false, delete: false },
+            products: { view: true, create: true, edit: false, delete: false },
+            reports: { view: true, export: true, print: true },
+            settings: { access: true, modify: true },
+        },
         editor: {
-            users: { view: true, create: true, edit: true, delete: false },
-            products: { view: true, create: true, edit: true, delete: false },
-            reports: { view: true, export: true, print: false },
+            users: { view: true, create: true, edit: true, delete: true },
+            products: { view: true, create: true, edit: true, delete: true },
+            reports: { view: true, export: false, print: false },
             settings: { access: false, modify: false },
         },
         reader: {
@@ -77,6 +83,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
             reports: { view: true, export: false, print: false },
             settings: { access: false, modify: false },
         },
+        
     }
 
     // TanStack Form setup
@@ -149,8 +156,10 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
             <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
             </header> 
 
-             <hr className="dark:border-black"></hr> 
-            <form onSubmit={handleSubmit} className="space-y-1 mt-2 bg-gray-100 dark:bg-[#272726] " noValidate>
+           
+             <hr className="dark:border-black bg-gray-100 dark:bg-[#272726]"></hr> 
+             <div className="py-1 "></div>
+            <form onSubmit={handleSubmit} className="space-y-1  bg-gray-100 dark:bg-[#272726] " noValidate>
             <Tabs defaultValue="basicInformation" className="mr-3 ml-3">
                 <TabsList className="grid w-full h-15 grid-cols-2 ">
                     <TabsTrigger className="capitalize p-3 " value="basicInformation">{t("ui.createUser.Tab.basicInformation.title")}</TabsTrigger>
@@ -291,7 +300,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                  </TabsContent>
                 <TabsContent value="rp">
                     <Card>
-                    <div className="ml-5 mr-5 mt-5">
+                    <div className="ml-5 mr-5">
                         <div className="flex items-center gap-2">
                             <Icon iconNode={Shield} className="w-5 h-5" />
                             <Label className="font-black capitalize">{t("ui.createUser.Rol.create")}</Label>
@@ -331,6 +340,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                             <SelectContent>
                                             <SelectItem value="default">{t("ui.createUser.Rol.select.op1")}</SelectItem>
                                             <SelectItem value="admin">{t("ui.createUser.Rol.select.op2")}</SelectItem>
+                                            <SelectItem value="employer">{t("ui.createUser.Rol.select.op5")}</SelectItem>
                                             <SelectItem value="editor">{t("ui.createUser.Rol.select.op3")}</SelectItem>
                                             <SelectItem value="reader">{t("ui.createUser.Rol.select.op4")}</SelectItem>
                                             </SelectContent>
@@ -426,22 +436,70 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                         <Icon iconNode={PackageOpen} className="w-4 h-4 text-blue-500" />
                                         <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.products.title")}</Label>        
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="products.view" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="products.view" className="text-sm">{t("ui.createUser.Rol.permission.products.1")}</Label>        
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="products.create" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="products.create" className="text-sm">{t("ui.createUser.Rol.permission.products.2")}</Label>        
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="products.edit" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="products.edit" className="text-sm">{t("ui.createUser.Rol.permission.products.3")}</Label>        
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="products.delete" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="products.delete" className="text-sm">{t("ui.createUser.Rol.permission.products.4")}</Label>        
-                                    </div>
+                                    <form.Field
+                                        name="permissions.products.view" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="products.view"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="products.view" className="text-sm">{t("ui.createUser.Rol.permission.products.1")}</Label>
+                                            </div>
+                                        )}
+                                    />  
+                                     <form.Field
+                                        name="permissions.products.create" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="products.create"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="products.create" className="text-sm">{t("ui.createUser.Rol.permission.products.2")}</Label>
+                                            </div>
+                                        )}
+                                    />  
+                                     <form.Field
+                                        name="permissions.products.edit" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="products.edit"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="products.edit" className="text-sm">{t("ui.createUser.Rol.permission.products.3")}</Label>
+                                            </div>
+                                        )}
+                                    />  
+                                     <form.Field
+                                        name="permissions.products.delete" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="products.delete"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="products.delete" className="text-sm">{t("ui.createUser.Rol.permission.products.4")}</Label>
+                                            </div>
+                                        )}
+                                    />  
                                 </div>
 
 
@@ -450,18 +508,54 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                         <Icon iconNode={FileText} className="w-4 h-4 text-blue-500" />
                                         <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.reports.title")}</Label>        
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="reports.view" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="reports.view" className="text-sm">{t("ui.createUser.Rol.permission.reports.1")}</Label>        
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="reports.export" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="reports.export" className="text-sm">{t("ui.createUser.Rol.permission.reports.2")}</Label>        
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="reports.print" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="reports.print" className="text-sm">{t("ui.createUser.Rol.permission.reports.3")}</Label>        
-                                    </div>
+                                    <form.Field
+                                        name="permissions.reports.view" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="reports.view"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="reports.view" className="text-sm">{t("ui.createUser.Rol.permission.reports.1")}</Label>
+                                            </div>
+                                        )}
+                                    />  
+                                    <form.Field
+                                        name="permissions.reports.export" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="reports.export"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="reports.export" className="text-sm">{t("ui.createUser.Rol.permission.reports.2")}</Label>
+                                            </div>
+                                        )}
+                                    />
+                                    <form.Field
+                                        name="permissions.reports.print" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="reports.print"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="reports.print" className="text-sm">{t("ui.createUser.Rol.permission.reports.3")}</Label>
+                                            </div>
+                                        )}
+                                    />
                                 </div>
 
 
@@ -470,14 +564,38 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                         <Icon iconNode={Settings} className="w-4 h-4 text-blue-500" />
                                         <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.settings.title")}</Label>        
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="settings.access" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="settings.access" className="text-sm">{t("ui.createUser.Rol.permission.settings.1")}</Label>        
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox id="modificar_configuracion" style={{ color: "blue" }} className="border-1 border-blue-500 bg-white" />
-                                        <Label htmlFor="modificar_configuracion" className="text-sm">{t("ui.createUser.Rol.permission.settings.2")}</Label>        
-                                    </div>
+                                    <form.Field
+                                        name="permissions.settings.access" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="settings.access"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="settings.access" className="text-sm">{t("ui.createUser.Rol.permission.settings.1")}</Label>
+                                            </div>
+                                        )}
+                                    />
+                                    <form.Field
+                                        name="permissions.settings.modify" 
+                                        children={(field) => ( 
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox
+                                                    id="settings.modify"
+                                                    checked={field.state.value} 
+                                                    onCheckedChange={(checked) => {
+                                                        field.setValue(checked as boolean);
+                                                    }}
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="settings.modify" className="text-sm">{t("ui.createUser.Rol.permission.settings.2")}</Label>
+                                            </div>
+                                        )}
+                                    />
 
                                 </div>
 
