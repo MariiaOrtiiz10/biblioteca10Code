@@ -149,7 +149,6 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
             <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
             </header> 
 
-           
              <hr className="dark:border-black"></hr> 
             <form onSubmit={handleSubmit} className="space-y-1 mt-2 bg-gray-100 dark:bg-[#272726] " noValidate>
             <Tabs defaultValue="basicInformation" className="mr-3 ml-3">
