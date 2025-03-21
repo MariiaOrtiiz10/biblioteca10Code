@@ -1,5 +1,4 @@
 <?php
-
 return [
     'navigation' => [
         'menu' => 'Navigation Menu',
@@ -121,11 +120,11 @@ return [
         'Rol' =>[
             'create' => 'Main role',
             'select' => [
-                'op1' => 'Select a role',
-                'op2' => 'Admin',
-                'op3' =>'Editor',
+                'default' => 'Select a role',
+                'op1' => 'Admin',
+                'op2' =>'Employer',
+                'op3' => 'editor',
                 'op4' => 'Reader',
-                'op5' => 'Employer',
                 'msg' => 'The role determines the level of general access of the user',
             ],
             'permission'=>[
@@ -159,6 +158,13 @@ return [
             ],
         ],
     ],
+    'editUser' => [
+        'Header' => [
+            'editUser'=> 'Edit user',
+            'h2'=> 'Enter the information to create a new user in the system',
+        ],
+    ],
+    
     'users' => [
         'title' => 'Users',
         'create' => 'Create User',

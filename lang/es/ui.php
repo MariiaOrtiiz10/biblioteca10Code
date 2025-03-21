@@ -122,12 +122,11 @@ return [
         'Rol' =>[
             'create' => 'Rol princicpal',
             'select' => [
-                'op1' => 'Selecciona un rol',
-                'op2' => 'Administrador',
-                'op3' => 'Lector',
-                'op4' =>'Editor',
-                'op5' => 'Empleado',
-
+                'default' => 'Selecciona un rol',
+                'op1' => 'Administrador',
+                'op2' => 'Empleado',
+                'op3' =>'Editor',
+                'op4' => 'Lector',
                 'msg' => 'El rol determina el nivel de acceso general del usuario',
             ],
             'permission'=>[
@@ -158,6 +157,13 @@ return [
                     '2' => 'Modificar Configuración',
                 ],
             ],
+        ],
+
+    ],
+    'editUser' =>[
+        'Header' => [
+            'editUser'=> 'Editar usuario',
+            'h2'=> 'Enter the information to create a new user in the system',
         ],
     ],
     'users' => [

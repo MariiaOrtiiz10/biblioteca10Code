@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
+use Domain\Roles\Models\Role;
 
 class UserController extends Controller
 {
@@ -22,35 +23,30 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('users/Create');
+         $role = Role::all();
+         $arrayPermissions=[];
+        foreach($role as $rol){
+            foreach($rol->permissions as $perm){
+                array_push($arrayPermissions, [$rol->name, $perm->name]);
+            }
+        }
+        return Inertia::render('users/Create',["arrayPermissions"=> $arrayPermissions]);
     }
+    
 
+    
     public function store(Request $request, UserStoreAction $action)
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            //'permissions' => ['required', 'array'],
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
-        // $user = $action($validator->validated());
-        // if ($request->has('permissions')) {
-        //     $permissions = [];
-        //     foreach ($request->permissions as $category => $actions) {
-        //         foreach ($actions as $action => $value) {
-        //             if ($value) {
-        //                 $permissions[] = "$category.$action";
-        //             }
-        //         }
-        //     }
-        //     $user->syncPermissions($permissions); // Usar el modelo User
-        // }
-        
         $action($validator->validated());
 
         return redirect()->route('users.index')

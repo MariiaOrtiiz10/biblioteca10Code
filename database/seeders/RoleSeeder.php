@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Domain\Roles\Models\Role;
+use Domain\Permissions\Models\Permission;
 
 class RoleSeeder extends Seeder
 {
@@ -40,7 +41,7 @@ class RoleSeeder extends Seeder
             'guard_name' => 'web',
             'system' => true,
         ]);
-        $rolAdmin ->syncPermissions([
+        $rolAdmin ->givePermissionTo([
             'users.view',
             'users.create',
             'users.edit',
@@ -55,7 +56,7 @@ class RoleSeeder extends Seeder
             'settings.access',
             'settings.modify',     
         ]);
-        $rolEmployer ->syncPermissions([
+        $rolEmployer ->givePermissionTo([
             'users.view',
             'products.view',
             'products.create',
@@ -65,7 +66,7 @@ class RoleSeeder extends Seeder
             'settings.access',
             'settings.modify',     
         ]);
-        $rolEditor ->syncPermissions([
+        $rolEditor ->givePermissionTo([
             'users.view',
             'users.create',
             'users.edit',
@@ -76,7 +77,7 @@ class RoleSeeder extends Seeder
             'products.delete',
             'reports.view',   
         ]);
-        $rolReader ->syncPermissions([
+        $rolReader ->givePermissionTo([
             'users.view',
             'products.view',
             'reports.view',

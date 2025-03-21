@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import { Checkbox } from "@/components/ui/checkbox";
+import {} from "@/components/ui/checkbox";
 import { User, Mail, Lock, X, Eye, Save, Shield, Users,  PackageOpen, FileText, Settings} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
@@ -20,12 +20,13 @@ import { useTranslations } from "@/hooks/use-translations";
 import { useForm } from "@tanstack/react-form";
 //tipo de datos para definir un campo en el form
 import type { AnyFieldApi } from "@tanstack/react-form";
-import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+
 
 
 
 //Datos que puede recibe el formulario(Esto sirve para editar usuario)
-interface UserFormProps {
+interface EditFormProps {
     initialData?: {
         id: string;
         name: string;
@@ -34,7 +35,6 @@ interface UserFormProps {
     //paginación
     page?: string;
     perPage?: string;
-    arrayPermissions?: String[];
 }
 
 
@@ -54,43 +54,45 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-
-
-
-export function UserForm({ initialData, page, perPage, arrayPermissions = []}: UserFormProps) {
-    const { t } = useTranslations(); 
+export function EditForm({ initialData, page, perPage }: EditFormProps) {
+    const { t } = useTranslations();
     const queryClient = useQueryClient();
-    const types = ["basicInformation", "rp"];
-    const [selectedRole, setSelectedRole] = useState("default");
+    type RoleKey = keyof typeof defaultPermissionByRole;
+    const defaultPermissionByRole = {
+        admin: {
+            users: { view: true, create: true, edit: true, delete: true },
+            products: { view: true, create: true, edit: true, delete: true },
+            reports: { view: true, export: true, print: true },
+            settings: { access: true, modify: true },
+        },
+        employer: {
+            users: { view: true, create: false, edit: false, delete: false },
+            products: { view: true, create: true, edit: false, delete: false },
+            reports: { view: true, export: true, print: true },
+            settings: { access: true, modify: true },
+        },
+        editor: {
+            users: { view: true, create: true, edit: true, delete: true },
+            products: { view: true, create: true, edit: true, delete: true },
+            reports: { view: true, export: false, print: false },
+            settings: { access: false, modify: false },
+        },
+        reader: {
+            users: { view: true, create: false, edit: false, delete: false },
+            products: { view: true, create: false, edit: false, delete: false },
+            reports: { view: true, export: false, print: false },
+            settings: { access: false, modify: false },
+        },
+        
+    }
 
-    function selectRole(valor:string){
-        selectedRole=valor;
-        setSelectedRoleState(selectedRole);
-        arrayPermisos=[];
-        arrayPermissions?.forEach(array=>{
-            if(array[0].includes(valor)){
-                arrayPermisos=[...arrayPermisos, array[1]];
-                setArrayPermisosState(arrayPermisos);
-            }
-        })
-    }
-    function putInPermissionArray(valor: string) {
-       
-        if (!arrayPermisos.includes(valor)) {
-            arrayPermisos=[...arrayPermisos, valor];
-        } else {
-            arrayPermisos=(arrayPermisos.filter((a) => a !== valor));
-        }
-    }
-    //const[Tabactive, setTabActive] = useState(types[0]);
-    //let permissionArray:string[] = [];
-    //const [permission, setPermission] = useState([permissionArray]);
+    // TanStack Form setup
     const form = useForm({
         defaultValues: {
             name: initialData?.name ?? "", 
             email: initialData?.email ?? "",
             password: "",
-            role: 'default',
+            role: "",
             permissions: {
                 users: { view: false, create: false, edit: false, delete: false },
                 products: { view: false, create: false, edit: false, delete: false },
@@ -98,10 +100,12 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
                 settings: { access: false, modify: false },
             },
         },
+        //enviar formulario
         onSubmit: async ({ value }) => {
             const options = {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ["users"] });
+
                     // Construct URL with page parameters
                     let url = "/users";
                     if (page) {
@@ -110,6 +114,7 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
                             url += `&per_page=${perPage}`;
                         }
                     }
+
                     router.visit(url);
                 },
                 onError: (errors: Record<string, string>) => {
@@ -139,8 +144,6 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
         e.stopPropagation();
         form.handleSubmit();
     };
-
-   
     
     return (
         <div className="">
@@ -148,11 +151,13 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
             <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
             <div className="flex items-center gap-2">
             <Icon iconNode={User} className="w-6 h-6 text-blue-500" />
-            <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>        
+            <Label className="text-2xl font-black">{t("ui.editUser.Header.editUser")}</Label>        
             </div>
             <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
             </header> 
-            <hr className="dark:border-black "></hr> 
+
+           
+             <hr className="dark:border-black "></hr> 
              <div className="py-1 bg-gray-100 dark:bg-[#272726]"></div>
             <form onSubmit={handleSubmit} className="space-y-1  bg-gray-100 dark:bg-[#272726] " noValidate>
             <Tabs defaultValue="basicInformation" className="mr-3 ml-3">
@@ -293,7 +298,7 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
                         </div> 
                     </Card>
                  </TabsContent>
-                <TabsContent value="rp" className="disabled">
+                <TabsContent value="rp">
                     <Card>
                     <div className="ml-5 mr-5">
                         <div className="flex items-center gap-2">
@@ -301,40 +306,51 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
                             <Label className="font-black capitalize">{t("ui.createUser.Rol.create")}</Label>
                         </div>
                         <div className="">
-                        <form.Field
-                                        name="role" 
-                                        children={(field) => ( 
-                                            <div>
-                                            <Select 
-                                            value={field.state.value}
-                                            onValueChange={(value) => {
-                                                field.handleChange(value); 
-                                                
-                                                console.log("Rol seleccionado:", value); 
-                                                console.log("arrayPermissions: ", arrayPermissions);
-                                                
-                                                //console.log(arrayPermissions);      
-                                                
-                                              }}
-                                            >
-                                                <SelectTrigger className="mt-3 border-2 w-full py-2 px-1 rounded-md dark:bg-[#272726]">
-                                                    <SelectValue/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="default">{t("ui.createUser.Rol.select.default")}</SelectItem>
-                                                    <SelectItem value="admin">{t("ui.createUser.Rol.select.op1")}</SelectItem>
-                                                    <SelectItem value="employer">{t("ui.createUser.Rol.select.op2")}</SelectItem>
-                                                    <SelectItem value="editor">{t("ui.createUser.Rol.select.op3")}</SelectItem>
-                                                    <SelectItem value="reader">{t("ui.createUser.Rol.select.op4")}</SelectItem>
-                                                </SelectContent>
-                                                </Select>
-                                                {field.state.value == 'default' && <p className="mt-1">{t("ui.createUser.Rol.select.msg")}</p>}
-                                             </div> 
-                                        )
-                                    }
-                                    />    
-                        </div>
+                            {/*select*/}
+                            <form.Field
+                                name="role"
+                                defaultValue="default"
+                                validators={{
+                                    onChangeAsync: async ({ value }) => {
+                                        await new Promise((resolve) => setTimeout(resolve, 300));
+                                        return !value
+                                            ? t("ui.validation.required", { attribute: t("ui.users.fields.role").toLowerCase() })
+                                            : value === "default"
+                                                ? t("ui.createUser.Rol.select.msg")
+                                                : undefined;
+                                    },
+                                }}
                         
+                            >
+                                {(field) => (
+                                    <div>
+                                            <Select
+                                            value={field.state.value} 
+                                            onValueChange={(value) => {
+                                                field.handleChange(value);
+                                                const roleKey = value as RoleKey; 
+                                                field.setValue(roleKey);
+                                                const permission = defaultPermissionByRole[roleKey];
+                                                form.setFieldValue("permissions", permission);
+                                            }}
+                                        >
+                                            <SelectTrigger className="mt-3 border-2 w-full py-2 px-1 rounded-md dark:bg-[#272726]">
+                                            <SelectValue/>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                            <SelectItem value="default">{t("ui.createUser.Rol.select.op1")}</SelectItem>
+                                            <SelectItem value="admin">{t("ui.createUser.Rol.select.op2")}</SelectItem>
+                                            <SelectItem value="employer">{t("ui.createUser.Rol.select.op5")}</SelectItem>
+                                            <SelectItem value="editor">{t("ui.createUser.Rol.select.op3")}</SelectItem>
+                                            <SelectItem value="reader">{t("ui.createUser.Rol.select.op4")}</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FieldInfo field={field} />
+                                    </div>
+                                )}
+                            </form.Field> 
+                            
+                        </div>
                             <div className="p-3"></div>
                             <hr className="dark:border-white"></hr>
                             <div className=" mt-5 mb-5 flex items-center gap-2">
@@ -351,18 +367,16 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
                                     <form.Field
                                         name="permissions.users.view" 
                                         children={(field) => ( 
-                                            <div className="flex items-center gap-2">      
+                                            <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="users.view"
                                                     checked={field.state.value} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);             
+                                                        field.setValue(checked as boolean);
                                                     }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"> 
-                                                </Checkbox>
-                                               
-                                                <Label htmlFor="users.view" className="text-sm">{t("ui.createUser.Rol.permission.users.1")}</Label>   
-                                                                                            
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                            />
+                                                <Label htmlFor="users.view" className="text-sm">{t("ui.createUser.Rol.permission.users.1")}</Label>
                                             </div>
                                         )}
                                     />      
@@ -376,8 +390,8 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
                                                     onCheckedChange={(checked) => {
                                                         field.setValue(checked as boolean);
                                                     }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500">
-                                                    </Checkbox>
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
+                                                />
                                                 <Label htmlFor="users.create" className="text-sm">{t("ui.createUser.Rol.permission.users.2")}</Label>
                                             </div>
                                         )}
@@ -630,7 +644,6 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
                                     : t("ui.users.buttons.save")}
                         </Button>
                     )}
-
                 </form.Subscribe>
             </div>
             <div className="rounded-b-lg p-1 bg-gray-100 dark:bg-[#272726]"></div>
