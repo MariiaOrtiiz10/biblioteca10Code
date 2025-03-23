@@ -4,12 +4,12 @@ import { useTranslations } from "@/hooks/use-translations";
 import { PageProps } from "@/types";
 
 interface CreateUserProps extends PageProps {
-  arrayPermissions?: String[];
+  arrayRolePermissions?: String[];
 
 }
 
 
-export default function CreateUser({arrayPermissions}:CreateUserProps) {
+export default function CreateUser({arrayRolePermissions}:CreateUserProps) {
   
   const { t } = useTranslations();
   
@@ -18,7 +18,7 @@ export default function CreateUser({arrayPermissions}:CreateUserProps) {
     <UserLayout title={t("ui.users.create")}>
       <div className="flex justify-center items-start py-1 px-6">
         <div className="w-full max-w-3xl">
-          <UserForm arrayPermissions={arrayPermissions} />
+          <UserForm arrayRolePermissions={arrayRolePermissions} />
         </div>
       </div>
     </UserLayout>

@@ -24,13 +24,13 @@ class UserController extends Controller
     public function create()
     {
          $role = Role::all();
-         $arrayPermissions=[];
+         $arrayRolePermissions=[];
         foreach($role as $rol){
             foreach($rol->permissions as $perm){
-                array_push($arrayPermissions, [$rol->name, $perm->name]);
+                array_push($arrayRolePermissions, [$rol->name, $perm->name]);
             }
         }
-        return Inertia::render('users/Create',["arrayPermissions"=> $arrayPermissions]);
+        return Inertia::render('users/Create',["arrayRolePermissions"=> $arrayRolePermissions]);
     }
     
 
