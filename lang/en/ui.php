@@ -123,7 +123,7 @@ return [
                 'default' => 'Select a role',
                 'op1' => 'Admin',
                 'op2' =>'Employer',
-                'op3' => 'editor',
+                'op3' => 'Editor',
                 'op4' => 'Reader',
                 'msg' => 'The role determines the level of general access of the user',
             ],

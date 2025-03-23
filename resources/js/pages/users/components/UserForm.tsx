@@ -63,25 +63,7 @@ export function UserForm({ initialData, page, perPage, arrayPermissions = []}: U
     const types = ["basicInformation", "rp"];
     const [selectedRole, setSelectedRole] = useState("default");
 
-    function selectRole(valor:string){
-        selectedRole=valor;
-        setSelectedRoleState(selectedRole);
-        arrayPermisos=[];
-        arrayPermissions?.forEach(array=>{
-            if(array[0].includes(valor)){
-                arrayPermisos=[...arrayPermisos, array[1]];
-                setArrayPermisosState(arrayPermisos);
-            }
-        })
-    }
-    function putInPermissionArray(valor: string) {
-       
-        if (!arrayPermisos.includes(valor)) {
-            arrayPermisos=[...arrayPermisos, valor];
-        } else {
-            arrayPermisos=(arrayPermisos.filter((a) => a !== valor));
-        }
-    }
+    
     //const[Tabactive, setTabActive] = useState(types[0]);
     //let permissionArray:string[] = [];
     //const [permission, setPermission] = useState([permissionArray]);
