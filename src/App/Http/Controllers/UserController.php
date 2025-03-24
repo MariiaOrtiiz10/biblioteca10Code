@@ -41,24 +41,31 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
+            'permissions' => ['array'],
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
-
+        
         $action($validator->validated());
+        
 
         return redirect()->route('users.index')
             ->with('success', __('messages.users.created'));
+
+
+
     }
 
     public function edit(Request $request, User $user)
     {
+
         return Inertia::render('users/Edit', [
             'user' => $user,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
+            //'userPermissions' => $user->permissions->pluck('name'),
         ]);
     }
 
@@ -74,6 +81,7 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($user->id),
             ],
             'password' => ['nullable', 'string', 'min:8'],
+            'permissions' => ['array']
         ]);
 
         if ($validator->fails()) {

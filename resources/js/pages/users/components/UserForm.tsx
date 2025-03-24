@@ -60,7 +60,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 export function UserForm({ initialData, page, perPage, arrayRolePermissions = []}: UserFormProps) {
     const { t } = useTranslations(); 
     const queryClient = useQueryClient();
-    const types = ["basicInformation", "rp"];
+    //const types = ["basicInformation", "rp"];
     const [arrayPermissions, setArrayPermissions] = useState<string[]>([]);
     const [selectedRole, setSelectedRole] = useState<string>("default");
 
@@ -73,23 +73,18 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
             .map(([_, permiso]) => permiso); 
             setArrayPermissions(defaultPermissionRole);
         console.log("Permisos:", defaultPermissionRole); 
-        //console.log("ArrayPermission: ",arrayPermissions);
     }
 
     function togglePermission(permission: string, isChecked: boolean) {
         setArrayPermissions((prev) => {
             const updatedPermissions = isChecked
-                ? [...prev, permission] // Si está marcado, lo añadimos al array
-                : prev.filter((perm) => perm !== permission); // Si está desmarcado, lo eliminamos del array
+                ? [...prev, permission] 
+                : prev.filter((perm) => perm !== permission); 
             
-            console.log("Permisos actualizados:", updatedPermissions); // Verifica los permisos después de la actualización
+            console.log("Permisos actualizados:", updatedPermissions); 
             return updatedPermissions;
         });
     }
-    
-    
-
-    
     //const[Tabactive, setTabActive] = useState(types[0]);
     //let permissionArray:string[] = [];
     //const [permission, setPermission] = useState([permissionArray]);
@@ -108,6 +103,10 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
             },
         },
         onSubmit: async ({ value }) => {
+            const userData ={
+                ...value,
+                permissions: arrayPermissions,
+            }
             const options = {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -131,12 +130,11 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                     }
                 },
             };
-
             //PUT --> Para editar usuario; POST--> Para crear nuevo usuario
             if (initialData) {
-                router.put(`/users/${initialData.id}`, value, options);
+                router.put(`/users/${initialData.id}`, userData, options,);
             } else {
-                router.post("/users", value, options);
+                router.post("/users", userData, options);
             }
         },
     });
@@ -203,7 +201,6 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 disabled={form.state.isSubmitting}
                                                 required={false}
                                                 autoComplete="off"
-                        
                                             />
                                             <FieldInfo field={field} />
                                         </div>
@@ -445,9 +442,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="products.create"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("products.create")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("products.create", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
@@ -461,9 +458,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="products.edit"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("products.edit")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("products.edit", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
@@ -477,9 +474,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="products.delete"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("products.delete")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("products.delete", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
@@ -501,9 +498,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="reports.view"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("reports.view")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("reports.view", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
@@ -517,9 +514,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="reports.export"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("reports.export")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("reports.export", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
@@ -533,9 +530,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="reports.print"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("reports.print")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("reports.print", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
@@ -557,9 +554,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="settings.access"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("settings.access")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("settings.access", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
@@ -573,9 +570,9 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="settings.modify"
-                                                    checked={field.state.value} 
+                                                    checked={arrayPermissions.includes("settings.modify")} 
                                                     onCheckedChange={(checked) => {
-                                                        field.setValue(checked as boolean);
+                                                        togglePermission("settings.modify", !!checked);
                                                     }}
                                                     className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
                                             />
