@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Settings\AppearanceController;
-use App\Http\Controllers\Settings\LanguageController;
-use App\Http\Controllers\Settings\PasswordController;
-use App\Http\Controllers\Settings\ProfileController;
+use App\Settings\Controllers\AppearanceController;
+use App\Settings\Controllers\LanguageController;
+use App\Settings\Controllers\PasswordController;
+use App\Settings\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 

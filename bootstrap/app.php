@@ -1,12 +1,12 @@
 <?php
-
-use App\Http\Middleware\HandleInertiaRequests;
-use App\Http\Middleware\SetUserAppearance;
-use App\Http\Middleware\SetUserLocale;
+use App\Core\Middleware\HandleInertiaRequests;
+use App\Settings\Middleware\SetUserAppearance;
+use App\Settings\Middleware\SetUserLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(

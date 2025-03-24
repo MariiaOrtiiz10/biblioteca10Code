@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\UserApiController;
+use App\Users\Controllers\Api\UserApiController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth'])->group(function () {

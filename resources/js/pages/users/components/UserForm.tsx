@@ -63,6 +63,7 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
     //const types = ["basicInformation", "rp"];
     const [arrayPermissions, setArrayPermissions] = useState<string[]>([]);
     const [selectedRole, setSelectedRole] = useState<string>("default");
+    
 
 
     function handleRoleChange(role: string) {
@@ -74,6 +75,7 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
             setArrayPermissions(defaultPermissionRole);
         console.log("Permisos:", defaultPermissionRole); 
     }
+
 
     function togglePermission(permission: string, isChecked: boolean) {
         setArrayPermissions((prev) => {

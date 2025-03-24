@@ -5,7 +5,7 @@ import { PageProps } from "@/types";
 
 interface CreateUserProps extends PageProps {
   arrayRolePermissions?: String[];
-
+  
 }
 
 
