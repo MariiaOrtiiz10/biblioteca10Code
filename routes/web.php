@@ -12,8 +12,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('users', \App\Users\Controllers\UserController::class);
+    Route::resource('floors', \App\Floor\Controllers\FloorController::class);
+
+
 });
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+

@@ -1,5 +1,5 @@
 import { DashboardCard } from '@/components/dashboard/DashboardCard';
-import { Users, User } from 'lucide-react';
+import { Users, User, Library} from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -26,6 +26,13 @@ export default function Dashboard() {
                     icon={Users}
                 />
 
+                 <DashboardCard
+                    title="Pisos"
+                    description="Gestiona los pisos del sistema"
+                    href="/floors"
+                    icon={Library}
+                />
+                
                 <CardFlip
                     contentFront={
                         <div className="flex items-center gap-4">

@@ -3,7 +3,6 @@
 namespace App\Users\Controllers;
 
 use App\Core\Controllers\Controller;
-
 use Domain\Users\Actions\UserDestroyAction;
 use Domain\Users\Actions\UserIndexAction;
 use Domain\Users\Actions\UserStoreAction;
