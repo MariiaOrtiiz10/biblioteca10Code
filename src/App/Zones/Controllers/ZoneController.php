@@ -11,7 +11,8 @@ class ZoneController extends Controller
      */
     public function index()
     {
-        //
+       //$zones = Zone::all();
+        return Inertia::render('zones/Index');
     }
 
     /**
@@ -19,7 +20,7 @@ class ZoneController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('zones/Create');
     }
 
     /**
