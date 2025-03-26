@@ -12,6 +12,6 @@ class FloorSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        
     }
 }
