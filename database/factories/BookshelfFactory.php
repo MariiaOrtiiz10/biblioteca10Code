@@ -5,11 +5,10 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\..\Domain\Floors\Models\Floor>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Model>
  */
-class FloorFactory extends Factory
+class BookshelfFactory extends Factory
 {
-    protected $model = Floor::class;
     /**
      * Define the model's default state.
      *
@@ -18,7 +17,7 @@ class FloorFactory extends Factory
     public function definition(): array
     {
         return [
-                
+            //
         ];
     }
 }

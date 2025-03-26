@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Floor\Controllers;
+namespace App\Bookshelves\Controllers;
 
 use Illuminate\Http\Request;
-use App\Core\Controllers\Controller;
-use Inertia\Inertia;
 
-class FloorController extends Controller
+class BookshelfController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('floor/Index');
+        //
     }
 
     /**

@@ -8,6 +8,8 @@ return [
             'users' => 'Usuarios',
             'repository' => 'Repositorio',
             'documentation' => 'Documentación',
+            'floors' => 'Pisos',
+            'books' => 'Libros',
         ],
     ],
     'user_menu' => [
@@ -223,6 +225,26 @@ return [
         'pagination' => [
             'previous' => 'Anterior',
             'next' => 'Siguiente',
+        ],
+    ],
+    'floors' =>[
+        'title' => 'Pisos',
+        'create' => 'Crear Pido',
+        'edit' => 'Editar Piso',
+        'index'=>[
+            'floor' => 'Piso',
+            'capacity' => 'Capcidad',
+        ],
+        'buttons' => [
+            'new' => 'Nuevo Piso',
+            'edit' => 'Editar',
+            'save' => 'Guardar',
+            'update' => 'Actualizar',
+            'cancel' => 'Cancelar',
+            'delete' => 'Eliminar',
+            'deleting' => 'Eliminando...',
+            'saving' => 'Guardando...',
+            'retry' => 'Reintentar',
         ],
     ],
 ];

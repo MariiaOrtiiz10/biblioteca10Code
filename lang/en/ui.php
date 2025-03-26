@@ -7,6 +7,9 @@ return [
             'users' => 'Users',
             'repository' => 'Repository',
             'documentation' => 'Documentation',
+            'floors' => 'Floors',
+            'books' => 'Books',
+
         ],
     ],
     'user_menu' => [
@@ -224,4 +227,29 @@ return [
             'next' => 'Next',
         ],
     ],
+
+    'floors' =>[
+        'title' => 'Floors',
+        'create' => 'Create Floor',
+        'edit' => 'Edit Floor',
+        'index'=>[
+            'floor' => 'Floor',
+            'capacity' => 'Capacity',
+        ],
+        'buttons' => [
+        'new' => 'New Floor',
+        'edit' => 'Edit',
+        'save' => 'Save',
+        'update' => 'Update',
+        'cancel' => 'Cancel',
+        'delete' => 'Delete',
+        'deleting' => 'Deleting...',
+        'saving' => 'Saving...',
+        'retry' => 'Retry',
+        ],
+    ],
+    
+
+
+
 ];

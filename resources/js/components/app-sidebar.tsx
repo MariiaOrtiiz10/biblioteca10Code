@@ -5,7 +5,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { useTranslations } from '@/hooks/use-translations';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Users } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, Users, Book, Library} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems = (t: (key: string) => string): NavItem[] => [
@@ -19,6 +19,17 @@ const mainNavItems = (t: (key: string) => string): NavItem[] => [
         url: '/users',
         icon: Users,
     },
+    {
+        title: t('ui.navigation.items.floors'),
+        url: '/floors',
+        icon: Library,
+    },
+    {
+        title: t('ui.navigation.items.books'),
+        url: '/users',
+        icon: Book,
+    },
+
 ];
 
 const footerNavItems = (t: (key: string) => string): NavItem[] => [
