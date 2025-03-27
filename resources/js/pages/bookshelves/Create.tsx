@@ -1,7 +1,8 @@
 import { UserLayout } from "@/layouts/users/UserLayout";
 import { useTranslations } from "@/hooks/use-translations";
 import { FloorLayout } from "@/layouts/floors/FloorLayout";
-import { FloorForm } from "./Components/FloorForm";
+import { FloorForm } from "./Components/BookshelfForm";
+import { BookshelfLayout } from "@/layouts/bookshelves/BookshelfLayout";
 
 
 
@@ -10,13 +11,12 @@ export default function CreateFloor() {
   
 
   return (
-    <FloorLayout title={t("ui.floors.create")}>
+    <BookshelfLayout title={t("ui.floors.create")}>
       <div className="flex justify-center items-start py-1 px-6">
         <div className="w-full max-w-3xl">
-            <h1>CREATE DE FLOORS</h1>
-            {/* <FloorForm/> */}
+            <h1>CREATE DE Bookshelves</h1>
         </div>
       </div>
-    </FloorLayout>
+    </BookshelfLayout>
   );
 }

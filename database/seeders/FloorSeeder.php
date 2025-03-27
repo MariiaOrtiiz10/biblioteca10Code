@@ -16,15 +16,18 @@ class FloorSeeder extends Seeder
         
         Floor::create([
             'floorNumber' => '1',
-            'capacity' => '6',
+            'floorName' => 'Patata',
+            'capacityZones' => '6',
         ]);
         Floor::create([
             'floorNumber' => '2',
-            'capacity' => '4',
+            'floorName' => 'Emilio',
+            'capacityZones' => '2',
         ]);
         Floor::create([
             'floorNumber' => '4',
-            'capacity' => '2',
+            'floorName' => 'Polvo',
+            'capacityZones' => '4',
         ]);
         
     }

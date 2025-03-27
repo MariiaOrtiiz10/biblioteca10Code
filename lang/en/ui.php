@@ -8,8 +8,8 @@ return [
             'repository' => 'Repository',
             'documentation' => 'Documentation',
             'floors' => 'Floors',
+            'zones' => 'Zones',
             'books' => 'Books',
-
         ],
     ],
     'user_menu' => [
@@ -246,6 +246,27 @@ return [
         'deleting' => 'Deleting...',
         'saving' => 'Saving...',
         'retry' => 'Retry',
+        ],
+    ],
+    'zones' => [
+        'title' => 'Zones',
+        'create' => 'Create Zone',
+        'buttons' => [
+            'new' => 'New Zone',
+        ],
+    ],
+    'bookshelves' => [
+        'title' => 'Bookshelf',
+        'create' => 'Create Bookshelf',
+        'buttons' => [
+            'new' => 'New Bookshelf',
+        ],
+    ],
+    'books' => [
+        'title' => 'Book',
+        'create' => 'Create Book',
+        'buttons' => [
+            'new' => 'New Book',
         ],
     ],
     

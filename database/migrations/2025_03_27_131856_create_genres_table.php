@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            //
+        Schema::create('genres', function (Blueprint $table) {
+            $table->uuid('id')->primary()->unique();
+            $table->string('genre')->unique();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            
-        });
+        Schema::dropIfExists('genres');
     }
 };

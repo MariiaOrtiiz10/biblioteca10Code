@@ -3,6 +3,10 @@
 namespace App\Zones\Controllers;
 
 use Illuminate\Http\Request;
+use App\Core\Controllers\Controller;
+use Domain\Zones\Models\Zone;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ZoneController extends Controller
 {

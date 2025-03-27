@@ -1,5 +1,5 @@
 import { DashboardCard } from '@/components/dashboard/DashboardCard';
-import { Users, User, Library} from 'lucide-react';
+import { Users, User, Building2, Bookmark, SquareLibrary, Book} from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -30,7 +30,25 @@ export default function Dashboard() {
                     title="Pisos"
                     description="Gestiona los pisos del sistema"
                     href="/floors"
-                    icon={Library}
+                    icon={Building2}
+                />
+                <DashboardCard
+                    title="Zonas"
+                    description="Gestiona las zonas del sistema"
+                    href="/zones"
+                    icon={Bookmark}
+                />
+                <DashboardCard
+                    title="Estanterias"
+                    description="Gestiona las estanterias del sistema"
+                    href="/bookshelves"
+                    icon={SquareLibrary}
+                />
+                <DashboardCard
+                    title="Libros"
+                    description="Gestiona los libros del sistema"
+                    href="/books"
+                    icon={Book}
                 />
                 
                 <CardFlip

@@ -9,6 +9,8 @@ return [
             'repository' => 'Repositorio',
             'documentation' => 'Documentación',
             'floors' => 'Pisos',
+            'zones' => 'Zonas',
+            'bookshelves' => 'Estanterias',
             'books' => 'Libros',
         ],
     ],
@@ -229,11 +231,11 @@ return [
     ],
     'floors' =>[
         'title' => 'Pisos',
-        'create' => 'Crear Pido',
+        'create' => 'Crear Piso',
         'edit' => 'Editar Piso',
         'index'=>[
             'floor' => 'Piso',
-            'capacity' => 'Capcidad',
+            'capacity' => 'Capacidad',
         ],
         'buttons' => [
             'new' => 'Nuevo Piso',
@@ -245,6 +247,27 @@ return [
             'deleting' => 'Eliminando...',
             'saving' => 'Guardando...',
             'retry' => 'Reintentar',
+        ],
+    ],
+    'zones' => [
+        'title' => 'Zonas'
+        'create' => 'Crear Zona',
+        'buttons' => [
+            'new' => 'Nueva Zona',
+        ],
+    ],
+    'bookshelves' => [
+        'title' => 'Estanterias',
+        'create' => 'Crear Estanteria',
+        'buttons' => [
+            'new' => 'Nueva Estanteria',
+        ],
+    ],
+    'books' => [
+        'title' => 'Libro',
+        'create' => 'Crear Libro',
+        'buttons' => [
+            'new' => 'Nuevo Libro',
         ],
     ],
 ];

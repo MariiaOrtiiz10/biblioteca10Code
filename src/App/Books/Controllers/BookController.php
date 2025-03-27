@@ -3,6 +3,10 @@
 namespace App\Books\Controllers;
 
 use Illuminate\Http\Request;
+use App\Core\Controllers\Controller;
+use Domain\Books\Models\Book;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class BookController extends Controller
 {
@@ -11,7 +15,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('books/Index'); 
     }
 
     /**
@@ -19,7 +23,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('books/Create');
     }
 
     /**
