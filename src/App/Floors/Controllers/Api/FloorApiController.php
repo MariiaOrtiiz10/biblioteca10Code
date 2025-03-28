@@ -5,6 +5,7 @@ namespace App\Floors\Controllers\Api;
 use App\Core\Controllers\Controller;
 use Illuminate\Http\Request;
 use Domain\Floors\Actions\FloorIndexAction;
+use Domain\Floors\Actions\FloorDestroyAction;
 use Domain\Floors\Models\Floor;
 
 
@@ -16,6 +17,14 @@ class FloorApiController extends Controller{
     }
     public function show(Floor $floor)
     {
-        return response()->json(['floor' => $floor]);
+        //
+    }
+    public function destroy(Floor $floor, FloorDestroyAction $action)
+    {
+        $action($floor);
+
+        return response()->json([
+            'message' => __('messages.users.deleted')
+        ]);
     }
 }

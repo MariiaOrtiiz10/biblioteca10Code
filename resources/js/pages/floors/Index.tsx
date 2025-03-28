@@ -33,17 +33,17 @@ export default function FloorIndex() {
     const urlParams = new URLSearchParams(url.split('?')[1] || '');
     const pageParam = urlParams.get('page');
     const perPageParam = urlParams.get('per_page');
-  
+
     // Inicializar el estado con los valores de la URL o los valores predeterminados
     const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
     const [perPage, setPerPage] = useState(perPageParam ? parseInt(perPageParam) : 10);
     const [filters, setFilters] = useState<Record<string, any>>({});
-    
+
     // Combine name and email filters into a single search string if they exist
     const combinedSearch = [
       filters.search,
-      filters.name ? `name:${filters.name}` : null,
-      filters.email ? `email:${filters.email}` : null
+      filters.floorNumber ? `floorNumber:${filters.floorNumber}` : null,
+      filters.floorName ? `floorName:${filters.floorName}` : null,
     ].filter(Boolean).join(' ');
 
     const { data: floors, isLoading, isError, refetch } = useFloors({
@@ -52,16 +52,16 @@ export default function FloorIndex() {
         perPage: perPage,
       });
       const deleteFloorMutation = useDeleteFloor();
-    
+
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
       };
-    
+
       const handlePerPageChange = (newPerPage: number) => {
         setPerPage(newPerPage);
         setCurrentPage(1); // Reset to first page when changing items per page
       };
-    
+
       const handleDeleteFloor = async (id: string) => {
         try {
           await deleteFloorMutation.mutateAsync(id);
@@ -72,6 +72,12 @@ export default function FloorIndex() {
         }
       };
       const columns = useMemo(() => ([
+        //ID
+        // createTextColumn<Floor>({
+        //     id: "id",
+        //     header: t("ui.floors.columns.id") || "floorId",
+        //     accessorKey: "id",
+        //   }),
           createTextColumn<Floor>({
             id: "floorNumber",
             header: t("ui.floors.columns.floorNumber") || "floorNumber",
@@ -83,13 +89,13 @@ export default function FloorIndex() {
             accessorKey: "floorName",
           }),
           createTextColumn<Floor>({
-            id: "capacityZones",
-            header: t("ui.floors.columns.capacityZones") || "capacityZones",
-            accessorKey: "capacityZones",
+            id: "zonesCapacity",
+            header: t("ui.floors.columns.zonesCapacity") || "zonesCapacity",
+            accessorKey: "zonesCapacity",
           }),
           createDateColumn<Floor>({
             id: "created_at",
-            header: t("ui.users.columns.created_at") || "Created At",
+            header: t("ui.floors.columns.created_at") || "Created At",
             accessorKey: "created_at",
           }),
           createActionsColumn<Floor>({
@@ -134,7 +140,7 @@ export default function FloorIndex() {
                           </Link>
                       </div>
                       <div></div>
-    
+
                       <div className="space-y-4">
                           <FiltersTable
                               filters={
@@ -149,7 +155,7 @@ export default function FloorIndex() {
                                           id: 'floorNumber',
                                           label: t('ui.floors.filters.floorNumber') || 'floorNumber',
                                           type: 'text',
-                                          placeholder: t('ui.floors.placeholders.floorName') || 'floorNumber...',
+                                          placeholder: t('ui.floors.placeholders.floorNumber') || 'floorNumber...',
                                       },
                                       {
                                           id: 'floorName',
@@ -158,10 +164,10 @@ export default function FloorIndex() {
                                           placeholder: t('ui.floors.placeholders.floorName') || 'floorName...',
                                       },
                                     //   {
-                                    //     id: 'capacityZones',
-                                    //     label: t('ui.floors.filters.capacityZones') || 'capacityZones',
+                                    //     id: 'zonesCapacity',
+                                    //     label: t('ui.floors.filters.zonesCapacity') || 'zonesCapacity',
                                     //     type: 'text',
-                                    //     placeholder: t('ui.floors.placeholders.capacityZones') || 'capacityZones...',
+                                    //     placeholder: t('ui.floors.placeholders.zonesCapacity') || 'zonesCapacity...',
                                     // },
                                   ] as FilterConfig[]
                               }
@@ -169,7 +175,7 @@ export default function FloorIndex() {
                               initialValues={filters}
                           />
                       </div>
-    
+
                       <div className="w-full overflow-hidden">
                           {isLoading ? (
                               <TableSkeleton columns={5} rows={10} />

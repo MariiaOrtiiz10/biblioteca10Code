@@ -1,11 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "../../lib/axios";
 
-export interface Floor{
+export interface Zone{
     id: string;
-    floorNumber: number;
-    floorName: string;
-    zonesCapacity: number;
+    floor_id:string;
+    floorName:string;
+    genre_id:string;
+    genre:string;
+    bookshelvesCapacity:number;
     created_at: string;
   }
 
@@ -42,17 +44,17 @@ export interface PaginatedResponse<T> {
     };
   }
 
-  interface UseFloorsParams {
+  interface UseZonesParams {
     search?: string;
     page?: number;
     perPage?: number;
   }
 
-export function useFloors({ search, page = 1, perPage = 10 }: UseFloorsParams = {}) {
+export function useZones({ search, page = 1, perPage = 10 }: UseZonesParams = {}) {
   return useQuery({
-    queryKey: ["floors", { search, page, perPage }],
+    queryKey: ["zones", { search, page, perPage }],
     queryFn: async () => {
-      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Floor>>("/api/floors", {
+      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Zone>>("/api/zones", {
         params: {
           search,
           page,
@@ -75,14 +77,14 @@ export function useFloors({ search, page = 1, perPage = 10 }: UseFloorsParams = 
           to: apiResponse.to,
           total: apiResponse.total
         }
-      } as PaginatedResponse<Floor>;
+      } as PaginatedResponse<Zone>;
     },
   });
 }
-export function useCreateFloor() {
+export function useCreateZone() {
     return useMutation({
-      mutationFn: async (data: { floorNumber: number; floorName: string; zonesCapacity: number }) => {
-        const response = await axios.post("/api/floors", data, {
+      mutationFn: async (data: { floor_id: string; genre_id: string; bookshelvesCapacity: number; }) => {
+        const response = await axios.post("/api/zones", data, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
@@ -93,10 +95,10 @@ export function useCreateFloor() {
     });
 }
 
-export function useUpdateFloor(floorId: string) {
+export function useUpdateZone(zoneId: string) {
     return useMutation({
-      mutationFn: async (data: { floorNumber: number; floorName: string; zonesCapacity: number }) => {
-        const response = await axios.put(`/api/floors/${floorId}`, data, {
+      mutationFn: async (data: { floor_id: string; genre_id: string; bookshelvesCapacity: number; }) => {
+        const response = await axios.put(`/api/zones/${zoneId}`, data, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
@@ -107,10 +109,10 @@ export function useUpdateFloor(floorId: string) {
     });
   }
 
-  export function useDeleteFloor() {
+  export function useDeleteZone() {
     return useMutation({
-      mutationFn: async (floorId: string) => {
-        await axios.delete(`/api/floors/${floorId}`, {
+      mutationFn: async (zoneId: string) => {
+        await axios.delete(`/api/zones/${zoneId}`, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'

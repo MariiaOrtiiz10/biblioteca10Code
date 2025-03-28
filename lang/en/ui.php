@@ -167,7 +167,7 @@ return [
             'h2'=> 'Enter the information to create a new user in the system',
         ],
     ],
-    
+
     'users' => [
         'title' => 'Users',
         'create' => 'Create User',
@@ -247,6 +247,27 @@ return [
         'saving' => 'Saving...',
         'retry' => 'Retry',
         ],
+        'columns' => [
+            'floorNumber' => 'Floor number',
+            'floorName' => 'Floor name',
+            'zonesCapacity' => 'Zone Capacity',
+            'created_at' => 'Created at',
+            'actions' => 'Actions',
+        ],
+        'filters' => [
+            'search' => 'Search',
+            'floorNumber' => 'Floor number',
+            'floorName' => 'Floor name',
+        ],
+        'placeholders' => [
+            'floorName' => 'Name...',
+            'floorNumber' => 'Number...',
+            'search' => 'Search floors...',
+        ],
+        'delete' => [
+            'title' => 'Are you sure?',
+            'description' => 'This action cannot be undone. The floor will be permanently deleted from the system.',
+        ],
     ],
     'zones' => [
         'title' => 'Zones',
@@ -254,7 +275,18 @@ return [
         'buttons' => [
             'new' => 'New Zone',
         ],
+        'columns' => [
+            'floorName' => 'Floor',
+            'genre' => 'Genre',
+            'bookshelvesCapacity' => 'Bookshelves Capacity',
+            'created_at' => 'Created at',
+            'actions' => 'Actions',
+        ],
     ],
+
+
+
+
     'bookshelves' => [
         'title' => 'Bookshelf',
         'create' => 'Create Bookshelf',
@@ -262,6 +294,10 @@ return [
             'new' => 'New Bookshelf',
         ],
     ],
+
+
+
+
     'books' => [
         'title' => 'Book',
         'create' => 'Create Book',
@@ -269,7 +305,7 @@ return [
             'new' => 'New Book',
         ],
     ],
-    
+
 
 
 

@@ -12,13 +12,9 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * The model the factory corresponds to.
-     *
-     * @var string
-     */
+
     protected $model = User::class;
-    
+
     /**
      * The current password being used by the factory.
      */

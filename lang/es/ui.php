@@ -248,13 +248,43 @@ return [
             'saving' => 'Guardando...',
             'retry' => 'Reintentar',
         ],
+        'columns' => [
+            'floorNumber' => 'Número del piso',
+            'floorName' => 'Nombre del piso',
+            'zonesCapacity' => 'Capacidad de Zonas',
+            'created_at' => 'Fecha de creación',
+            'actions' => 'Acciones',
+        ],
+        'filters' => [
+            'search' => 'Buscar',
+            'floorNumber' => 'Número del piso',
+            'floorName' => 'Nombre del piso',
+        ],
+        'placeholders' => [
+            'floorName' => 'Nombre...',
+            'floorNumber' => 'Número...',
+            'search' => 'Buscar pisos...',
+        ],
+        'delete' => [
+            'title' => '¿Estás seguro?',
+            'description' => 'Esta acción no se puede deshacer. Se eliminará permanentemente el piso del sistema.',
+        ],
     ],
     'zones' => [
-        'title' => 'Zonas'
+        'title' => 'Zonas',
         'create' => 'Crear Zona',
         'buttons' => [
             'new' => 'Nueva Zona',
         ],
+        'columns' => [
+            'floorName' => 'Piso',
+            'bookshelvesCapacity' => 'Capacidad de Estanterias',
+            'created_at' => 'Fecha de creación',
+            'actions' => 'Acciones',
+        ],
+
+
+
     ],
     'bookshelves' => [
         'title' => 'Estanterias',

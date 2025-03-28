@@ -5,6 +5,7 @@ namespace App\Floors\Controllers;
 use Illuminate\Http\Request;
 use App\Core\Controllers\Controller;
 use Domain\Floors\Models\Floor;
+use Domain\Floors\Actions\FloorDestroyAction;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -16,9 +17,7 @@ class FloorController extends Controller
     public function index()
     {
         $floors = Floor::all();
-        return Inertia::render('floors/Index', [
-            'floors'=> $floors,
-        ]);
+        return Inertia::render('floors/Index');
     }
 
     /**
@@ -64,8 +63,10 @@ class FloorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Floor $floor, FloorDestroyAction $action)
     {
-        //
+        $action($floor);
+        return redirect()->route('floors.index')
+            ->with('success', __('messages.floors.deleted'));
     }
 }

@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('floors', function (Blueprint $table) {
+        Schema::create('zones', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
-            $table->integer('floorNumber')->unique();
-            $table->string('floorName');
-            $table->integer('zonesCapacity');
+            $table->foreignUuid('floor_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('genre_id')->constrained();
+            $table->integer('bookshelvesCapacity');
             $table->timestamps();
+            $table->unique(['floor_id', 'genre_id']);
+
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('floors');
+        Schema::dropIfExists('zones');
     }
 };
