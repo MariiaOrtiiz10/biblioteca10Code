@@ -230,8 +230,15 @@ return [
 
     'floors' =>[
         'title' => 'Floors',
+        'title2' => 'Floor',
         'create' => 'Create Floor',
         'edit' => 'Edit Floor',
+        'maxCZ' => 'Maximum capacity of zones',
+        'fields' => [
+            'floorNumber' => 'Floor Number',
+            'floorName' => 'Floor Name',
+            'zonesCapacity' => 'Zones Capacity',
+        ],
         'index'=>[
             'floor' => 'Floor',
             'capacity' => 'Capacity',
@@ -262,12 +269,15 @@ return [
         'placeholders' => [
             'floorName' => 'Name...',
             'floorNumber' => 'Number...',
+            'zonesCapacity' => 'Number...',
             'search' => 'Search floors...',
+            'select' => 'Select a floor number',
         ],
         'delete' => [
             'title' => 'Are you sure?',
             'description' => 'This action cannot be undone. The floor will be permanently deleted from the system.',
         ],
+        'occupied' => 'Occupied',
     ],
     'zones' => [
         'title' => 'Zones',
@@ -277,6 +287,8 @@ return [
         ],
         'columns' => [
             'floorName' => 'Floor',
+
+
             'genre' => 'Genre',
             'bookshelvesCapacity' => 'Bookshelves Capacity',
             'created_at' => 'Created at',

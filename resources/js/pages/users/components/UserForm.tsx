@@ -58,32 +58,32 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 
 
 export function UserForm({ initialData, page, perPage, arrayRolePermissions = []}: UserFormProps) {
-    const { t } = useTranslations(); 
+    const { t } = useTranslations();
     const queryClient = useQueryClient();
     //const types = ["basicInformation", "rp"];
     const [arrayPermissions, setArrayPermissions] = useState<string[]>([]);
     const [selectedRole, setSelectedRole] = useState<string>("default");
-    
+
 
 
     function handleRoleChange(role: string) {
         setSelectedRole(role);
-        console.log("Rol seleccionado:", role); 
+        console.log("Rol seleccionado:", role);
         const defaultPermissionRole = arrayRolePermissions
-            .filter(([rol]) => rol === role) 
-            .map(([_, permiso]) => permiso); 
+            .filter(([rol]) => rol === role)
+            .map(([_, permiso]) => permiso);
             setArrayPermissions(defaultPermissionRole);
-        console.log("Permisos:", defaultPermissionRole); 
+        console.log("Permisos:", defaultPermissionRole);
     }
 
 
     function togglePermission(permission: string, isChecked: boolean) {
         setArrayPermissions((prev) => {
             const updatedPermissions = isChecked
-                ? [...prev, permission] 
-                : prev.filter((perm) => perm !== permission); 
-            
-            console.log("Permisos actualizados:", updatedPermissions); 
+                ? [...prev, permission]
+                : prev.filter((perm) => perm !== permission);
+
+            console.log("Permisos actualizados:", updatedPermissions);
             return updatedPermissions;
         });
     }
@@ -93,7 +93,7 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
 
     const form = useForm({
         defaultValues: {
-            name: initialData?.name ?? "", 
+            name: initialData?.name ?? "",
             email: initialData?.email ?? "",
             password: "",
             role: 'default',
@@ -141,7 +141,7 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
         },
     });
 
-     
+
     // Form submission handler
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -149,19 +149,19 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
         form.handleSubmit();
     };
 
-   
-    
+
+
     return (
         <div className="">
             <div className="rounded-lg shadow-md shadow-gray-400 dark:bg-[#272726]">
             <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
             <div className="flex items-center gap-2">
             <Icon iconNode={User} className="w-6 h-6 text-blue-500" />
-            <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>        
+            <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>
             </div>
             <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
-            </header> 
-            <hr className="dark:border-black "></hr> 
+            </header>
+            <hr className="dark:border-black "></hr>
              <div className="py-1 bg-gray-100 dark:bg-[#272726]"></div>
             <form onSubmit={handleSubmit} className="space-y-1  bg-gray-100 dark:bg-[#272726] " noValidate>
             <Tabs defaultValue="basicInformation" className="mr-3 ml-3">
@@ -209,7 +209,7 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                     )}
                                     </form.Field>
                                 </div>
-            
+
                                 {/* Email field */}
                                 <div className="mb-4">
                                     <form.Field
@@ -298,7 +298,7 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                         )}
                                     </form.Field>
                                 </div>
-                        </div> 
+                        </div>
                     </Card>
                  </TabsContent>
                 <TabsContent value="rp" className="disabled">
@@ -310,10 +310,10 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                         </div>
                         <div className="">
                         <form.Field
-                                        name="role" 
-                                        children={(field) => ( 
+                                        name="role"
+                                        children={(field) => (
                                             <div>
-                                            <Select 
+                                            <Select
                                             value={selectedRole}
                                             onValueChange={handleRoleChange}
                                             >
@@ -329,12 +329,12 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 </SelectContent>
                                                 </Select>
                                                 {field.state.value == 'default' && <p className="mt-1">{t("ui.createUser.Rol.select.msg")}</p>}
-                                             </div> 
+                                             </div>
                                         )
                                     }
-                                    />    
+                                    />
                         </div>
-                        
+
                             <div className="p-3"></div>
                             <hr className="dark:border-white"></hr>
                             <div className=" mt-5 mb-5 flex items-center gap-2">
@@ -346,33 +346,33 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                 <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
                                     <div className="flex items-center gap-2 mb-1.5">
                                         <Icon iconNode={Users} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.users.title")}</Label>        
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.users.title")}</Label>
                                     </div>
                                     <form.Field
-                                        name="permissions.users.view" 
-                                        children={(field) => ( 
-                                            <div className="flex items-center gap-2">      
+                                        name="permissions.users.view"
+                                        children={(field) => (
+                                            <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="users.view"
-                                                    checked={ arrayPermissions.includes("users.view")} 
-                                                    onCheckedChange={(checked) => 
-                                                        togglePermission("users.view", !!checked)            
+                                                    checked={ arrayPermissions.includes("users.view")}
+                                                    onCheckedChange={(checked) =>
+                                                        togglePermission("users.view", !!checked)
                                                     }
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"> 
+                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500">
                                                 </Checkbox>
-                                               
-                                                <Label htmlFor="users.view" className="text-sm">{t("ui.createUser.Rol.permission.users.1")}</Label>   
-                                                                                            
+
+                                                <Label htmlFor="users.view" className="text-sm">{t("ui.createUser.Rol.permission.users.1")}</Label>
+
                                             </div>
                                         )}
-                                    />      
+                                    />
                                     <form.Field
-                                        name="permissions.users.create" 
-                                        children={(field) => ( 
+                                        name="permissions.users.create"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="users.create"
-                                                    checked={arrayPermissions.includes("users.create")} 
+                                                    checked={arrayPermissions.includes("users.create")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("users.create", !!checked) ;
                                                     }}
@@ -381,14 +381,14 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 <Label htmlFor="users.create" className="text-sm">{t("ui.createUser.Rol.permission.users.2")}</Label>
                                             </div>
                                         )}
-                                    />    
+                                    />
                                     <form.Field
-                                        name="permissions.users.edit" 
-                                        children={(field) => ( 
+                                        name="permissions.users.edit"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="users.edit"
-                                                    checked={arrayPermissions.includes("users.edit")} 
+                                                    checked={arrayPermissions.includes("users.edit")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("users.edit", !!checked);
                                                     }}
@@ -399,12 +399,12 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                         )}
                                     />
                                     <form.Field
-                                        name="permissions.users.delete" 
-                                        children={(field) => ( 
+                                        name="permissions.users.delete"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="users.delete"
-                                                    checked={arrayPermissions.includes("users.delete")} 
+                                                    checked={arrayPermissions.includes("users.delete")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("users.delete", !!checked);
                                                     }}
@@ -413,22 +413,22 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 <Label htmlFor="users.delete" className="text-sm">{t("ui.createUser.Rol.permission.users.4")}</Label>
                                             </div>
                                         )}
-                                    />   
-                                </div>   
+                                    />
+                                </div>
 
 
                                 <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
                                     <div className="flex items-center gap-2 mb-1.5">
                                         <Icon iconNode={PackageOpen} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.products.title")}</Label>        
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.products.title")}</Label>
                                     </div>
                                     <form.Field
-                                        name="permissions.products.view" 
-                                        children={(field) => ( 
+                                        name="permissions.products.view"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="products.view"
-                                                    checked={arrayPermissions.includes("products.view")} 
+                                                    checked={arrayPermissions.includes("products.view")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("products.view", !!checked);
                                                     }}
@@ -437,14 +437,14 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 <Label htmlFor="products.view" className="text-sm">{t("ui.createUser.Rol.permission.products.1")}</Label>
                                             </div>
                                         )}
-                                    />  
+                                    />
                                      <form.Field
-                                        name="permissions.products.create" 
-                                        children={(field) => ( 
+                                        name="permissions.products.create"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="products.create"
-                                                    checked={arrayPermissions.includes("products.create")} 
+                                                    checked={arrayPermissions.includes("products.create")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("products.create", !!checked);
                                                     }}
@@ -453,14 +453,14 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 <Label htmlFor="products.create" className="text-sm">{t("ui.createUser.Rol.permission.products.2")}</Label>
                                             </div>
                                         )}
-                                    />  
+                                    />
                                      <form.Field
-                                        name="permissions.products.edit" 
-                                        children={(field) => ( 
+                                        name="permissions.products.edit"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="products.edit"
-                                                    checked={arrayPermissions.includes("products.edit")} 
+                                                    checked={arrayPermissions.includes("products.edit")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("products.edit", !!checked);
                                                     }}
@@ -469,14 +469,14 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 <Label htmlFor="products.edit" className="text-sm">{t("ui.createUser.Rol.permission.products.3")}</Label>
                                             </div>
                                         )}
-                                    />  
+                                    />
                                      <form.Field
-                                        name="permissions.products.delete" 
-                                        children={(field) => ( 
+                                        name="permissions.products.delete"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="products.delete"
-                                                    checked={arrayPermissions.includes("products.delete")} 
+                                                    checked={arrayPermissions.includes("products.delete")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("products.delete", !!checked);
                                                     }}
@@ -485,22 +485,22 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 <Label htmlFor="products.delete" className="text-sm">{t("ui.createUser.Rol.permission.products.4")}</Label>
                                             </div>
                                         )}
-                                    />  
+                                    />
                                 </div>
 
 
                                 <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
                                     <div className="flex items-center gap-2 mb-1.5">
                                         <Icon iconNode={FileText} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.reports.title")}</Label>        
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.reports.title")}</Label>
                                     </div>
                                     <form.Field
-                                        name="permissions.reports.view" 
-                                        children={(field) => ( 
+                                        name="permissions.reports.view"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="reports.view"
-                                                    checked={arrayPermissions.includes("reports.view")} 
+                                                    checked={arrayPermissions.includes("reports.view")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("reports.view", !!checked);
                                                     }}
@@ -509,14 +509,14 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                                 <Label htmlFor="reports.view" className="text-sm">{t("ui.createUser.Rol.permission.reports.1")}</Label>
                                             </div>
                                         )}
-                                    />  
+                                    />
                                     <form.Field
-                                        name="permissions.reports.export" 
-                                        children={(field) => ( 
+                                        name="permissions.reports.export"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="reports.export"
-                                                    checked={arrayPermissions.includes("reports.export")} 
+                                                    checked={arrayPermissions.includes("reports.export")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("reports.export", !!checked);
                                                     }}
@@ -527,12 +527,12 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                         )}
                                     />
                                     <form.Field
-                                        name="permissions.reports.print" 
-                                        children={(field) => ( 
+                                        name="permissions.reports.print"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="reports.print"
-                                                    checked={arrayPermissions.includes("reports.print")} 
+                                                    checked={arrayPermissions.includes("reports.print")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("reports.print", !!checked);
                                                     }}
@@ -548,15 +548,15 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                 <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
                                     <div className="flex items-center gap-2 mb-1.5">
                                         <Icon iconNode={Settings} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.settings.title")}</Label>        
+                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.settings.title")}</Label>
                                     </div>
                                     <form.Field
-                                        name="permissions.settings.access" 
-                                        children={(field) => ( 
+                                        name="permissions.settings.access"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="settings.access"
-                                                    checked={arrayPermissions.includes("settings.access")} 
+                                                    checked={arrayPermissions.includes("settings.access")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("settings.access", !!checked);
                                                     }}
@@ -567,12 +567,12 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                         )}
                                     />
                                     <form.Field
-                                        name="permissions.settings.modify" 
-                                        children={(field) => ( 
+                                        name="permissions.settings.modify"
+                                        children={(field) => (
                                             <div className="flex items-center gap-2">
                                                 <Checkbox
                                                     id="settings.modify"
-                                                    checked={arrayPermissions.includes("settings.modify")} 
+                                                    checked={arrayPermissions.includes("settings.modify")}
                                                     onCheckedChange={(checked) => {
                                                         togglePermission("settings.modify", !!checked);
                                                     }}
@@ -590,13 +590,13 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                         </div>
                     </Card>
                 </TabsContent>
-            </Tabs>   
-            
-            <div className="p-1.5 bg-gray-100 dark:bg-[#272726]"></div>      
+            </Tabs>
+
+            <div className="p-1.5 bg-gray-100 dark:bg-[#272726]"></div>
             <hr className="dark:border-black" />
         <div className="p-1 bg-gray-100 dark:bg-[#272726] "></div>
         {/* DIV BOTONES */}
-        <div className="grid grid-cols-2 justify-items-end gap-4 bg-gray-100 dark:bg-[#272726]"> 
+        <div className="grid grid-cols-2 justify-items-end gap-4 bg-gray-100 dark:bg-[#272726]">
                 <Button
                 className="justify-self-start hover:bg-red-500 ml-4"
                     type="button"

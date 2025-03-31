@@ -15,15 +15,6 @@ import { FiltersTable, FilterConfig } from "@/components/stack-table/FiltersTabl
 import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
 
-// interface Floor {
-//   id: string;
-//   floorNumber: number;
-//   capacity: number;
-// }
-
-// interface FloorsPageProps extends PageProps {
-//   floors: Floor[];
-// }
 
 export default function FloorIndex() {
   const { t } = useTranslations();

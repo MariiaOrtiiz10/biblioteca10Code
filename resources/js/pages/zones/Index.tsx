@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link, usePage } from "@inertiajs/react";
 import { PencilIcon, PlusIcon, TrashIcon, ChevronDown, ChevronUp } from "lucide-react";
-import { PageProps } from "@/types";
+
 import { createTextColumn, createDateColumn, createActionsColumn } from "@/components/stack-table/columnsTable";
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
@@ -16,15 +16,6 @@ import { Table } from "@/components/stack-table/Table";
 import { useZones , Zone, useDeleteZone } from "@/hooks/zones/useZones";
 import { ZoneLayout } from "@/layouts/zones/ZoneLayout";
 
-// interface Floor {
-//   id: string;
-//   floorNumber: number;
-//   capacity: number;
-// }
-
-// interface FloorsPageProps extends PageProps {
-//   floors: Floor[];
-// }
 
 export default function ZoneIndex() {
   const { t } = useTranslations();
@@ -105,7 +96,7 @@ export default function ZoneIndex() {
             renderActions: (zone) => (
               <>
                 <Link href={`/zones/${zone.id}/edit?page=${currentPage}&perPage=${perPage}`}>
-                  <Button variant="outline" size="icon" title={t("ui.floors.buttons.edit") || "Edit Zone"}>
+                  <Button variant="outline" size="icon" title={t("ui.zones.buttons.edit") || "Edit Zone"}>
                     <PencilIcon className="h-4 w-4" />
                   </Button>
                 </Link>
@@ -115,7 +106,7 @@ export default function ZoneIndex() {
                   title={t("ui.zones.delete.title") || "Delete floor"}
                   description={t("ui.zones.delete.description") || "Are you sure you want to delete this zone? This action cannot be undone."}
                   trigger={
-                    <Button variant="outline" size="icon" className="text-destructive hover:text-destructive" title={t("ui.floors.buttons.delete") || "Delete floor"}>
+                    <Button variant="outline" size="icon" className="text-destructive hover:text-destructive" title={t("ui.zones.buttons.delete") || "Delete floor"}>
                       <TrashIcon className="h-4 w-4" />
                     </Button>
                   }
@@ -164,12 +155,7 @@ export default function ZoneIndex() {
                                           type: 'text',
                                           placeholder: t('ui.zones.placeholders.genre') || 'genre...',
                                       },
-                                    //   {
-                                    //     id: 'zonesCapacity',
-                                    //     label: t('ui.floors.filters.zonesCapacity') || 'zonesCapacity',
-                                    //     type: 'text',
-                                    //     placeholder: t('ui.floors.placeholders.zonesCapacity') || 'zonesCapacity...',
-                                    // },
+
                                   ] as FilterConfig[]
                               }
                               onFilterChange={setFilters}

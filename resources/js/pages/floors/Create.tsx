@@ -1,22 +1,25 @@
-import { UserLayout } from "@/layouts/users/UserLayout";
 import { useTranslations } from "@/hooks/use-translations";
 import { FloorLayout } from "@/layouts/floors/FloorLayout";
 import { FloorForm } from "./Components/FloorForm";
+import { PageProps } from "@/types";
 
+interface CreateFloorProps extends PageProps {
+    floorNumber?: number[] | undefined;
+    totalGenres?: number;
+}
 
-
-export default function CreateFloor() {
+export default function CreateFloor({floorNumber, totalGenres}:CreateFloorProps) {
   const { t } = useTranslations();
-  
+
 
   return (
     <FloorLayout title={t("ui.floors.create")}>
       <div className="flex justify-center items-start py-1 px-6">
         <div className="w-full max-w-3xl">
-            <h1>CREATE DE FLOORS</h1>
-            {/* <FloorForm/> */}
+            <FloorForm  floorNumber={floorNumber} totalGenres={totalGenres} />
+
         </div>
       </div>
-    </FloorLayout>
+    </FloorLayout >
   );
 }

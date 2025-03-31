@@ -54,7 +54,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function FloorForm({initialData, page, perPage, floorNumber= [], totalGenres}:FloorFormProps){
+export function EditForm({initialData, page, perPage, floorNumber= [], totalGenres}:FloorFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
     const form = useForm({

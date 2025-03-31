@@ -15,11 +15,12 @@ Route::middleware(['web', 'auth'])->group(function () {
 
  Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/floors', [FloorApiController::class, 'index']);
+        Route::post('/floors', [FloorApiController::class, 'store']);
         Route::delete('/floors/{floor}', [FloorApiController::class, 'destroy']);
  });
 
  Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/zones', [ZoneApiController::class, 'index']);
-    Route::delete('/zones/{floor}', [ZoneApiController::class, 'destroy']);
+    Route::delete('/zones/{zone}', [ZoneApiController::class, 'destroy']);
 
 });

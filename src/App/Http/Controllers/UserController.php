@@ -32,9 +32,9 @@ class UserController extends Controller
         }
         return Inertia::render('users/Create', ["arrayRolePermissions"=> $arrayRolePermissions]);
     }
-    
 
-    
+
+
     public function store(Request $request, UserStoreAction $action)
     {
         $validator = Validator::make($request->all(), [
@@ -47,9 +47,9 @@ class UserController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
-        
+
         $action($validator->validated());
-        
+
 
         return redirect()->route('users.index')
             ->with('success', __('messages.users.created'));
@@ -89,13 +89,13 @@ class UserController extends Controller
         }
 
         $action($user, $validator->validated());
-        
+
         if ($request->has('permissions')) {
             $user->syncPermissions($request->permissions);
         }
 
         $redirectUrl = route('users.index');
-        
+
         // Añadir parámetros de página a la redirección si existen
         if ($request->has('page')) {
             $redirectUrl .= "?page=" . $request->query('page');

@@ -5,14 +5,13 @@ import { PageProps } from "@/types";
 
 interface CreateUserProps extends PageProps {
   arrayRolePermissions?: String[];
-  
 }
 
 
 export default function CreateUser({arrayRolePermissions}:CreateUserProps) {
-  
+
   const { t } = useTranslations();
-  
+
 
   return (
     <UserLayout title={t("ui.users.create")}>

@@ -4,6 +4,7 @@ namespace App\Zones\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Controllers\Controller;
+use Domain\Zones\Actions\ZoneDestroyAction;
 use Domain\Zones\Models\Zone;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -61,8 +62,10 @@ class ZoneController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Zone $zone, ZoneDestroyAction $action)
     {
-        //
+        $action($zone);
+        return redirect()->route('zones.index')
+            ->with('success', __('messages.zones.deleted'));
     }
 }
