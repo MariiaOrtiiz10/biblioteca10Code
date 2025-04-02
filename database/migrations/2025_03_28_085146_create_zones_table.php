@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('zones', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
+            $table->string('zoneName');
             $table->foreignUuid('floor_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('genre_id')->constrained();
             $table->integer('bookshelvesCapacity');
             $table->timestamps();
-            $table->unique(['floor_id', 'genre_id']);
+            $table->unique(['floor_id', 'zoneName']);
 
         });
     }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Domain\Floors\Models\Floor;
 use Domain\Genres\Models\Genre;
 use Database\Factories\ZoneFactory;
+use Domain\Bookshelves\Models\Bookshelf;
 
 class Zone extends Model
 {
@@ -20,6 +21,7 @@ class Zone extends Model
 
     protected $fillable = [
         'id',
+        'zoneName',
         'floor_id',
         'genre_id',
         'bookshelvesCapacity'
@@ -33,6 +35,10 @@ class Zone extends Model
     public function genre()
     {
         return $this->belongsTo(Genre::class);
+    }
+    public function bookshelves()
+    {
+        return $this->hasMany(Bookshelf::class);
     }
 
 }

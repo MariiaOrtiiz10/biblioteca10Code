@@ -65,7 +65,6 @@ class UserController extends Controller
             'user' => $user,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
-            //'userPermissions' => $user->permissions->pluck('name'),
         ]);
     }
 

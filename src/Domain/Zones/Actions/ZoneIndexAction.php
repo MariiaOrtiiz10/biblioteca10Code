@@ -8,10 +8,10 @@ class ZoneIndexAction
 {
     public function __invoke(?string $search = null, int $perPage = 10)
     {
-        $zones = Zone::with(['floor', 'genre'])  // Cargar las relaciones floor y genre
+        $zones = Zone::with(['floor', 'genre'])
         ->when($search, function ($query, $search) {
-            $query->where('name', 'like', "%{$search}%")
-                ->orWhereHas('floor', fn($q) => $q->where('floorName', 'like', "%{$search}%"))
+            $query->where('zoneName', 'like', "%{$search}%")
+                ->orWhereHas('floor', fn($q) => $q->where('floorNumber', 'like', "%{$search}%"))
                 ->orWhereHas('genre', fn($q) => $q->where('genre', 'like', "%{$search}%"));
         })
         ->latest()

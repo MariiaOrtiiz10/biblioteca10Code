@@ -37,6 +37,9 @@ class GenreSeeder extends Seeder
         Genre::create([
             'genre' => 'Géneros específicos:',
         ]);
+        Genre::create([
+            'genre' => 'Top leídos:',
+        ]);
 
 
 

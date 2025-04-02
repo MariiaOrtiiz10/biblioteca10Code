@@ -1,34 +1,35 @@
-import { UserLayout } from "@/layouts/users/UserLayout";
 import { PageProps } from "@inertiajs/core";
 import { useTranslations } from "@/hooks/use-translations";
-import { UserForm } from "./components/UserForm";
+import { ZoneLayout } from "@/layouts/zones/ZoneLayout";
+import { ZoneForm } from "../books/Components/ZoneForm";
 
-interface EditUserProps extends PageProps {
-  user: {
+
+interface EditZoneProps extends PageProps {
+  zone: {
     id: string;
-    name: string;
-    email: string;
-    arrayRolePermissions?: String[];
+    zoneName: string;
+    bookshelvesCapacity:number;
+
+
   };
   page?: string;
   perPage?: string;
-
 }
 
-export default function EditUser({ user, page, perPage}: EditUserProps) {
+export default function EditZone({ zone, page, perPage}: EditZoneProps) {
   const { t } = useTranslations();
 
   return (
-    <UserLayout title={t("ui.users.edit")}>
+    <ZoneLayout title={t("ui.floors.edit")}>
       <div className="flex justify-center items-start py-1 px-6">
         <div className="w-full max-w-3xl">
-          <UserForm
-            initialData={user}
+          <ZoneForm
+            initialData={zone}
             page={page}
             perPage={perPage}
           />
         </div>
       </div>
-    </UserLayout>
+    </ZoneLayout>
   );
 }

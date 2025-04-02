@@ -1,15 +1,15 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "../../lib/axios";
 
-export interface Zone{
+export interface Bookshelf{
     id: string;
-    zoneName: string;
+    zone_id:string;
+    zoneName:string;
     floor_id:string;
     floorName:string;
-    floorNumber:number;
-    genre_id:string;
     genre:string;
-    bookshelvesCapacity:number;
+    bookshelfNumber:number;
+    booksCapacity  :number;
     created_at: string;
   }
 
@@ -46,17 +46,17 @@ export interface PaginatedResponse<T> {
     };
   }
 
-  interface UseZonesParams {
+  interface UseBookshelvesParams {
     search?: string;
     page?: number;
     perPage?: number;
   }
 
-export function useZones({ search, page = 1, perPage = 10 }: UseZonesParams = {}) {
+export function useBookshelves({ search, page = 1, perPage = 10 }: UseBookshelvesParams = {}) {
   return useQuery({
-    queryKey: ["zones", { search, page, perPage }],
+    queryKey: ["bookshelves", { search, page, perPage }],
     queryFn: async () => {
-      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Zone>>("/api/zones", {
+      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Bookshelf>>("/api/bookshelves", {
         params: {
           search,
           page,
@@ -79,14 +79,14 @@ export function useZones({ search, page = 1, perPage = 10 }: UseZonesParams = {}
           to: apiResponse.to,
           total: apiResponse.total
         }
-      } as PaginatedResponse<Zone>;
+      } as PaginatedResponse<Bookshelf>;
     },
   });
 }
-export function useCreateZone() {
+export function useCreateBookshelf() {
     return useMutation({
-      mutationFn: async (data: { zoneName:string; floor_id: string; genre_id: string; bookshelvesCapacity: number; }) => {
-        const response = await axios.post("/api/zones", data, {
+      mutationFn: async (data: {floor_id:string; zone_id: string;  booksCapacity: number; }) => {
+        const response = await axios.post("/api/bookshelves", data, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
@@ -97,10 +97,10 @@ export function useCreateZone() {
     });
 }
 
-export function useUpdateZone(zoneId: string) {
+export function useUpdateBookshelf(bookshelfId: string) {
     return useMutation({
-      mutationFn: async (data: {zoneName:string; floor_id: string; genre_id: string; bookshelvesCapacity: number; }) => {
-        const response = await axios.put(`/api/zones/${zoneId}`, data, {
+      mutationFn: async (data: {floor_id:string; zone_id: string;  booksCapacity: number;  }) => {
+        const response = await axios.put(`/api/bookshelves/${bookshelfId}`, data, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
@@ -111,10 +111,10 @@ export function useUpdateZone(zoneId: string) {
     });
   }
 
-  export function useDeleteZone() {
+  export function useDeleteBookshelf() {
     return useMutation({
-      mutationFn: async (zoneId: string) => {
-        await axios.delete(`/api/zones/${zoneId}`, {
+      mutationFn: async (bookshelfId: string) => {
+        await axios.delete(`/api/bookshelves/${bookshelfId}`, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'

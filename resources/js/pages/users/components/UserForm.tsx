@@ -87,9 +87,6 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
             return updatedPermissions;
         });
     }
-    //const[Tabactive, setTabActive] = useState(types[0]);
-    //let permissionArray:string[] = [];
-    //const [permission, setPermission] = useState([permissionArray]);
 
     const form = useForm({
         defaultValues: {

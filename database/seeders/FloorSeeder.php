@@ -16,11 +16,13 @@ class FloorSeeder extends Seeder
 
         Floor::create([
             'floorNumber' => '1',
-            'floorName' => 'Patata',
-            'zonesCapacity' => '6',
+            'floorName' => 'Patata1',
+            'zonesCapacity' => '8',
         ]);
+        Floor::factory()->count(5)->create();
 
-        Floor::factory(3)->create();
+
+
 
     }
 }

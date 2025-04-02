@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             FloorSeeder::class,
             GenreSeeder::class,
             ZoneSeeder::class,
+            BookshelfSeeder::class,
         ]);
 
 

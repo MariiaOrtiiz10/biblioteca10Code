@@ -229,12 +229,12 @@ return [
             'next' => 'Siguiente',
         ],
     ],
+
     'floors' =>[
         'title' => 'Pisos',
         'title2' => 'Piso',
         'create' => 'Crear Piso',
         'edit' => 'Editar Piso',
-        'maxCZ' => 'Capacidad máxima de zonas',
         'index'=>[
             'floor' => 'Piso',
             'capacity' => 'Capacidad',
@@ -272,7 +272,6 @@ return [
             'title' => '¿Estás seguro?',
             'description' => 'Esta acción no se puede deshacer. Se eliminará permanentemente el piso del sistema.',
         ],
-        'occupied' => 'Ocupado',
     ],
 
 
@@ -283,17 +282,20 @@ return [
             'new' => 'Nueva Zona',
         ],
         'columns' => [
-            'floorName' => 'Piso',
+            'zoneName' => 'Nombre de Zona',
+            'floorNumber' => 'Piso',
             'genre' => 'Género',
-
             'bookshelvesCapacity' => 'Capacidad de Estanterias',
             'created_at' => 'Fecha de creación',
             'actions' => 'Acciones',
         ],
-
-
+        'fields' => [
+            'zoneName' => 'Nombre de Zona',
+        ],
 
     ],
+
+
     'bookshelves' => [
         'title' => 'Estanterias',
         'create' => 'Crear Estanteria',

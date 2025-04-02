@@ -65,15 +65,15 @@ export default function ZoneIndex() {
       };
       const columns = useMemo(() => ([
         //ID
-        // createTextColumn<Zone>({
-        //     id: "id",
-        //     header: t("ui.zones.columns.id") || "floorId",
-        //     accessorKey: "id",
-        //   }),
+        createTextColumn<Zone>({
+            id: "zoneName",
+            header: t("ui.zones.columns.zoneName") || "zoneName",
+            accessorKey: "zoneName",
+          }),
           createTextColumn<Zone>({
-            id: "floorName",
-            header: t("ui.zones.columns.floorName") || "floorNumber",
-            accessorKey: "floorName",
+            id: "floorNumber",
+            header: t("ui.zones.columns.floorNumber") || "floorNumber",
+            accessorKey: "floorNumber",
           }),
           createTextColumn<Zone>({
             id: "genre",

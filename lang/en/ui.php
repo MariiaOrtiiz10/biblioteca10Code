@@ -233,7 +233,6 @@ return [
         'title2' => 'Floor',
         'create' => 'Create Floor',
         'edit' => 'Edit Floor',
-        'maxCZ' => 'Maximum capacity of zones',
         'fields' => [
             'floorNumber' => 'Floor Number',
             'floorName' => 'Floor Name',
@@ -279,6 +278,8 @@ return [
         ],
         'occupied' => 'Occupied',
     ],
+
+
     'zones' => [
         'title' => 'Zones',
         'create' => 'Create Zone',
@@ -286,13 +287,15 @@ return [
             'new' => 'New Zone',
         ],
         'columns' => [
-            'floorName' => 'Floor',
-
-
+            'zoneName' => 'Zone Name',
+            'floorNumber' => 'Floor',
             'genre' => 'Genre',
             'bookshelvesCapacity' => 'Bookshelves Capacity',
             'created_at' => 'Created at',
             'actions' => 'Actions',
+        ],
+        'fields' => [
+            'zoneName' => 'Zone Name',
         ],
     ],
 

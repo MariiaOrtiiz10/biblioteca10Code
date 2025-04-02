@@ -4,10 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import { ScrollArea } from "@/components/ui/scroll-area"
-
-import { Checkbox } from "@/components/ui/checkbox";
-import { User, Mail, Lock, X, Eye, Save, Shield, Users,  PackageOpen, FileText, Settings, Building2} from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {X, Save, Building2} from "lucide-react";
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 //Para invalidar y actualizar datos en caché después de un cambio
@@ -33,11 +30,13 @@ interface FloorFormProps {
         floorName: string;
         zonesCapacity: number;
     };
+
     //paginación
     page?: string;
     perPage?: string;
     floorNumber?: number[];
-    totalGenres?: number;
+    floorName?: string[];
+
 }
 function FieldInfo({ field }: { field: AnyFieldApi }) {
     return (
@@ -54,14 +53,14 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function FloorForm({initialData, page, perPage, floorNumber= [], totalGenres}:FloorFormProps){
+export function FloorForm({initialData, page, perPage, floorNumber = [], floorName = []}:FloorFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
     const form = useForm({
         defaultValues: {
-         floorNumber: initialData?.floorNumber ?? "",
+         floorNumber: initialData?.floorNumber ?? undefined,
          floorName: initialData?.floorName ?? "",
-         zonesCapacity: initialData?.zonesCapacity ?? "",
+         zonesCapacity: initialData?.zonesCapacity ?? undefined,
 
         },
         onSubmit: async ({ value }) => {
@@ -121,11 +120,19 @@ export function FloorForm({initialData, page, perPage, floorNumber= [], totalGen
                                 validators={{
                                     onChangeAsync: async ({ value }) => {
                                         await new Promise((resolve) => setTimeout(resolve, 500));
-                                        return !value
-                                            ? t("ui.validation.required", { attribute: t("ui.floors.fields.floorName").toLowerCase() })
-                                            : value.length < 3
-                                                ? t("ui.validation.min.string", { attribute: t("ui.floors.fields.floorName").toLowerCase(), min: "3" })
-                                                : undefined;
+                                        if (!value) {
+                                            return t("ui.validation.required", {
+                                                attribute: t("ui.floors.fields.floorName").toLowerCase(),
+                                            });
+                                        }
+                                        if(floorName.includes(value) && (value!=initialData?.floorName)){
+                                            return t("ui.validation.unique", {
+                                                attribute: t("ui.floors.fields.floorName"),
+                                            });
+
+                                        }
+
+                                        return undefined;
                                     },
                                 }}
                         >
@@ -153,48 +160,50 @@ export function FloorForm({initialData, page, perPage, floorNumber= [], totalGen
                         </div>
                         <div className="mb-4">
                         <form.Field
-                            name="floorNumber"
-                            validators={{
-                            onChangeAsync: async ({ value }) => {
-                                await new Promise((resolve) => setTimeout(resolve, 500));
+                                name="floorNumber"
+                                validators={{
+                                    onChangeAsync: async ({ value }) => {
+                                        await new Promise((resolve) => setTimeout(resolve, 500));
+                                        if (!value) {
+                                            return t("ui.validation.required", {
+                                                attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
+                                            });
+                                        }
+                                        if(floorNumber.includes(value) && (value!=initialData?.floorNumber)){
+                                            return t("ui.validation.unique", {
+                                                attribute: t("ui.floors.fields.floorNumber"),
+                                            });
 
-                                if (!value) {
-                                return t("ui.validation.required", {
-                                    attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
-                                });
-                                }
+                                        }
 
-                                return undefined;
-                            },
-                            }}
-                        >
-                            {(field) => (
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                <Icon iconNode={Building2} className="w-5 h-5" />
-                                <Label htmlFor={field.name}>{t("ui.floors.fields.floorNumber")}</Label>
-                                </div>
-                                <Select onValueChange={(value) => form.setFieldValue("floorNumber", value)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder={t("ui.floors.placeholders.select")} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                <ScrollArea className="h-60 overflow-y-auto">
-                                    {[...Array(10)].map((_, i) => {
-                                    const num = i + 1;
-                                    return (
-                                        <SelectItem key={num} value={String(num)} disabled={floorNumber?.includes(num)}>
-                                            {t("ui.floors.title2")} {num} {floorNumber?.includes(num) && `(${t("ui.floors.occupied")})`}
-                                        </SelectItem>
-                                    );
-                                    })}
-                                    </ScrollArea>
-                                </SelectContent>
-                                </Select>
-                                <FieldInfo field={field} />
-                            </div>
-                            )}
-                        </form.Field>
+                                        return undefined;
+
+                                    },
+                                }}
+                            >
+                                {(field) => (
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-2">
+                                        <Icon iconNode={Building2} className="w-5 h-5" />
+                                        <Label htmlFor={field.name}>{t("ui.floors.fields.floorNumber")}</Label>
+                                        </div>
+                                        <Input
+                                            id={field.name}
+                                            name={field.name}
+                                            type="number"
+                                            value={field.state.value}
+                                            onChange={(e) => field.handleChange(parseInt(e.target.value))}
+                                            onBlur={field.handleBlur}
+                                            placeholder={t("ui.floors.placeholders.zonesCapacity")}
+                                            disabled={form.state.isSubmitting}
+                                            required={false}
+                                            autoComplete="off"
+                                        />
+                                        <FieldInfo field={field} />
+                                    </div>
+                                )}
+
+                            </form.Field>
                         </div>
                             <div className="mb-4">
                             <form.Field
@@ -230,7 +239,7 @@ export function FloorForm({initialData, page, perPage, floorNumber= [], totalGen
                                             name={field.name}
                                             type="number"
                                             value={field.state.value}
-                                            onChange={(e) => field.handleChange(e.target.value)}
+                                            onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                             onBlur={field.handleBlur}
                                             placeholder={t("ui.floors.placeholders.zonesCapacity")}
                                             disabled={form.state.isSubmitting}
@@ -240,9 +249,7 @@ export function FloorForm({initialData, page, perPage, floorNumber= [], totalGen
                                         <FieldInfo field={field} />
                                     </div>
                                 )}
-
                             </form.Field>
-                            <Label className="ml-2 italic">{t("ui.floors.maxCZ")} - {totalGenres}</Label>
                             </div>
                         </div>
                 </Card>

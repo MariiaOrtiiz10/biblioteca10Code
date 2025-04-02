@@ -5,6 +5,7 @@ namespace App\Bookshelves\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Controllers\Controller;
+use Domain\Bookshelves\Actions\BookshelfDestroyAction;
 use Domain\Bookshelves\Models\Bookshelf;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -32,7 +33,7 @@ class BookshelfController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -62,8 +63,10 @@ class BookshelfController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Bookshelf $bookshelf, BookshelfDestroyAction $action)
     {
-        //
+        $action($bookshelf);
+        return redirect()->route('bookshelves.index')
+            ->with('success', __('messages.bookshelves.deleted'));
     }
 }

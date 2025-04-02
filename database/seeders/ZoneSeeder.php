@@ -13,6 +13,6 @@ class ZoneSeeder extends Seeder
      */
     public function run(): void
     {
-        Zone::factory()->count(4)->create();
+        Zone::factory()->count(5)->create();
     }
 }

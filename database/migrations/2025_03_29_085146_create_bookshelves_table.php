@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bookshelves', function (Blueprint $table) {
-            //
+        Schema::create('bookshelves', function (Blueprint $table) {
+            $table->uuid('id')->primary()->unique();
+            $table->foreignUuid('zone_id')->constrained()->onDelete('cascade');
+            $table->integer('bookshelfNumber')->unique();
+            $table->integer('booksCapacity');
+            $table->unique(['zone_id', 'bookshelfNumber']);
+            $table->timestamps();
         });
     }
 
@@ -22,7 +27,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bookshelves', function (Blueprint $table) {
-            
+
         });
     }
 };

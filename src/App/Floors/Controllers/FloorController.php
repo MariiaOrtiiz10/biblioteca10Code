@@ -8,7 +8,9 @@ use Domain\Floors\Models\Floor;
 use Domain\Genres\Models\Genre;
 use Domain\Floors\Actions\FloorDestroyAction;
 use Domain\Floors\Actions\FloorStoreAction;
+use Domain\Floors\Actions\FloorUpdateAction;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -29,11 +31,10 @@ class FloorController extends Controller
     public function create()
     {
         $floorNumber = Floor::pluck('floorNumber')->toArray();
-        $totalGenres = Genre::count();
-
+        $floorName = Floor::pluck('floorName')->toArray();
         return Inertia::render('floors/Create', [
             'floorNumber' => $floorNumber,
-            'totalGenres' => $totalGenres
+            'floorName' => $floorName,
         ]);
 
     }
@@ -43,14 +44,12 @@ class FloorController extends Controller
      */
     public function store(Request $request, FloorStoreAction $action)
     {
-        $totalGenres = Genre::count();
         $validator = Validator::make($request->all(), [
             'floorNumber' => ['required', 'integer', 'unique:floors,floorNumber'],
-            'floorName' => ['required', 'string', 'min:3'],
-            'zonesCapacity' => ['required', 'integer', 'min:1', "max:$totalGenres"],[
-                'floorNumber.unique' => 'El número de piso ya está en uso. Por favor elige otro.',
-                'zonesCapacity.max' => "El valor de zonesCapacity no puede exceder el número total de géneros disponibles ($totalGenres).",
-            ]
+
+            'floorName' => ['required', 'string', 'min:3', 'unique:floors,floorName'],
+
+            'zonesCapacity' => ['required', 'integer', 'min:1'],
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +59,7 @@ class FloorController extends Controller
         $action($validator->validated());
 
         return redirect()->route('floors.index')
-            ->with('success', __('messages.users.created'));
+            ->with('success', __('messages.floors.created'));
 
     }
 
@@ -69,7 +68,7 @@ class FloorController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -77,25 +76,54 @@ class FloorController extends Controller
      */
     public function edit(Request $request, Floor $floor)
     {
+        $floorNumber = Floor::pluck('floorNumber')->toArray();
+        $floorName = Floor::pluck('floorName')->toArray();
         return Inertia::render('floors/Edit', [
             'floor' => $floor,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
+            'floorNumber' => $floorNumber,
+            'floorName' => $floorName,
         ]);
 
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Floor $floor, FloorUpdateAction $action)
     {
+        $validator = Validator::make($request->all(), [
+            'floorNumber' => ['required', 'integer',
+            Rule::unique('floors')->where(fn ($query) =>
+                $query->where('floorNumber', $request->floor_id)
+            )->ignore($request->id)
+        ],
+
+            'floorName' => ['required', 'string', 'min:3',
+            Rule::unique('floors')->where(fn ($query) =>
+            $query->where('floorName', $request->floor_id)
+            )->ignore($request->id) ],
+
+
+            'zonesCapacity' => ['required', 'integer', 'min:1']
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $action($floor, $validator->validated());
+        $redirectUrl = route('floors.index');
+
+        if ($request->has('page')) {
+            $redirectUrl .= "?page=" . $request->query('page');
+            if ($request->has('perPage')) {
+                $redirectUrl .= "&per_page=" . $request->query('perPage');
+            }
+        }
+
+        return redirect($redirectUrl)
+            ->with('success', __('messages.floors.updated'));
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Floor $floor, FloorDestroyAction $action)
     {
         $action($floor);
