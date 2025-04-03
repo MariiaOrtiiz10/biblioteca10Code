@@ -23,6 +23,7 @@ class Floor extends Model
         'floorName',
         'zonesCapacity',
     ];
+
     public function zones()
     {
         return $this->hasMany(Zone::class);

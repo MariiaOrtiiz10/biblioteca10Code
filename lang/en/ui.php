@@ -283,6 +283,7 @@ return [
     'zones' => [
         'title' => 'Zones',
         'create' => 'Create Zone',
+        'edit' => 'Edit Zone',
         'buttons' => [
             'new' => 'New Zone',
         ],
@@ -296,30 +297,27 @@ return [
         ],
         'fields' => [
             'zoneName' => 'Zone Name',
+            'floorNumber' => 'Floor Number',
+            'bookshelvesCapacity' => 'Bookshelves Capacity',
+            'genre' => 'Genre',
         ],
+        'createZone' =>[
+            'title' => 'Create Zone',
+            'subtitle' => 'Enter the information to create a new zone in the system',
+            'floor' => 'Floor',
+            'genre' => 'Genre',
+            'placeholders' => [
+                'selectFloor' => 'Select an existing floor number',
+                'zoneName' => 'Enter a zone name',
+                'selectGenre' => 'Select an existing genre',
+                'bookshelvesCapacity' => 'Enter a number for bookshelves capacity '
+
+
+            ],
+        ],
+
     ],
 
-
-
-
-    'bookshelves' => [
-        'title' => 'Bookshelf',
-        'create' => 'Create Bookshelf',
-        'buttons' => [
-            'new' => 'New Bookshelf',
-        ],
-    ],
-
-
-
-
-    'books' => [
-        'title' => 'Book',
-        'create' => 'Create Book',
-        'buttons' => [
-            'new' => 'New Book',
-        ],
-    ],
 
 
 

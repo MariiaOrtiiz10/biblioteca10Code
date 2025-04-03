@@ -11,8 +11,8 @@ class ZoneStoreAction
     {
         $zone = Zone::create([
             'zoneName' => $data['zoneName'],
-            'floorNumber' => $data['floorNumber'],
-            'genre' => $data['genre'],
+            'floor_id' => $data['floor_id'],
+            'genre_id' => $data['genre_id'],
             'bookshelvesCapacity' => $data['bookshelvesCapacity'],
         ]);
 

@@ -7,6 +7,7 @@ export interface Bookshelf{
     zoneName:string;
     floor_id:string;
     floorName:string;
+    floorNumber:number;
     genre:string;
     bookshelfNumber:number;
     booksCapacity  :number;

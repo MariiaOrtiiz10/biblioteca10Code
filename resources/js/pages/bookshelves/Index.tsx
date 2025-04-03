@@ -65,22 +65,21 @@ export default function BookshelfIndex() {
       };
       const columns = useMemo(() => ([
 
-
+        createTextColumn<Bookshelf>({
+            id: "floorNumber",
+            header: t("ui.bookshelves.columns.floorNumber") || "floorNumber",
+            accessorKey: "floorNumber",
+          }),
         createTextColumn<Bookshelf>({
             id: "zoneName",
             header: t("ui.bookshelves.columns.zoneName") || "zoneName",
             accessorKey: "zoneName",
           }),
-        createTextColumn<Bookshelf>({
-            id: "floorName",
-            header: t("ui.bookshelves.columns.floorName") || "floorNumber",
-            accessorKey: "floorName",
-          }),
-          createTextColumn<Bookshelf>({
-            id: "genre",
-            header: t("ui.bookshelves.columns.genre") || "genre",
-            accessorKey: "genre",
-          }),
+        //   createTextColumn<Bookshelf>({
+        //     id: "genre",
+        //     header: t("ui.bookshelves.columns.genre") || "genre",
+        //     accessorKey: "genre",
+        //   }),
           createTextColumn<Bookshelf>({
             id: "bookshelfNumber",
             header: t("ui.bookshelves.columns.bookshelfNumber") || "bookshelfNumber",

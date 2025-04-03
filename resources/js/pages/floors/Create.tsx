@@ -17,7 +17,10 @@ export default function CreateFloor({floorNumber, floorName}:CreateFloorProps) {
     <FloorLayout title={t("ui.floors.create")}>
       <div className="flex justify-center items-start py-1 px-6">
         <div className="w-full max-w-3xl">
-            <FloorForm  floorNumber={floorNumber} floorName={floorName} />
+            <FloorForm
+              floorNumber={floorNumber}
+             floorName={floorName}
+             />
 
         </div>
       </div>

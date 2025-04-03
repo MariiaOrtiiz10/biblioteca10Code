@@ -25,18 +25,26 @@ interface ZoneFormProps {
     initialData?: {
         id: string;
         zoneName:string;
-        //floorNumber: number;
-        //genre:string;
+        floor_id: string;
+        genre_id:string;
         bookshelvesCapacity: number;
     };
     floorsData?:{
         id: string;
         floorNumber: number;
     }[];
+    genresData?:{
+        id: string;
+        genre: string;
+    }[];
+    zoneNameByFloorsNumber?: {
+        floorNumber:number;
+        zoneName: string;
+        floor_id:string;
+    }[];
     //paginación
     page?: string;
     perPage?: string;
-    floorNumber?: number[];
 }
 function FieldInfo({ field }: { field: AnyFieldApi }) {
     return (
@@ -53,24 +61,28 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps){
+export function ZoneForm({initialData, page, perPage, floorsData, genresData=[],zoneNameByFloorsNumber=[]}:ZoneFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
 
 
-    console.log(floorsData);
+    console.log("floorsData:" ,floorsData);
+    console.log("genresData:" ,genresData);
+    console.log("zoneNameByFloorsNumber:" ,zoneNameByFloorsNumber);
+
     const form = useForm({
         defaultValues: {
          zoneName: initialData?.zoneName ?? "",
          bookshelvesCapacity: initialData?.bookshelvesCapacity ?? undefined,
-         selectFloorNumber: floorsData?.[0]?.floorNumber ?? "",
+         floor_id: initialData?.floor_id ?? "",
+         genre_id: initialData?.genre_id ?? "",
         },
         onSubmit: async ({ value }) => {
             const options = {
                 onSuccess: () => {
-                    queryClient.invalidateQueries({ queryKey: ["bookshelves"] });
+                    queryClient.invalidateQueries({ queryKey: ["zones"] });
                     // Construct URL with page parameters
-                    let url = "/bookshelves";
+                    let url = "/zones";
                     if (page) {
                         url += `?page=${page}`;
                         if (perPage) {
@@ -90,9 +102,9 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
                 },
             };
             if (initialData) {
-                router.put(`/bookshelves/${initialData.id}`, value, options,);
+                router.put(`/zones/${initialData.id}`, value, options,);
             } else {
-                router.post("/bookshelves", value, options);
+                router.post("/zones", value, options);
             }
         },
     });
@@ -107,9 +119,9 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
             <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
                 <div className="flex items-center gap-2">
                     <Icon iconNode={Building2} className="w-6 h-6 text-blue-500" />
-                    <Label className="text-2xl font-black">{t("ui.createFloor.Header.newFloor")}</Label>
+                    <Label className="text-2xl font-black">{t("ui.zones.createZone.title")}</Label>
                 </div>
-                <p className="text-gray-600">{t("ui.createFloor.Header.h2")}</p>
+                <p className="text-gray-600">{t("ui.zones.createZone.subtitle")}</p>
             </header>
             <hr className="dark:border-black "></hr>
             <div className="py-1 bg-gray-100 dark:bg-[#272726]"></div>
@@ -143,7 +155,7 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
                                         value={field.state.value}
                                         onChange={(e) => field.handleChange(e.target.value)}
                                         onBlur={field.handleBlur}
-                                        placeholder={t("ui.floors.placeholders.floorName")}
+                                        placeholder={t("ui.zones.createZone.placeholders.zoneName")}
                                         disabled={form.state.isSubmitting}
                                         required={false}
                                         autoComplete="off"
@@ -152,10 +164,11 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
                                 </div>
                             )}
                             </form.Field>
+                            </div>
 
                             <div className="mb-5">
                             <form.Field
-                                name="selectFloorNumber"
+                                name="floor_id"
                                 validators={{
                                     onChangeAsync: async ({ value }) => {
                                         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -164,6 +177,7 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
                                                 attribute: t("ui.zones.fields.floorNumber").toLowerCase(),
                                             });
                                         }
+
                                         return undefined;
                                     },
                                 }}
@@ -178,14 +192,58 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
                                             required={true}
                                             value={field.state.value?.toString()}
                                             onValueChange={(value) => field.handleChange(value)}
+
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder={t("ui.zones.selectPlaceholder")} />
+                                                <SelectValue placeholder={t("ui.zones.createZone.placeholders.selectFloor")} />
                                             </SelectTrigger>
                                             <SelectContent>
                                             {floorsData?.map((floor) => (
-                                                <SelectItem key={floor.id} value={floor.floorNumber.toString()}>
-                                                    Piso: {floor.floorNumber}
+                                                <SelectItem key={floor.id} value={floor.id}>
+                                                    {t("ui.zones.createZone.floor")} : {floor.floorNumber}
+                                                </SelectItem>
+                                            ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <FieldInfo field={field} />
+                                    </div>
+                                )}
+                            </form.Field>
+                            </div>
+                            <div className="mb-5">
+                            <form.Field
+                                name="genre_id"
+                                validators={{
+                                    onChangeAsync: async ({ value }) => {
+                                        await new Promise((resolve) => setTimeout(resolve, 500));
+                                        if (!value) {
+                                            return t("ui.validation.required", {
+                                                attribute: t("ui.zones.fields.genre").toLowerCase(),
+                                            });
+                                        }
+                                        return undefined;
+                                    },
+                                }}
+                            >
+                                {(field) => (
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Icon iconNode={Building2} className="w-5 h-5" />
+                                            <Label htmlFor={field.name}>{t("ui.zones.fields.genre")}</Label>
+                                        </div>
+                                        <Select
+                                            required={true}
+                                            value={field.state.value?.toString()}
+                                            onValueChange={(value) => field.handleChange(value)}
+
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t("ui.zones.createZone.placeholders.selectGenre")} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                            {genresData?.map((genre) => (
+                                                <SelectItem key={genre.id} value={genre.id}>
+                                                    {t("ui.zones.createZone.genre")} : {genre.genre}
                                                 </SelectItem>
                                             ))}
                                             </SelectContent>
@@ -196,7 +254,6 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
                             </form.Field>
                             </div>
 
-                        </div>
                             <div className="mb-5">
                             <form.Field
                                 name="bookshelvesCapacity"
@@ -226,7 +283,7 @@ export function ZoneForm({initialData, page, perPage, floorsData}:ZoneFormProps)
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                             onBlur={field.handleBlur}
-                                            placeholder={t("ui.zones.placeholders.bookshelvesCapacity")}
+                                            placeholder={t("ui.zones.createZone.placeholders.bookshelvesCapacity")}
                                             disabled={form.state.isSubmitting}
                                             required={false}
                                             autoComplete="off"

@@ -13,6 +13,7 @@ interface EditUserProps extends PageProps {
   page?: string;
   perPage?: string;
 
+
 }
 
 export default function EditUser({ user, page, perPage}: EditUserProps) {
