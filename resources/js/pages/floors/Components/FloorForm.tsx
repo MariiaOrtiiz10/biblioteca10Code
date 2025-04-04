@@ -30,6 +30,12 @@ interface FloorFormProps {
         floorName: string;
         zonesCapacity: number;
     };
+    floorsData:{
+        id: string;
+        floorNumber: number;
+        zonesCapacity: number;
+        occupiedZones: number;
+      }[];
 
     //paginación
     page?: string;
@@ -53,7 +59,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function FloorForm({initialData, page, perPage, floorNumber = [], floorName = []}:FloorFormProps){
+export function FloorForm({initialData, page, perPage, floorNumber = [], floorName = [], floorsData=[]}:FloorFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
     const form = useForm({
@@ -101,14 +107,6 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
     };
     return(
       <div>
-        <div className="rounded-lg shadow-md shadow-gray-400 dark:bg-[#272726]">
-            <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
-                <div className="flex items-center gap-2">
-                    <Icon iconNode={Building2} className="w-6 h-6 text-blue-500" />
-                    <Label className="text-2xl font-black">{t("ui.createFloor.Header.newFloor")}</Label>
-                </div>
-                <p className="text-gray-600">{t("ui.createFloor.Header.h2")}</p>
-            </header>
             <hr className="dark:border-black "></hr>
             <div className="py-1 bg-gray-100 dark:bg-[#272726]"></div>
             <form onSubmit={handleSubmit} className="space-y-1  bg-gray-100 dark:bg-[#272726] " noValidate>
@@ -125,9 +123,16 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                                 attribute: t("ui.floors.fields.floorName").toLowerCase(),
                                             });
                                         }
+                                        if(value.length < 3){
+                                            return t("ui.validation.min.string", {
+                                                attribute: t("ui.floors.columns.floorName").toLowerCase(),
+                                                min:"3",
+                                            });
+                                        }
+
                                         if(floorName.includes(value) && (value!=initialData?.floorName)){
                                             return t("ui.validation.unique", {
-                                                attribute: t("ui.floors.fields.floorName"),
+                                                attribute: t("ui.floors.fields.floorName").toLowerCase(),
                                             });
 
                                         }
@@ -164,14 +169,14 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                 validators={{
                                     onChangeAsync: async ({ value }) => {
                                         await new Promise((resolve) => setTimeout(resolve, 500));
-                                        if (!value) {
+                                        if ((value === null || value === undefined)) {
                                             return t("ui.validation.required", {
                                                 attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
                                             });
                                         }
                                         if(floorNumber.includes(value) && (value!=initialData?.floorNumber)){
                                             return t("ui.validation.unique", {
-                                                attribute: t("ui.floors.fields.floorNumber"),
+                                                attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
                                             });
 
                                         }
@@ -211,15 +216,23 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                 validators={{
                                     onChangeAsync: async ({ value }) => {
                                         await new Promise((resolve) => setTimeout(resolve, 500));
-                                        if (!value) {
+                                        if ((value === null || value === undefined)) {
                                             return t("ui.validation.required", {
                                                 attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
                                             });
                                         }
-                                        const numericValue = Number(value);
-                                        if (isNaN(numericValue)) {
-                                            return t("ui.validation.unique", {
-                                                attribute: t("ui.floors.fields.floorName").toLowerCase(),
+                                        if(value<0){
+                                            return t("ui.validation.min.numeric", {
+                                                attribute: t("ui.floors.columns.zonesCapacity").toLowerCase()
+                                            });
+
+                                        }
+
+                                        const currentFloor = floorsData.find(floor => floor.id === initialData?.id);
+                                        if (currentFloor && value < currentFloor.occupiedZones) {
+                                            return t("ui.validation.capacity.string", {
+                                                attribute: t("ui.floors.columns.zonesCapacity").toLowerCase(),
+                                                occupiedZones: currentFloor.occupiedZones.toString(),
                                             });
                                         }
 
@@ -295,7 +308,6 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                 <div className="rounded-b-lg p-1 bg-gray-100 dark:bg-[#272726]"></div>
             </form>
         </div>
-      </div>
     );
 
 }

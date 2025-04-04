@@ -32,6 +32,30 @@ class Zone extends Model
         return $this->belongsTo(Floor::class);
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($zone) {
+            $zone->floor->increment('occupiedZones');
+        });
+
+        static::updated(function ($zone) {
+            if ($zone->isDirty('floor_id')) {
+                $originalFloorId = $zone->getOriginal('floor_id');
+                $newFloorId = $zone->floor_id;
+
+                Floor::find($originalFloorId)?->decrement('occupiedZones');
+
+                Floor::find($newFloorId)?->increment('occupiedZones');
+            }
+        });
+
+        static::deleted(function ($zone) {
+            $zone->floor->decrement('occupiedZones');
+        });
+    }
+
     public function genre()
     {
         return $this->belongsTo(Genre::class);

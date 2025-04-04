@@ -16,13 +16,11 @@ return new class extends Migration
             $table->integer('floorNumber')->unique();
             $table->string('floorName');
             $table->integer('zonesCapacity');
+            $table->integer('occupiedZones')->default(0);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('floors');

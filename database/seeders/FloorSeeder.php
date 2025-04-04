@@ -14,11 +14,6 @@ class FloorSeeder extends Seeder
     public function run(): void
     {
 
-        Floor::create([
-            'floorNumber' => '1',
-            'floorName' => 'Patata1',
-            'zonesCapacity' => '8',
-        ]);
         Floor::factory()->count(5)->create();
 
 

@@ -74,10 +74,14 @@ return [
            'required' => 'The :attribute field is required.',
             'email' => 'The :attribute field must be a valid email address.',
             'min' => [
+                'numeric' => 'The :attribute field  cannot be a negative number.',
                 'string' => 'The :attribute field must be at least :min characters',
             ],
             'max' => [
                 'string' => 'The :attribute field must not be greater than :max characters',
+            ],
+            'capacity' =>[
+                'string' => 'The :attribute field cannot be less than the occupied zones :occupiedZones',
             ],
             'unique' => 'The :attribute has already been taken.',
             'confirmed' => 'The :attribute confirmation does not match.',
@@ -256,7 +260,8 @@ return [
         'columns' => [
             'floorNumber' => 'Floor number',
             'floorName' => 'Floor name',
-            'zonesCapacity' => 'Zone Capacity',
+            'zonesCapacity' => 'Zones Capacity',
+            'occupiedZones' => 'Occupied Zones',
             'created_at' => 'Created at',
             'actions' => 'Actions',
         ],
@@ -265,6 +270,13 @@ return [
             'floorNumber' => 'Floor number',
             'floorName' => 'Floor name',
         ],
+        'createFloor' => [
+            'subtitle' => 'Enter the information to create a new floor in the system'
+        ],
+        'editFloor' => [
+            'subtitle' => 'Enter the information to edit a floor in the system'
+        ],
+
         'placeholders' => [
             'floorName' => 'Name...',
             'floorNumber' => 'Number...',
@@ -284,6 +296,7 @@ return [
         'title' => 'Zones',
         'create' => 'Create Zone',
         'edit' => 'Edit Zone',
+        'occupied' => 'Occupied',
         'buttons' => [
             'new' => 'New Zone',
         ],

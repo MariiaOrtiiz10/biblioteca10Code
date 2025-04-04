@@ -64,11 +64,6 @@ export default function FloorIndex() {
       };
       const columns = useMemo(() => ([
         //ID
-        // createTextColumn<Floor>({
-        //     id: "id",
-        //     header: t("ui.floors.columns.id") || "floorId",
-        //     accessorKey: "id",
-        //   }),
           createTextColumn<Floor>({
             id: "floorNumber",
             header: t("ui.floors.columns.floorNumber") || "floorNumber",
@@ -83,6 +78,11 @@ export default function FloorIndex() {
             id: "zonesCapacity",
             header: t("ui.floors.columns.zonesCapacity") || "zonesCapacity",
             accessorKey: "zonesCapacity",
+          }),
+          createTextColumn<Floor>({
+            id: "occupiedZones",
+            header: t("ui.floors.columns.occupiedZones") || "occupiedZones",
+            accessorKey: "occupiedZones",
           }),
           createDateColumn<Floor>({
             id: "created_at",

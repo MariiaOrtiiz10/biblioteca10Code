@@ -6,6 +6,7 @@ export interface Floor{
     floorNumber: number;
     floorName: string;
     zonesCapacity: number;
+    occupiedZones: number;
     created_at: string;
   }
 

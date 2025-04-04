@@ -1,7 +1,7 @@
 import { PageProps } from "@inertiajs/core";
 import { useTranslations } from "@/hooks/use-translations";
 import { ZoneLayout } from "@/layouts/zones/ZoneLayout";
-import { ZoneForm } from "../books/Components/ZoneForm";
+import { ZoneForm } from "./Components/ZoneForm";
 
 
 interface EditZoneProps extends PageProps {
@@ -15,6 +15,8 @@ interface EditZoneProps extends PageProps {
   floorsData?: {
     id:string;
     floorNumber:number;
+    zonesCapacity: number;
+    occupiedZones: number;
 }[];
 genresData?:{
     id:string;

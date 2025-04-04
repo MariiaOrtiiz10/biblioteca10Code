@@ -4,6 +4,7 @@ namespace App\Zones\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Controllers\Controller;
+use App\Rules\FloorHasCapacity;
 use Domain\Floors\Models\Floor;
 use Domain\Genres\Models\Genre;
 use Domain\Zones\Actions\ZoneDestroyAction;
@@ -30,16 +31,16 @@ class ZoneController extends Controller
      */
     public function create()
     {
-        $floorsData = Floor::select(['id','floorNumber'])->orderBy("floorNumber","asc")->get()->toArray();
+        $floorsData = Floor::select(['id','floorNumber','zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
         $zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
-        $totalZonesInSameFloor = Floor::withCount("zones")->get();
-
+        $zonesData = Zone::select(['id', 'zoneName', 'floor_id']);
 
         return Inertia::render('zones/Create',[
             'floorsData' => $floorsData,
             'genresData' => $genresData,
             'zoneNameByFloorsNumber' => $zoneNameByFloorsNumber,
+            'zonesData' => $zonesData,
         ]);
     }
 
@@ -58,8 +59,6 @@ class ZoneController extends Controller
             'bookshelvesCapacity' => ['required', 'integer', 'min:1'],
              'floor_id' => ['required'],
              'genre_id' => ['required'],
-
-
         ]);
 
         if ($validator->fails()) {
@@ -74,19 +73,11 @@ class ZoneController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Request $request, Zone $zone)
     {
-        $floorsData = Floor::select(['id','floorNumber'])->orderBy("floorNumber","asc")->get()->toArray();
+        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
         $zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
         return Inertia::render('zones/Edit', [
@@ -111,8 +102,8 @@ class ZoneController extends Controller
                 return $query->where('floor_id', $request->floor_id);
             }),
             ],
-            'floor_id' => ['required'],
-            'genre_id' => ['required'],
+            'floor_id' => ['required', 'exists:floors,id'],
+            'genre_id' => ['required', 'exists:genres,id' ],
             'bookshelvesCapacity' => ['required', 'integer', 'min:1'],
 
         ]);
@@ -142,6 +133,7 @@ class ZoneController extends Controller
      */
     public function destroy(Zone $zone, ZoneDestroyAction $action)
     {
+
         $action($zone);
         return redirect()->route('zones.index')
             ->with('success', __('messages.zones.deleted'));

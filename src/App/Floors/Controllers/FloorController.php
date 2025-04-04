@@ -9,6 +9,7 @@ use Domain\Genres\Models\Genre;
 use Domain\Floors\Actions\FloorDestroyAction;
 use Domain\Floors\Actions\FloorStoreAction;
 use Domain\Floors\Actions\FloorUpdateAction;
+use Domain\Floors\Data\Resources\FloorResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -21,7 +22,6 @@ class FloorController extends Controller
      */
     public function index()
     {
-
         return Inertia::render('floors/Index');
     }
 
@@ -46,10 +46,8 @@ class FloorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'floorNumber' => ['required', 'integer', 'unique:floors,floorNumber'],
-
             'floorName' => ['required', 'string', 'min:3', 'unique:floors,floorName'],
-
-            'zonesCapacity' => ['required', 'integer', 'min:1'],
+            'zonesCapacity' => ['required', 'integer', 'min:0'],
         ]);
 
         if ($validator->fails()) {
@@ -78,12 +76,14 @@ class FloorController extends Controller
     {
         $floorNumber = Floor::pluck('floorNumber')->toArray();
         $floorName = Floor::pluck('floorName')->toArray();
+        $floorsData =  Floor::select(['id', 'floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
         return Inertia::render('floors/Edit', [
             'floor' => $floor,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
             'floorNumber' => $floorNumber,
             'floorName' => $floorName,
+            'floorsData' => $floorsData,
         ]);
 
     }
@@ -95,16 +95,20 @@ class FloorController extends Controller
                 $query->where('floorNumber', $request->floor_id)
             )->ignore($request->id)
         ],
-
             'floorName' => ['required', 'string', 'min:3',
             Rule::unique('floors')->where(fn ($query) =>
             $query->where('floorName', $request->floor_id)
             )->ignore($request->id) ],
-
-
-            'zonesCapacity' => ['required', 'integer', 'min:1']
+            'zonesCapacity' => ['required', 'integer', 'min:0',
+            Rule::when($floor->occupiedZones > 0, [
+                function ($value, $fail) use ($floor) {
+                    if ($value < $floor->occupiedZones) {
+                        $fail("La capacidad no puede ser menor que las zonas ocupadas ($floor->occupiedZones).");
+                    }
+                }
+            ])
+            ]
         ]);
-
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }

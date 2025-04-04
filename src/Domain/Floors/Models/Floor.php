@@ -10,7 +10,7 @@ use Domain\Zones\Models\Zone;
 
 class Floor extends Model
 {
-    use HasFactory,HasUuids;
+    use HasFactory, HasUuids;
 
     protected static function newFactory()
     {
@@ -22,11 +22,13 @@ class Floor extends Model
         'floorNumber',
         'floorName',
         'zonesCapacity',
+        'occupiedZones',
     ];
 
     public function zones()
     {
         return $this->hasMany(Zone::class);
     }
+
 
 }
