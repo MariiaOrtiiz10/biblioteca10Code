@@ -31,7 +31,7 @@ export default function ZoneIndex() {
     const [perPage, setPerPage] = useState(perPageParam ? parseInt(perPageParam) : 10);
     const [filters, setFilters] = useState<Record<string, any>>({});
 
-    // Combine name and email filters into a single search string if they exist
+
     const combinedSearch = [
       filters.search,
       filters.floorName ? `floorName:${filters.floorName}` : null,
@@ -84,6 +84,11 @@ export default function ZoneIndex() {
             id: "bookshelvesCapacity",
             header: t("ui.zones.columns.bookshelvesCapacity") || "bookshelvesCapacity",
             accessorKey: "bookshelvesCapacity",
+          }),
+          createTextColumn<Zone>({
+            id: "occupiedBookshelves",
+            header: t("ui.zones.columns.occupiedBookshelves") || "bookshelvesCapacity",
+            accessorKey: "occupiedBookshelves",
           }),
           createDateColumn<Zone>({
             id: "created_at",
@@ -143,18 +148,18 @@ export default function ZoneIndex() {
                                           type: 'text',
                                           placeholder: t('ui.zones.placeholders.search') || 'Buscar...',
                                       },
-                                      {
-                                          id: 'floorName',
-                                          label: t('ui.zones.filters.floorName') || 'floorName',
-                                          type: 'text',
-                                          placeholder: t('ui.zones.placeholders.floorName') || 'floorName...',
-                                      },
-                                      {
-                                          id: 'genre',
-                                          label: t('ui.zones.filters.genre') || 'genre',
-                                          type: 'text',
-                                          placeholder: t('ui.zones.placeholders.genre') || 'genre...',
-                                      },
+                                    //   {
+                                    //       id: 'floorName',
+                                    //       label: t('ui.zones.filters.floorName') || 'floorName',
+                                    //       type: 'text',
+                                    //       placeholder: t('ui.zones.placeholders.floorName') || 'floorName...',
+                                    //   },
+                                    //   {
+                                    //       id: 'genre',
+                                    //       label: t('ui.zones.filters.genre') || 'genre',
+                                    //       type: 'text',
+                                    //       placeholder: t('ui.zones.placeholders.genre') || 'genre...',
+                                    //   },
 
                                   ] as FilterConfig[]
                               }

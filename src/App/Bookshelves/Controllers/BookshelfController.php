@@ -6,8 +6,12 @@ namespace App\Bookshelves\Controllers;
 use Illuminate\Http\Request;
 use App\Core\Controllers\Controller;
 use Domain\Bookshelves\Actions\BookshelfDestroyAction;
+use Domain\Bookshelves\Actions\BookshelfStoreAction;
 use Domain\Bookshelves\Models\Bookshelf;
+use Domain\Floors\Models\Floor;
+use Domain\Zones\Models\Zone;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Response;
 
 class BookshelfController extends Controller
@@ -25,15 +29,34 @@ class BookshelfController extends Controller
      */
     public function create()
     {
-         return Inertia::render('bookshelves/Create');
+        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
+        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'bookshelvesCapacity', 'occupiedBookshelves'])->get()->toArray();;
+         return Inertia::render('bookshelves/Create',[
+            'floorsData' => $floorsData,
+            'zonesData' => $zonesData,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, BookshelfStoreAction $action)
     {
 
+        $validator = Validator::make($request->all(), [
+            'bookshelfNumber' => ['required', 'integer', 'min:0', 'unique:bookshelves,bookshelfNumber'],
+            'zone_id' => ['required'],
+            'booksCapacity' => ['required', 'integer', 'min:0'],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $action($validator->validated());
+
+        return redirect()->route('bookshelves.index')
+            ->with('success', __('messages.bookshelves.created'));
     }
 
     /**

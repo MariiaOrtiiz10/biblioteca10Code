@@ -44,6 +44,12 @@ interface ZoneFormProps {
         zoneName: string;
         floor_id:string;
     }[];
+    zonesData?:{
+        id: string;
+        zoneName: string;
+        floor_id:string;
+        occupiedBookshelves: number;
+    }[];
     //paginación
     page?: string;
     perPage?: string;
@@ -63,7 +69,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=[],zoneNameByFloorsNumber=[]}:ZoneFormProps){
+export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=[], zonesData = [],zoneNameByFloorsNumber=[]}:ZoneFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
 
@@ -71,6 +77,7 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
     console.log("floorsData:" ,floorsData);
     console.log("genresData:" ,genresData);
     console.log("zoneNameByFloorsNumber:" ,zoneNameByFloorsNumber);
+    console.log("zoneNameByFloorsNumber:" ,zonesData);
 
     const form = useForm({
         defaultValues: {
@@ -117,14 +124,6 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
     };
     return(
       <div>
-        <div className="rounded-lg shadow-md shadow-gray-400 dark:bg-[#272726]">
-            <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
-                <div className="flex items-center gap-2">
-                    <Icon iconNode={Building2} className="w-6 h-6 text-blue-500" />
-                    <Label className="text-2xl font-black">{t("ui.zones.createZone.title")}</Label>
-                </div>
-                <p className="text-gray-600">{t("ui.zones.createZone.subtitle")}</p>
-            </header>
             <hr className="dark:border-black "></hr>
             <div className="py-1 bg-gray-100 dark:bg-[#272726]"></div>
             <form onSubmit={handleSubmit} className="space-y-1  bg-gray-100 dark:bg-[#272726] " noValidate>
@@ -147,6 +146,7 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                                 min:"3",
                                             });
                                         }
+                                        //ME FALTA EL VALIDADOR EN FRONT(en back si está) QUE UN MISMO PISO NO PUEDE HABER DOS ZONAS CON MISMO NOMBRE.
 
 
                                         return undefined;
@@ -294,6 +294,22 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                                 attribute: t("ui.zones.fields.bookshelvesCapacity").toLowerCase(),
                                             });
                                         }
+                                        if(value<0){
+                                            return t("ui.validation.min.numeric", {
+                                                attribute: t("ui.floors.columns.bookshelvesCapacity").toLowerCase()
+                                            });
+
+                                        }
+
+                                        //validación
+
+                                        const currentZone = zonesData.find(zone => zone.id === initialData?.id);
+                                        if (currentZone && value < currentZone.occupiedBookshelves) {
+                                            return t("ui.validation.capacity.string", {
+                                                attribute: t("ui.floors.columns.occupiedZones").toLowerCase(),
+                                                occupiedZones: currentZone.occupiedBookshelves.toString(),
+                                            });
+                                        }
                                         return undefined;
 
                                     },
@@ -365,7 +381,6 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                 </div>
                 <div className="rounded-b-lg p-1 bg-gray-100 dark:bg-[#272726]"></div>
             </form>
-        </div>
       </div>
     );
 

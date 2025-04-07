@@ -18,7 +18,6 @@ class BookshelfFactory extends Factory
      * @return array<string, mixed>
      */
     protected $model = Bookshelf::class;
-    private static $genreCounters = [];
 
 
     public function definition(): array

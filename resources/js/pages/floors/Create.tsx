@@ -9,10 +9,16 @@ import {X, Save, Building2} from "lucide-react";
 interface CreateFloorProps extends PageProps {
     floorNumber?: number[];
     floorName?: string[];
+    floorsData:{
+        id: string;
+        floorNumber: number;
+        zonesCapacity: number;
+        occupiedZones: number;
+      }[];
 
 }
 
-export default function CreateFloor({floorNumber, floorName}:CreateFloorProps) {
+export default function CreateFloor({floorNumber, floorName, floorsData}:CreateFloorProps) {
   const { t } = useTranslations();
 
 
@@ -31,6 +37,7 @@ export default function CreateFloor({floorNumber, floorName}:CreateFloorProps) {
             <FloorForm
               floorNumber={floorNumber}
              floorName={floorName}
+             floorsData={floorsData}
              />
              </div>
         </div>

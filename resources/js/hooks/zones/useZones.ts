@@ -10,6 +10,7 @@ export interface Zone{
     genre_id:string;
     genre:string;
     bookshelvesCapacity:number;
+    occupiedBookshelves: number;
     created_at: string;
   }
 

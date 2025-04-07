@@ -25,6 +25,7 @@ class Floor extends Model
         'occupiedZones',
     ];
 
+
     public function zones()
     {
         return $this->hasMany(Zone::class);

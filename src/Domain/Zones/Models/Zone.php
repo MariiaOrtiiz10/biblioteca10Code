@@ -24,7 +24,8 @@ class Zone extends Model
         'zoneName',
         'floor_id',
         'genre_id',
-        'bookshelvesCapacity'
+        'bookshelvesCapacity',
+        'occupiedBookshelves',
     ];
 
     public function floor()

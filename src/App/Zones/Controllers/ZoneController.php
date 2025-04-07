@@ -34,7 +34,7 @@ class ZoneController extends Controller
         $floorsData = Floor::select(['id','floorNumber','zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
         $zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
-        $zonesData = Zone::select(['id', 'zoneName', 'floor_id']);
+        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();;
 
         return Inertia::render('zones/Create',[
             'floorsData' => $floorsData,
@@ -56,9 +56,9 @@ class ZoneController extends Controller
                 return $query->where('floor_id', $request->floor_id);
             }),
          ],
-            'bookshelvesCapacity' => ['required', 'integer', 'min:1'],
              'floor_id' => ['required'],
              'genre_id' => ['required'],
+             'bookshelvesCapacity' => ['required', 'integer', 'min:0', ],
         ]);
 
         if ($validator->fails()) {
@@ -104,7 +104,13 @@ class ZoneController extends Controller
             ],
             'floor_id' => ['required', 'exists:floors,id'],
             'genre_id' => ['required', 'exists:genres,id' ],
-            'bookshelvesCapacity' => ['required', 'integer', 'min:1'],
+            'bookshelvesCapacity' => ['required', 'integer', 'min:0', Rule::when($zone->occupiedBookshelves > 0, [
+                function ($value, $fail) use ($zone) {
+                    if ($value < $zone->occupiedBookshelves) {
+                        $fail("La capacidad no puede ser menor que las estanterías ocupadas ($zone->occupiedBookshelves).");
+                    }
+                }
+            ])],
 
         ]);
 

@@ -21,22 +21,23 @@ class ZoneApiController extends Controller{
             'message' => __('messages.zones.deleted')
         ]);
     }
-    public function store(Request $request, ZoneStoreAction $action)
-    {
-        $validator = Validator::make($request->all(), [
-            'zoneName' => ['required', 'string', 'min:3'],
 
-        ]);
+    // public function store(Request $request, ZoneStoreAction $action)
+    // {
+    //     $validator = Validator::make($request->all(), [
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
 
-        $zone = $action($validator->validated());
+    //     ]);
 
-        return response()->json([
-            'message' => __('messages.floors.created'),
-            'zone' => $zone
-        ]);
-    }
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 422);
+    //     }
+
+    //     $zone = $action($validator->validated());
+
+    //     return response()->json([
+    //         'message' => __('messages.floors.created'),
+    //         'zone' => $zone
+    //     ]);
+    // }
 }

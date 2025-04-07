@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignUuid('floor_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('genre_id')->constrained();
             $table->integer('bookshelvesCapacity');
+            $table->integer('occupiedBookshelves')->default(0);
             $table->timestamps();
             $table->unique(['floor_id', 'zoneName']);
 
