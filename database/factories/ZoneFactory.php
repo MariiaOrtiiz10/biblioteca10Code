@@ -26,7 +26,7 @@ class ZoneFactory extends Factory
             'zoneName' => $this->faker->unique()->word(),
             'floor_id' => Floor::inRandomOrder()->first()->id,
             'genre_id' => Genre::inRandomOrder()->first()->id ,
-            'bookshelvesCapacity' => $this->faker->numberBetween(2, 15),
+            'bookshelvesCapacity' => $this->faker->numberBetween(0, 10),
         ];
     }
 }

@@ -9,6 +9,7 @@ return [
             'documentation' => 'Documentation',
             'floors' => 'Floors',
             'zones' => 'Zones',
+            'bookshelves' => 'Bookshelves',
             'books' => 'Books',
         ],
     ],
@@ -330,6 +331,13 @@ return [
         ],
 
     ],
+    'bookshelves' => [
+        'title' => 'Bookshelves',
+        'create' => 'Create Bookshelf',
+        'edit' => 'Edit Bookshelf',
+        'occupied' => 'Occupied',
+    ],
+
 
 
 

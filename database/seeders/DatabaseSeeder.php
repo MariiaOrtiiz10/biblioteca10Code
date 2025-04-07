@@ -15,10 +15,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
-            // FloorSeeder::class,
-             GenreSeeder::class,
-            // ZoneSeeder::class,
-            // BookshelfSeeder::class,
+            FloorSeeder::class,
+            GenreSeeder::class,
+            ZoneSeeder::class,
+            BookshelfSeeder::class,
+            BookSeeder::class,
         ]);
 
 

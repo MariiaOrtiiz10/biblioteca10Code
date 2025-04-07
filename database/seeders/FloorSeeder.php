@@ -13,11 +13,6 @@ class FloorSeeder extends Seeder
      */
     public function run(): void
     {
-
         Floor::factory()->count(5)->create();
-
-
-
-
     }
 }

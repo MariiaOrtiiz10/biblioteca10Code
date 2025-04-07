@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('books', function (Blueprint $table) {
-            //
+        Schema::create('book_genre', function (Blueprint $table) {
+            $table->foreignUuid('book_id');
+            $table->foreignUuid('genre_id');
+            $table->primary(['book_id', 'genre_id']);
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-
-        });
+        Schema::dropIfExists('book_genre');
     }
 };

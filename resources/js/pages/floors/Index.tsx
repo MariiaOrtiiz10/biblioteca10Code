@@ -142,18 +142,18 @@ export default function FloorIndex() {
                                           type: 'text',
                                           placeholder: t('ui.floors.placeholders.search') || 'Buscar...',
                                       },
-                                      {
-                                          id: 'floorNumber',
-                                          label: t('ui.floors.filters.floorNumber') || 'floorNumber',
-                                          type: 'text',
-                                          placeholder: t('ui.floors.placeholders.floorNumber') || 'floorNumber...',
-                                      },
-                                      {
-                                          id: 'floorName',
-                                          label: t('ui.floors.filters.floorName') || 'floorName',
-                                          type: 'text',
-                                          placeholder: t('ui.floors.placeholders.floorName') || 'floorName...',
-                                      },
+                                    //   {
+                                    //       id: 'floorNumber',
+                                    //       label: t('ui.floors.filters.floorNumber') || 'floorNumber',
+                                    //       type: 'text',
+                                    //       placeholder: t('ui.floors.placeholders.floorNumber') || 'floorNumber...',
+                                    //   },
+                                    //   {
+                                    //       id: 'floorName',
+                                    //       label: t('ui.floors.filters.floorName') || 'floorName',
+                                    //       type: 'text',
+                                    //       placeholder: t('ui.floors.placeholders.floorName') || 'floorName...',
+                                    //   },
                                     //   {
                                     //     id: 'zonesCapacity',
                                     //     label: t('ui.floors.filters.zonesCapacity') || 'zonesCapacity',
