@@ -24,21 +24,47 @@ class Book extends Model
     protected $fillable = [
         'id',
         'bookshelf_id',
-        'name',
+        'isbn',
+        'title',
         'editorial',
         'pages',
         'genres',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($book) {
+            $book->bookshelf->increment('occupiedBooks');
+        });
+
+        static::updated(function ($book) {
+            if ($book->isDirty('bookshelf_id')) {
+                $originalBookshelfId = $book->getOriginal('bookshelf_id');
+                $newBookshelfId = $book->bookshelf_id;
+
+                Bookshelf::find($originalBookshelfId)?->decrement('occupiedBooks');
+
+                Bookshelf::find($newBookshelfId)?->increment('occupiedBooks');
+            }
+        });
+
+        static::deleted(function ($book) {
+            $book->bookshelf->decrement('occupiedBooks');
+        });
+    }
+
 
     public function bookshelf()
     {
         return $this->belongsTo(Bookshelf::class);
     }
 
+
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class, "book_genre", 'book_id', 'genre_id');
     }
-
 
 }

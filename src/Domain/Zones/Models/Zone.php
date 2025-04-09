@@ -28,10 +28,7 @@ class Zone extends Model
         'occupiedBookshelves',
     ];
 
-    public function floor()
-    {
-        return $this->belongsTo(Floor::class);
-    }
+
 
     protected static function boot()
     {
@@ -61,6 +58,12 @@ class Zone extends Model
     {
         return $this->belongsTo(Genre::class);
     }
+
+    public function floor()
+    {
+        return $this->belongsTo(Floor::class);
+    }
+
     public function bookshelves()
     {
         return $this->hasMany(Bookshelf::class);

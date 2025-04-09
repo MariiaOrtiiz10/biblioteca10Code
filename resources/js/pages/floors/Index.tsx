@@ -32,10 +32,11 @@ export default function FloorIndex() {
 
     // Combine name and email filters into a single search string if they exist
     const combinedSearch = [
-      filters.search,
-      filters.floorNumber ? `floorNumber:${filters.floorNumber}` : null,
-      filters.floorName ? `floorName:${filters.floorName}` : null,
-    ].filter(Boolean).join(' ');
+      filters.floorNumber ? filters.floorNumber:"null",
+      filters.floorName ? filters.floorName: "null",
+      filters.zonesCapacity ? filters.zonesCapacity: "null",
+      filters.created_at ? filters.created_at: "null",
+    ]
 
     const { data: floors, isLoading, isError, refetch } = useFloors({
         search: combinedSearch,
@@ -136,30 +137,37 @@ export default function FloorIndex() {
                           <FiltersTable
                               filters={
                                   [
-                                      {
-                                          id: 'search',
-                                          label: t('ui.floors.filters.search') || 'Buscar',
-                                          type: 'text',
-                                          placeholder: t('ui.floors.placeholders.search') || 'Buscar...',
+                                    //   {
+                                    //       id: 'search',
+                                    //       label: t('ui.floors.filters.search') || 'Buscar',
+                                    //       type: 'text',
+                                    //       placeholder: t('ui.floors.placeholders.search') || 'Buscar...',
+                                    //   },
+                                       {
+                                          id: 'floorNumber',
+                                          label: t('ui.floors.filters.floorNumber') || 'floorNumber',
+                                          type: 'number',
+                                          placeholder: t('ui.floors.placeholders.floorNumber') || 'floorNumber...',
                                       },
-                                    //   {
-                                    //       id: 'floorNumber',
-                                    //       label: t('ui.floors.filters.floorNumber') || 'floorNumber',
-                                    //       type: 'text',
-                                    //       placeholder: t('ui.floors.placeholders.floorNumber') || 'floorNumber...',
-                                    //   },
-                                    //   {
-                                    //       id: 'floorName',
-                                    //       label: t('ui.floors.filters.floorName') || 'floorName',
-                                    //       type: 'text',
-                                    //       placeholder: t('ui.floors.placeholders.floorName') || 'floorName...',
-                                    //   },
-                                    //   {
-                                    //     id: 'zonesCapacity',
-                                    //     label: t('ui.floors.filters.zonesCapacity') || 'zonesCapacity',
-                                    //     type: 'text',
-                                    //     placeholder: t('ui.floors.placeholders.zonesCapacity') || 'zonesCapacity...',
-                                    // },
+                                      {
+                                          id: 'floorName',
+                                          label: t('ui.floors.filters.floorName') || 'floorName',
+                                          type: 'text',
+                                          placeholder: t('ui.floors.placeholders.floorName') || 'floorName...',
+                                      },
+                                      {
+                                        id: 'zonesCapacity',
+                                        label: t('ui.floors.filters.zonesCapacity') || 'zonesCapacity',
+                                        type: 'number',
+                                        placeholder: t('ui.floors.placeholders.zonesCapacity') || 'zonesCapacity...',
+                                    },
+                                    {
+                                        id: 'created_at',
+                                        label: t('ui.floors.filters.createdAt') || 'Created At',
+                                        type: 'date',
+                                        placeholder: t('ui.floors.placeholders.createdAt') || 'Select Date...',
+                                        format: 'YYYY-MM-DD',
+                                      }
                                   ] as FilterConfig[]
                               }
                               onFilterChange={setFilters}

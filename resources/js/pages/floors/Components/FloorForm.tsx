@@ -221,6 +221,7 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                                 attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
                                             });
                                         }
+
                                         if(value<0){
                                             return t("ui.validation.min.numeric", {
                                                 attribute: t("ui.floors.columns.zonesCapacity").toLowerCase()
@@ -230,7 +231,7 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
 
                                         const currentFloor = floorsData.find(floor => floor.id === initialData?.id);
                                         if (currentFloor && value < currentFloor.occupiedZones) {
-                                            return t("ui.validation.capacity.string", {
+                                            return t("ui.validation.capacity.floor", {
                                                 attribute: t("ui.floors.columns.zonesCapacity").toLowerCase(),
                                                 occupiedZones: currentFloor.occupiedZones.toString(),
                                             });

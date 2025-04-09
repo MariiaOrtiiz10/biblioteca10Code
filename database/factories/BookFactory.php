@@ -23,13 +23,13 @@ class BookFactory extends Factory
     {
         $genres = Genre::all()->pluck('genre');
         return [
-            'name' => fake()->name(),
+            'isbn' => fake()->isbn13(),
+            'title' => fake()->sentence(3),
             'author' => fake()->name(),
             'editorial' => fake()->company(),
             'pages' => fake()->numberBetween(20, 3000),
-            'genres'=>implode(', ', fake()->randomElements($genres, fake()->numberBetween(1, 3))),
+            'genres'=>implode(', ', fake()->randomElements($genres, fake()->numberBetween(1, 4))),
             'bookshelf_id' => Bookshelf::inRandomOrder()->first()->id,
-
         ];
     }
 }

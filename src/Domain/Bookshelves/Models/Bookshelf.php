@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Domain\Floors\Models\Floor;
 use Domain\Zones\Models\Zone;
 use Database\Factories\BookshelfFactory;
-
+use Domain\Books\Models\Book;
 
 class Bookshelf extends Model
 {
@@ -22,8 +22,9 @@ class Bookshelf extends Model
     protected $fillable = [
         'id',
         'zone_id',
-        'bookshelfCode',
-        'booksCapacity'
+        'bookshelfNumber',
+        'booksCapacity',
+        'occupiedBooks',
     ];
     protected static function boot()
     {
@@ -59,6 +60,11 @@ class Bookshelf extends Model
     public function floor()
     {
         return $this->through('zone')->has('floor');
+    }
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
     }
 
 

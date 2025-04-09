@@ -17,6 +17,7 @@ interface EditZoneProps extends PageProps {
   floorsData?: {
     id:string;
     floorNumber:number;
+    floorName: string;
     zonesCapacity: number;
     occupiedZones: number;
 }[];
@@ -43,7 +44,7 @@ zonesData?:{
 }
 
 
-export default function EditZone({ zone, page, perPage, floorsData, genresData, zonesData, zoneNameByFloorsNumber}: EditZoneProps) {
+export default function EditZone({ zone, page, perPage, floorsData, genresData, zonesData}: EditZoneProps) {
   const { t } = useTranslations();
 
   return (
@@ -63,7 +64,6 @@ export default function EditZone({ zone, page, perPage, floorsData, genresData, 
             floorsData = {floorsData}
             genresData = {genresData}
             zonesData={zonesData}
-            zoneNameByFloorsNumber = {zoneNameByFloorsNumber}
             page={page}
             perPage={perPage}
           />

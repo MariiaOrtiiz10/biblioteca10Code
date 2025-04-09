@@ -29,21 +29,20 @@ interface ZoneFormProps {
         genre_id:string;
         bookshelvesCapacity: number;
     };
+
     floorsData?:{
         id: string;
         floorNumber: number;
+        floorName: string;
         zonesCapacity: number;
         occupiedZones: number;
     }[];
+
     genresData?:{
         id: string;
         genre: string;
     }[];
-    zoneNameByFloorsNumber?: {
-        floorNumber:number;
-        zoneName: string;
-        floor_id:string;
-    }[];
+
     zonesData?:{
         id: string;
         zoneName: string;
@@ -69,15 +68,21 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=[], zonesData = [],zoneNameByFloorsNumber=[]}:ZoneFormProps){
+export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=[], zonesData = []}:ZoneFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
+    const initialFloorId = initialData?.floor_id;
+
 
 
     console.log("floorsData:" ,floorsData);
-    console.log("genresData:" ,genresData);
-    console.log("zoneNameByFloorsNumber:" ,zoneNameByFloorsNumber);
-    console.log("zoneNameByFloorsNumber:" ,zonesData);
+    console.log("zonesData", zonesData); // Verifica si el id está ahí
+    console.log("initialData", initialData);
+
+
+    // console.log("genresData:" ,genresData);
+    // console.log("zoneNameByFloorsNumber:" ,zoneNameByFloorsNumber);
+    // console.log("zoneNameByFloorsNumber:" ,zonesData);
 
     const form = useForm({
         defaultValues: {
@@ -187,6 +192,13 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                                 attribute: t("ui.zones.fields.floorNumber").toLowerCase(),
                                             });
                                         }
+
+                                        //Para editar si uno ya esta lleno cunado editas, ignora y deje editar.
+                                        if (value === initialFloorId) {
+                                            return undefined;
+                                          }
+
+
                                         const selectedFloor = floorsData.find(floor => floor.id === value);
                                             if (selectedFloor && selectedFloor.zonesCapacity === selectedFloor.occupiedZones) {
                                                 return t("ui.zones.validation.floorFull");
@@ -214,20 +226,25 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                             <SelectContent>
                                             {floorsData?.map((floor) => {
                                                 const isFull = floor.zonesCapacity === floor.occupiedZones;
+                                                const isCurrentFloor = floor.id === initialFloorId;
+
                                                 return (
                                                 <SelectItem
                                                     key={floor.id}
                                                     value={floor.id}
-                                                    disabled={isFull}
-                                                    className={isFull ? "opacity-70 cursor-not-allowed" : ""}
+                                                    disabled={isFull && !isCurrentFloor}
+                                                    className={isFull && !isCurrentFloor ? "opacity-70 cursor-not-allowed" : ""}
                                                 >
                                                     <div className="flex items-center justify-between w-full">
                                                     <span>
-                                                        {t("ui.zones.createZone.floor")}: {floor.floorNumber}
+                                                        {t("ui.zones.createZone.floor")}: {floor.floorNumber}  /  {t("ui.zones.createZone.floorName")}: {floor.floorName}
                                                     </span>
-                                                    {isFull && (
-                                                        <span className="ml-2 text-sm text-amber-600">{t("ui.zones.occupied")}</span>
-                                                    )}
+                                                    {isCurrentFloor && (
+                                                            <span className="ml-2 text-sm text-blue-600">{t("ui.zones.currentFloor")}</span>
+                                                        )}
+                                                        {isFull && !isCurrentFloor && (
+                                                            <span className="ml-2 text-sm text-red-600">{t("ui.zones.occupied")}</span>
+                                                        )}
                                                     </div>
                                                 </SelectItem>
                                                 );
@@ -289,14 +306,14 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                 validators={{
                                     onChangeAsync: async ({ value }) => {
                                         await new Promise((resolve) => setTimeout(resolve, 500));
-                                        if (!value) {
+                                        if (value === null || value === undefined) {
                                             return t("ui.validation.required", {
                                                 attribute: t("ui.zones.fields.bookshelvesCapacity").toLowerCase(),
                                             });
                                         }
                                         if(value<0){
                                             return t("ui.validation.min.numeric", {
-                                                attribute: t("ui.floors.columns.bookshelvesCapacity").toLowerCase()
+                                                attribute: t("ui.zones.columns.bookshelvesCapacity").toLowerCase()
                                             });
 
                                         }
@@ -305,9 +322,9 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
 
                                         const currentZone = zonesData.find(zone => zone.id === initialData?.id);
                                         if (currentZone && value < currentZone.occupiedBookshelves) {
-                                            return t("ui.validation.capacity.string", {
-                                                attribute: t("ui.floors.columns.occupiedZones").toLowerCase(),
-                                                occupiedZones: currentZone.occupiedBookshelves.toString(),
+                                            return t("ui.validation.capacity.zone", {
+                                                attribute: t("ui.zones.columns.occupiedBookshelves").toLowerCase(),
+                                                occupiedBookshelves: currentZone.occupiedBookshelves.toString(),
                                             });
                                         }
                                         return undefined;

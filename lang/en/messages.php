@@ -11,4 +11,14 @@ return [
             'delete' => 'Error deleting user',
         ],
     ],
+    'floors' => [
+        'created' => 'Floor created successfully',
+        'updated' => 'Floor updated successfully',
+        'deleted' => 'Floor deleted successfully',
+        'error' => [
+            'create' => 'Error creating floor',
+            'update' => 'Error updating floor',
+            'delete' => 'Error deleting floor',
+        ],
+    ],
 ];

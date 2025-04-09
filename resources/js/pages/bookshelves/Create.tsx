@@ -29,7 +29,7 @@ export default function createBookshelf({floorsData ,zonesData}:CreateBookshelfP
 
 
   return (
-    <BookshelfLayout title={t("ui.floors.create")}>
+    <BookshelfLayout title={t("ui.bookshelves.create")}>
       <div className="flex justify-center items-start py-1 px-6">
         <div className="w-full max-w-3xl">
             <div className="rounded-lg shadow-md shadow-gray-400 dark:bg-[#272726]">
@@ -38,7 +38,7 @@ export default function createBookshelf({floorsData ,zonesData}:CreateBookshelfP
                                 <Icon iconNode={Building2} className="w-6 h-6 text-blue-500" />
                                 <Label className="text-2xl font-black">{t("ui.bookshelves.create")}</Label>
                             </div>
-                            <p className="text-gray-600">{t("ui.bookshelves.createBookshelves.subtitle")}</p>
+                            <p className="text-gray-600">{t("ui.bookshelves.createBookshelf.subtitle")}</p>
                         </header>
                          <BookshelfForm
                           floorsData = {floorsData}

@@ -33,10 +33,11 @@ export default function BookshelfIndex() {
 
     // Combine name and email filters into a single search string if they exist
     const combinedSearch = [
-      filters.search,
-      filters.floorName ? `floorName:${filters.floorName}` : null,
-      filters.genre ? `genre:${filters.genre}` : null,
-    ].filter(Boolean).join(' ');
+        filters.bookshelfNumber ? filters.bookshelfNumber : "null",
+        filters.floorNumber ? filters.floorNumber : "null",
+        filters.zoneName ? filters.zoneName : "null",
+        filters.booksCapacity ? filters.booksCapacity : "null",
+    ];
 
     const { data: bookshelves, isLoading, isError, refetch } = useBookshelves({
         search: combinedSearch,
@@ -85,11 +86,15 @@ export default function BookshelfIndex() {
         //     header: t("ui.bookshelves.columns.genre") || "genre",
         //     accessorKey: "genre",
         //   }),
-
           createTextColumn<Bookshelf>({
             id: "booksCapacity",
             header: t("ui.bookshelves.columns.booksCapacity") || "booksCapacity",
             accessorKey: "booksCapacity",
+          }),
+          createTextColumn<Bookshelf>({
+            id: "occupiedBooks",
+            header: t("ui.bookshelves.columns.occupiedBooks") || "occupiedBooks",
+            accessorKey: "occupiedBooks",
           }),
           createDateColumn<Bookshelf>({
             id: "created_at",
@@ -99,15 +104,15 @@ export default function BookshelfIndex() {
           createActionsColumn<Bookshelf>({
             id: "actions",
             header: t("ui.bookshelves.columns.actions") || "Actions",
-            renderActions: (zone) => (
+            renderActions: (bookshelf) => (
               <>
-                <Link href={`/bookshelves/${zone.id}/edit?page=${currentPage}&perPage=${perPage}`}>
+                <Link href={`/bookshelves/${bookshelf.id}/edit?page=${currentPage}&perPage=${perPage}`}>
                   <Button variant="outline" size="icon" title={t("ui.zones.buttons.edit") || "Edit Zone"}>
                     <PencilIcon className="h-4 w-4" />
                   </Button>
                 </Link>
                 <DeleteDialog
-                  id={zone.id}
+                  id={bookshelf.id}
                   onDelete={handleDeleteBookshelf}
                   title={t("ui.bookshelves.delete.title") || "Delete floor"}
                   description={t("ui.bookshelves.delete.description") || "Are you sure you want to delete this zone? This action cannot be undone."}
@@ -144,23 +149,29 @@ export default function BookshelfIndex() {
                               filters={
                                   [
                                       {
-                                          id: 'search',
-                                          label: t('ui.bookshelves.filters.search') || 'Buscar',
-                                          type: 'text',
-                                          placeholder: t('ui.bookshelves.placeholders.search') || 'Buscar...',
+                                          id: 'bookshelfNumber',
+                                          label: t('ui.bookshelves.filters.bookshelfNumber') || 'bookshelfNumber',
+                                          type: 'number',
+                                          placeholder: t('ui.bookshelves.placeholders.bookshelfNumber') || 'bookshelfNumber...',
                                       },
                                       {
-                                          id: 'floorName',
-                                          label: t('ui.bookshelves.filters.floorName') || 'floorName',
-                                          type: 'text',
-                                          placeholder: t('ui.bookshelves.placeholders.floorName') || 'floorName...',
-                                      },
-                                      {
-                                          id: 'genre',
-                                          label: t('ui.bookshelves.filters.genre') || 'genre',
-                                          type: 'text',
-                                          placeholder: t('ui.bookshelves.placeholders.genre') || 'genre...',
-                                      },
+                                        id: 'floorNumber',
+                                        label: t('ui.bookshelves.filters.floorNumber') || 'floorNumber',
+                                        type: 'number',
+                                        placeholder: t('ui.bookshelves.placeholders.floorNumber') || 'floorNumber...',
+                                    },
+                                    {
+                                        id: 'zoneName',
+                                        label: t('ui.bookshelves.filters.zoneName') || 'zoneName',
+                                        type: 'text',
+                                        placeholder: t('ui.bookshelves.placeholders.zoneName') || 'zoneName...',
+                                    },
+                                    {
+                                        id: 'booksCapacity',
+                                        label: t('ui.bookshelves.filters.booksCapacity') || 'booksCapacity',
+                                        type: 'number',
+                                        placeholder: t('ui.bookshelves.placeholders.booksCapacity') || 'booksCapacity...',
+                                    },
 
                                   ] as FilterConfig[]
                               }

@@ -6,13 +6,27 @@ use Domain\Bookshelves\Models\Bookshelf;
 
 class BookShelfIndexAction
 {
-    public function __invoke(?string $search = null, int $perPage = 10)
+    public function __invoke(?array $search = null, int $perPage = 10)
     {
-        $bookshelves = Bookshelf::with(['zone.floor', 'zone.genre'])
-        ->when($search, function ($query, $search) {
-            $query->where('bookshelfNumber', 'like', "%{$search}%")
-                ->orWhereHas('zone.floor', fn($q) => $q->where('floorName', 'like', "%{$search}%"))
-                ->orWhereHas('zone.genre', fn($q) => $q->where('genre', 'like', "%{$search}%"));
+        $bookshelfNumber= $search[0];
+        $floorNumber = $search[1];
+        $zoneName= $search[2];
+        $booksCapacity = $search[3];
+        $bookshelves = Bookshelf::query()
+        ->join('zones', 'bookshelves.zone_id', '=', 'zones.id')
+        ->join('floors', 'zones.floor_id', '=', 'floors.id')
+        ->select('bookshelves.*', 'floors.floorNumber')
+        ->when($bookshelfNumber != "null", function ($query) use ($bookshelfNumber){
+            $query->where('bookshelves.bookshelfNumber', 'ILIKE', "%".$bookshelfNumber."%");
+        })
+        ->when($floorNumber != "null", function ($query) use ($floorNumber){
+            $query->where('floors.floorNumber', 'ILIKE', "%".$floorNumber."%");
+        })
+        ->when($zoneName != "null", function ($query) use ($zoneName){
+            $query->where('zones.zoneName', 'ILIKE', "%".$zoneName."%");
+        })
+        ->when($booksCapacity != "null", function ($query) use ($booksCapacity){
+            $query->where('bookshelves.booksCapacity', 'ILIKE', "%".$booksCapacity."%");
         })
         ->latest()
         ->paginate($perPage);

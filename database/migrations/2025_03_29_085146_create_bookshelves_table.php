@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignUuid('zone_id')->constrained()->onDelete('cascade');
             $table->integer('bookshelfNumber')->unique();
             $table->integer('booksCapacity');
-            $table->unique(['zone_id', 'bookshelfNumber']);
+            $table->integer('occupiedBooks')->default(0);
             $table->timestamps();
+            $table->unique(['zone_id', 'bookshelfNumber']);
         });
     }
 
@@ -26,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('bookshelves', function (Blueprint $table) {
-
-        });
+        Schema::dropIfExists('bookshelves');
     }
 };

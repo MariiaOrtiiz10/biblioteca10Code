@@ -11,6 +11,9 @@ return [
             'zones' => 'Zones',
             'bookshelves' => 'Bookshelves',
             'books' => 'Books',
+            'searchBooks' => 'Search Books',
+            'loans' => 'Loans',
+
         ],
     ],
     'user_menu' => [
@@ -82,7 +85,9 @@ return [
                 'string' => 'The :attribute field must not be greater than :max characters',
             ],
             'capacity' =>[
-                'string' => 'The :attribute field cannot be less than the occupied zones :occupiedZones',
+                'floor' => 'The :attribute field cannot be less than the occupied zones, that is :occupiedZones',
+                'zone' => 'The :attribute field cannot be less than the occupied bookshelves, that is :occupiedBookshelves',
+
             ],
             'unique' => 'The :attribute has already been taken.',
             'confirmed' => 'The :attribute confirmation does not match.',
@@ -270,6 +275,8 @@ return [
             'search' => 'Search',
             'floorNumber' => 'Floor number',
             'floorName' => 'Floor name',
+            'zonesCapacity' => 'Capacity zones',
+            'createdAt' => 'Created At',
         ],
         'createFloor' => [
             'subtitle' => 'Enter the information to create a new floor in the system'
@@ -281,15 +288,17 @@ return [
         'placeholders' => [
             'floorName' => 'Name...',
             'floorNumber' => 'Number...',
-            'zonesCapacity' => 'Number...',
+            'zonesCapacity' => 'Max zones...',
             'search' => 'Search floors...',
             'select' => 'Select a floor number',
+            'createdAt' => 'Date...'
         ],
         'delete' => [
             'title' => 'Are you sure?',
             'description' => 'This action cannot be undone. The floor will be permanently deleted from the system.',
         ],
         'occupied' => 'Occupied',
+        'no_results' => 'No results.',
     ],
 
 
@@ -297,50 +306,196 @@ return [
         'title' => 'Zones',
         'create' => 'Create Zone',
         'edit' => 'Edit Zone',
-        'occupied' => 'Occupied',
+        'occupied' => 'Complete',
+        'currentFloor' => 'Current floor',
         'buttons' => [
             'new' => 'New Zone',
+            'cancel' => 'Cancel',
+            'update' => 'Update',
+            'save' => 'Save'
         ],
         'columns' => [
             'zoneName' => 'Zone Name',
             'floorNumber' => 'Floor',
             'genre' => 'Genre',
             'bookshelvesCapacity' => 'Bookshelves Capacity',
+            'occupiedBookshelves' => 'Occupied Bookshelves',
             'created_at' => 'Created at',
             'actions' => 'Actions',
         ],
         'fields' => [
             'zoneName' => 'Zone Name',
-            'floorNumber' => 'Floor Number',
+            'floorNumber' => 'Floor',
             'bookshelvesCapacity' => 'Bookshelves Capacity',
             'genre' => 'Genre',
+        ],
+        'placeholders' =>[
+            'zoneName' => 'Name...',
+            'floorNumber' => 'Number...',
+            'genre' => 'text...',
+            'bookshelvesCapacity'=> 'Max bookshelves...',
+
+        ],
+        'filters' => [
+            'zoneName' => 'Zone',
+            'floorNumber' => 'Floor',
+            'genre' => 'Genre',
+            'bookshelvesCapacity'=> 'Bookshelves Capacity',
         ],
         'createZone' =>[
             'title' => 'Create Zone',
             'subtitle' => 'Enter the information to create a new zone in the system',
             'floor' => 'Floor',
+            'floorName' => 'Name',
             'genre' => 'Genre',
             'placeholders' => [
                 'selectFloor' => 'Select an existing floor number',
                 'zoneName' => 'Enter a zone name',
                 'selectGenre' => 'Select an existing genre',
                 'bookshelvesCapacity' => 'Enter a number for bookshelves capacity '
-
-
             ],
         ],
+        'editZone' =>[
+                'title' => 'Edit Zone',
+                'subtitle' => 'Enter the information to edit a zone in the system',
+            ],
+
+        'no_results' => 'No results.',
 
     ],
+
+
     'bookshelves' => [
         'title' => 'Bookshelves',
         'create' => 'Create Bookshelf',
         'edit' => 'Edit Bookshelf',
-        'occupied' => 'Occupied',
+        'floor' => 'Floor',
+        'floorName' => 'Name',
+        'occupied' => 'Complete',
+        'currentFloor' => 'Current floor',
+        'currentZone' => 'Current zone',
+        'buttons' => [
+            'new' => 'New Bookshelf',
+            'cancel' => 'Cancel',
+            'update' => 'Update',
+            'save' => 'Save',
+        ],
+        'columns' => [
+            'zoneName' => 'Zone Name',
+            'floorNumber' => 'Floor',
+            'bookshelfNumber' => 'Bookshelf Number',
+            'booksCapacity' => 'Books Capacity',
+            'occupiedBooks' => 'Occupied Books',
+            'created_at' => 'Created at',
+            'actions' => 'Actions',
+        ],
+        'placeholders' =>[
+            'bookshelfNumber' => 'Number...',
+            'floorNumber' => 'Number...',
+            'zoneName' => 'Name...',
+            'booksCapacity'=> 'Max books...',
+
+        ],
+        'filters' => [
+            'bookshelfNumber' => 'Bookshelf',
+            'zoneName' => 'Zone',
+            'floorNumber' => 'Floor',
+            'booksCapacity'=> 'Books Capacity',
+
+        ],
+        'fields' => [
+            'bookshelfNumber' => 'Bookshelf Number',
+            'floor' => 'Floor',
+            'zone' => 'Zone',
+            'bookshelvesCapacity' => 'Bookshelves Capacity',
+            'genre' => 'Genre',
+        ],
+        'createBookshelf' =>[
+            'title' => 'Create Bookshelf',
+            'subtitle' => 'Enter the information to create a new bookshelf in the system',
+            'floor' => 'Floor',
+            'genre' => 'Genre',
+            'placeholders' => [
+                'selectFloor' => 'Select an existing floor',
+                'zoneName' => 'Enter a zone name',
+                'bookshelfNumber' => 'Enter a bookshelf number',
+                'selectZone' => 'Select an existing zone',
+                'bookshelvesCapacity' => 'Enter a number for bookshelves capacity '
+            ],
+        ],
+        'editBookshelf' => [
+            'title' => 'Edit Bookshelf',
+            'subtitle' => 'Enter the information to edit a bookshelf in the system',
+
+        ],
+        'no_results' => 'No results.',
+    ],
+
+    'books' => [
+        'title' => 'Books',
+        'create' => 'Create Book',
+        'edit' => 'Edit Book',
+        'buttons' => [
+            'new' => 'New  Book',
+            'cancel' => 'Cancel',
+            'update' => 'Update',
+            'save' => 'Save'
+        ],
+        'columns' => [
+            'isbn' => 'ISBN',
+            'title' => 'Title',
+            'author' => 'Author',
+            'editorial' => 'Editorial',
+            'genres'=> 'Genres',
+            'pages' => 'Pages',
+            'floorNumber' => 'Floor',
+            'zoneName' => 'Zone',
+            'bookshelfNumber' => 'Bookshelf',
+            'created_at' => 'Created at',
+            'actions' => 'Actions',
+        ],
+        'placeholders' =>[
+            'isbn' => 'Book identifier...',
+            'title' => 'title...',
+            'author' => 'author...',
+            'editorial' => 'text...',
+            'pages' => 'number...',
+        ],
+        'filters' => [
+            'isbn' => 'ISBN',
+            'title' => 'Title',
+            'author' => 'Author',
+            'editorial' => 'Editorial',
+            'pages' => 'Pages',
+
+        ],
+        'fields' => [
+
+        ],
+        'createBook' =>[
+            'title' => 'Create Bookshelf',
+            'subtitle' => 'Enter the information to create a new bookshelf in the system',
+            'floor' => 'Floor',
+            'genre' => 'Genre',
+            'placeholders' => [
+                'selectFloor' => 'Select an existing floor',
+                'zoneName' => 'Enter a zone name',
+                'bookshelfNumber' => 'Enter a bookshelf number',
+                'selectZone' => 'Select an existing zone',
+                'bookshelvesCapacity' => 'Enter a number for bookshelves capacity '
+            ],
+        ],
+        'editBook' => [
+            'title' => 'Edit Bookshelf',
+            'subtitle' => 'Enter the information to edit a bookshelf in the system',
+
+        ],
+        'no_results' => 'No results.',
+    ],
+    'searchBooks' => [
+        'title' => 'Search Books',
     ],
 
 
 
-
-
-
-];
+    ];

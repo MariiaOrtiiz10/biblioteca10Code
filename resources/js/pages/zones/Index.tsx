@@ -33,10 +33,11 @@ export default function ZoneIndex() {
 
 
     const combinedSearch = [
-      filters.search,
-      filters.floorName ? `floorName:${filters.floorName}` : null,
-      filters.genre ? `genre:${filters.genre}` : null,
-    ].filter(Boolean).join(' ');
+      filters.zoneName ? filters.zoneName:"null",
+      filters.floorNumber ? filters.floorNumber : "null",
+      filters.genre ? filters.genre : "null",
+      filters.bookshelvesCapacity ? filters.bookshelvesCapacity : "null",
+    ]
 
     const { data: zones, isLoading, isError, refetch } = useZones({
         search: combinedSearch,
@@ -51,7 +52,7 @@ export default function ZoneIndex() {
 
       const handlePerPageChange = (newPerPage: number) => {
         setPerPage(newPerPage);
-        setCurrentPage(1); // Reset to first page when changing items per page
+        setCurrentPage(1);
       };
 
       const handleDeleteZone = async (id: string) => {
@@ -143,23 +144,29 @@ export default function ZoneIndex() {
                               filters={
                                   [
                                       {
-                                          id: 'search',
-                                          label: t('ui.zones.filters.search') || 'Buscar',
+                                          id: 'zoneName',
+                                          label: t('ui.zones.filters.zoneName') || 'zoneName',
                                           type: 'text',
-                                          placeholder: t('ui.zones.placeholders.search') || 'Buscar...',
+                                          placeholder: t('ui.zones.placeholders.zoneName') || 'zoneName...',
                                       },
-                                    //   {
-                                    //       id: 'floorName',
-                                    //       label: t('ui.zones.filters.floorName') || 'floorName',
-                                    //       type: 'text',
-                                    //       placeholder: t('ui.zones.placeholders.floorName') || 'floorName...',
-                                    //   },
-                                    //   {
-                                    //       id: 'genre',
-                                    //       label: t('ui.zones.filters.genre') || 'genre',
-                                    //       type: 'text',
-                                    //       placeholder: t('ui.zones.placeholders.genre') || 'genre...',
-                                    //   },
+                                      {
+                                          id: 'floorNumber',
+                                          label: t('ui.zones.filters.floorNumber') || 'floorNumber',
+                                          type: 'number',
+                                          placeholder: t('ui.zones.placeholders.floorNumber') || 'floorNumber...',
+                                      },
+                                      {
+                                        id: 'genre',
+                                        label: t('ui.zones.filters.genre') || 'genre',
+                                        type: 'text',
+                                        placeholder: t('ui.zones.placeholders.genre') || 'genre...',
+                                    },
+                                    {
+                                        id: 'bookshelvesCapacity',
+                                        label: t('ui.zones.filters.bookshelvesCapacity') || 'bookshelvesCapacity',
+                                        type: 'number',
+                                        placeholder: t('ui.zones.placeholders.bookshelvesCapacity') || 'bookshelvesCapacity...',
+                                    },
 
                                   ] as FilterConfig[]
                               }

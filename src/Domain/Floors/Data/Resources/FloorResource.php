@@ -26,8 +26,8 @@ class FloorResource extends Data
             floorName: $floor->floorName,
             zonesCapacity: $floor->zonesCapacity,
             occupiedZones: $floor-> zones()->count(),
-            created_at: $floor->created_at->format('Y-m-d H:i:s'),
-            updated_at: $floor->updated_at->format('Y-m-d H:i:s'),
+            created_at: $floor->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
+            updated_at: $floor->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );
     }
 }

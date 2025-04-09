@@ -10,6 +10,7 @@ interface CreateZoneProps extends PageProps {
     floorsData?: {
         id:string;
         floorNumber:number;
+        floorName:string;
         zonesCapacity: number;
         occupiedZones: number;
     }[];
@@ -33,7 +34,7 @@ interface CreateZoneProps extends PageProps {
 }
 
 
-export default function CreateZone({floorsData, genresData, zoneNameByFloorsNumber,zonesData}:CreateZoneProps) {
+export default function CreateZone({floorsData, genresData ,zonesData}:CreateZoneProps) {
   const { t } = useTranslations();
 
 
@@ -53,7 +54,6 @@ export default function CreateZone({floorsData, genresData, zoneNameByFloorsNumb
             floorsData = {floorsData}
             genresData = {genresData}
             zonesData = {zonesData}
-            zoneNameByFloorsNumber={zoneNameByFloorsNumber}
             />
         </div>
       </div>

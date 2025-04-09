@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Core\Controllers\Controller;
 use Domain\Bookshelves\Actions\BookshelfDestroyAction;
 use Domain\Bookshelves\Actions\BookshelfStoreAction;
+use Domain\Bookshelves\Actions\BookshelfUpdateAction;
 use Domain\Bookshelves\Models\Bookshelf;
 use Domain\Floors\Models\Floor;
 use Domain\Zones\Models\Zone;
 use Inertia\Inertia;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Response;
 
@@ -60,27 +62,53 @@ class BookshelfController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, Bookshelf $bookshelf)
     {
-        //
+        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
+        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'bookshelvesCapacity', 'occupiedBookshelves'])->get()->toArray();;
+         return Inertia::render('bookshelves/Edit',[
+            'bookshelf' => $bookshelf,
+            'page' => $request->query('page'),
+            'perPage' => $request->query('perPage'),
+            'floorsData' => $floorsData,
+            'zonesData' => $zonesData,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Bookshelf $bookshelf, BookshelfUpdateAction $action)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'bookshelfNumber' => ['required', 'integer', 'min:0',
+            Rule::unique('bookshelves')->where(fn ($query) =>
+            $query->where('bookshelfNumber', $request->bookshelf_id)
+        )->ignore($request->id)
+        ],
+            'zone_id' => ['required'],
+            'booksCapacity' => ['required', 'integer', 'min:0'],
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $action($bookshelf, $validator->validated());
+        $redirectUrl = route('bookshelves.index');
+
+        if ($request->has('page')) {
+            $redirectUrl .= "?page=" . $request->query('page');
+            if ($request->has('perPage')) {
+                $redirectUrl .= "&per_page=" . $request->query('perPage');
+            }
+        }
+
+        return redirect($redirectUrl)
+            ->with('success', __('messages.bookshelves.updated'));
+
+
     }
 
     /**

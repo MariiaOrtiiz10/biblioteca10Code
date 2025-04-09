@@ -43,7 +43,7 @@ export interface PaginatedResponse<T> {
 }
 
 interface UseUsersParams {
-  search?: string;
+  search?: any[];
   page?: number;
   perPage?: number;
 }
@@ -63,7 +63,7 @@ export function useUsers({ search, page = 1, perPage = 10 }: UseUsersParams = {}
           'X-Requested-With': 'XMLHttpRequest'
         }
       });
-      
+
       // Transform the API response to the expected format
       return {
         data: apiResponse.data,

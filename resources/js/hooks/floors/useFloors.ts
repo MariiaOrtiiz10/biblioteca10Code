@@ -44,7 +44,7 @@ export interface PaginatedResponse<T> {
   }
 
   interface UseFloorsParams {
-    search?: string;
+    search?: any[];
     page?: number;
     perPage?: number;
   }

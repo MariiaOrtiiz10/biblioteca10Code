@@ -35,8 +35,8 @@ class ZoneResource extends Data
             genre:$zone->genre->genre,
             bookshelvesCapacity:$zone->bookshelvesCapacity,
             occupiedBookshelves:$zone -> bookshelves()-> count(),
-            created_at: $zone->created_at->format('Y-m-d H:i:s'),
-            updated_at: $zone->updated_at->format('Y-m-d H:i:s'),
+            created_at: $zone->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
+            updated_at: $zone->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );
     }
 }

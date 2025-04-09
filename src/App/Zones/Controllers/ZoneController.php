@@ -31,15 +31,14 @@ class ZoneController extends Controller
      */
     public function create()
     {
-        $floorsData = Floor::select(['id','floorNumber','zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
+        $floorsData = Floor::select(['id','floorNumber','floorName','zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
-        $zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
-        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();;
+        //$zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
+        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();
 
         return Inertia::render('zones/Create',[
             'floorsData' => $floorsData,
             'genresData' => $genresData,
-            'zoneNameByFloorsNumber' => $zoneNameByFloorsNumber,
             'zonesData' => $zonesData,
         ]);
     }
@@ -77,16 +76,18 @@ class ZoneController extends Controller
      */
     public function edit(Request $request, Zone $zone)
     {
-        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
+        $floorsData = Floor::select(['id','floorNumber','floorName', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
-        $zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
+        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();
+        //$zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
         return Inertia::render('zones/Edit', [
             'zone' => $zone,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
             'floorsData' => $floorsData,
             'genresData' => $genresData,
-            'zoneNameByFloorsNumber' => $zoneNameByFloorsNumber,
+            'zonesData' => $zonesData,
+            //'zoneNameByFloorsNumber' => $zoneNameByFloorsNumber,
         ]);
 
     }
@@ -98,13 +99,14 @@ class ZoneController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'zoneName' => ['required', 'string', 'min:3',
-            Rule::unique('zones')->where(function ($query) use ($request) {
-                return $query->where('floor_id', $request->floor_id);
-            }),
+            Rule::unique('zones','zoneName')
+            ->where(fn($query) => $query->where('floor_id', $request->floor_id))
+            ->ignore($zone->id),
             ],
             'floor_id' => ['required', 'exists:floors,id'],
             'genre_id' => ['required', 'exists:genres,id' ],
-            'bookshelvesCapacity' => ['required', 'integer', 'min:0', Rule::when($zone->occupiedBookshelves > 0, [
+            'bookshelvesCapacity' => ['required', 'integer', 'min:0',
+             Rule::when($zone->occupiedBookshelves > 0, [
                 function ($value, $fail) use ($zone) {
                     if ($value < $zone->occupiedBookshelves) {
                         $fail("La capacidad no puede ser menor que las estanterías ocupadas ($zone->occupiedBookshelves).");
@@ -119,7 +121,7 @@ class ZoneController extends Controller
         }
 
         $action($zone, $validator->validated());
-        $redirectUrl = route('floors.index');
+        $redirectUrl = route('zones.index');
 
         if ($request->has('page')) {
             $redirectUrl .= "?page=" . $request->query('page');
@@ -129,7 +131,7 @@ class ZoneController extends Controller
         }
 
         return redirect($redirectUrl)
-            ->with('success', __('messages.floors.updated'));
+            ->with('success', __('messages.zones.updated'));
 
 
     }

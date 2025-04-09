@@ -5,7 +5,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { useTranslations } from '@/hooks/use-translations';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Users, Book, Library, Building2, Bookmark, SquareLibrary} from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, Users, Book, Search, Building2, Bookmark, SquareLibrary, ArrowUpDown } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems = (t: (key: string) => string): NavItem[] => [
@@ -39,7 +39,17 @@ const mainNavItems = (t: (key: string) => string): NavItem[] => [
         url: '/books',
         icon: Book,
     },
-    
+    {
+        title: t('ui.navigation.items.searchBooks'),
+        url: '/searchBooks',
+        icon: Search,
+    },
+    {
+        title: t('ui.navigation.items.loans'),
+        url: '/loans',
+        icon: ArrowUpDown,
+    },
+
 
 ];
 

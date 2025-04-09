@@ -11,6 +11,7 @@ export interface Bookshelf{
     genre:string;
     bookshelfNumber:number;
     booksCapacity  :number;
+    occupiedBooks: number;
     created_at: string;
   }
 
@@ -48,7 +49,7 @@ export interface PaginatedResponse<T> {
   }
 
   interface UseBookshelvesParams {
-    search?: string;
+    search?: any[];
     page?: number;
     perPage?: number;
   }

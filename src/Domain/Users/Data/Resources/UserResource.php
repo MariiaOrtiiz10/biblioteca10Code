@@ -22,8 +22,8 @@ class UserResource extends Data
             id: $user->id,
             name: $user->name,
             email: $user->email,
-            created_at: $user->created_at->format('Y-m-d H:i:s'),
-            updated_at: $user->updated_at->format('Y-m-d H:i:s'),
+            created_at: $user->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
+            updated_at: $user->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );
     }
 }

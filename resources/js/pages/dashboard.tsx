@@ -1,5 +1,5 @@
 import { DashboardCard } from '@/components/dashboard/DashboardCard';
-import { Users, User, Building2, Bookmark, SquareLibrary, Book} from 'lucide-react';
+import { Users, User, Building2, Bookmark, SquareLibrary, Book, Search} from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -50,8 +50,40 @@ export default function Dashboard() {
                     href="/books"
                     icon={Book}
                 />
-                
-                <CardFlip
+                <DashboardCard
+                    title="Buscador de libros"
+                    description="Localiza los libros del sistema"
+                    href="/searchBooks"
+                    icon={Search}
+                />
+
+                    {/* <CardFlip
+                    contentFront={
+                        <div className="flex items-center gap-4">
+                            <div className="rounded-lg bg-primary/10 p-2">
+                                <Icon iconNode={Book} className="h-6 w-6 text-primary" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold">Libros</h3>
+                                <p className="text-sm text-muted-foreground">descripcion de usuario</p>
+                            </div>
+                        </div>
+                    }
+                    contentBack={
+                        <div className="flex w-full h-full items-center gap-4">
+                            <div className="rounded-lg bg-primary/10 p-2">
+                                <Icon iconNode={Search} className="h-6 w-6 text-primary" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold">Buscador de libros</h3>
+                                <p className="text-sm text-muted-foreground">descripcion de cliente</p>
+
+                            </div>
+                        </div>
+                    }
+                /> */}
+
+                {/* <CardFlip
                     contentFront={
                         <div className="flex items-center gap-4">
                             <div className="rounded-lg bg-primary/10 p-2">
@@ -75,7 +107,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                     }
-                />
+                /> */}
 
             </div>
         </AppLayout>
