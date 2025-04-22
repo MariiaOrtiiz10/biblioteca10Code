@@ -28,6 +28,8 @@ class Loan extends Model
         'end_date',
         'loan_duration',
         'status',
+        'delayed_days',
+        'returned_at',
     ];
 
 

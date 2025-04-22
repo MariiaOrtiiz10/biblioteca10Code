@@ -213,7 +213,7 @@ export function FiltersTable({
       acc[filter.id] = undefined;
       return acc;
     }, {} as Record<string, any>);
-    
+
     setFilterValues(emptyValues);
     form.reset(emptyValues);
   };
@@ -319,8 +319,8 @@ export function FiltersTable({
                     {clearFiltersText || t("ui.common.filters.clear")}
                   </Button>
                 )}
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   onClick={() => setOpen(false)}
                 >
                   {t("ui.common.buttons.close")}
@@ -364,8 +364,8 @@ function renderFilterInput(
           }}
         >
           <SelectTrigger>
-            <SelectValue 
-              placeholder={filter.placeholder} 
+            <SelectValue
+              placeholder={filter.placeholder}
             />
           </SelectTrigger>
           <SelectContent>
@@ -402,6 +402,7 @@ function renderFilterInput(
           <PopoverContent className="w-auto p-0">
             <Calendar
               mode="single"
+              timeZone="Europe/Madrid"
               selected={field.value}
               onSelect={(date: Date | undefined) => {
                 field.onChange(date);

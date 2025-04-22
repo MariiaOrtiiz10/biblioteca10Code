@@ -13,6 +13,7 @@ class BookIndexAction
         $author= $search[2];
         $editorial= $search[3];
         $pages= $search[4];
+        $available = $search[5];
 
         $books = Book::query()
         ->when($isbn != "null", function ($query) use ($isbn){
@@ -29,6 +30,19 @@ class BookIndexAction
         })
         ->when($pages != "null", function ($query) use ($pages){
             $query->where('pages', 'ILIKE', "%".$pages."%");
+        })
+        ->when($available != "null", function ($query) use ($available) {
+            if ($available === "true") {
+                // Libros disponibles (sin préstamos activos)
+                $query->whereDoesntHave('loans', function ($subQuery) {
+                    $subQuery->where('status', true);
+                });
+            } else {
+                // Libros no disponibles (con préstamos activos)
+                $query->whereHas('loans', function ($subQuery) {
+                    $subQuery->where('status', true);
+                });
+            }
         })
         ->latest()
         ->paginate($perPage);
