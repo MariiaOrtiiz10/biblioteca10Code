@@ -7,6 +7,8 @@ use App\Core\Controllers\Controller;
 use Domain\Books\Models\Book;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\DB;
+
 
 class SearchbookController extends Controller
 {
@@ -15,7 +17,14 @@ class SearchbookController extends Controller
      */
     public function index()
     {
-        return Inertia::render('searchBooks/Index');
+        $books = Book::with('loans')->get()->map(function ($book) {
+            $book->available = !$book->loans->where('status', true)->count();
+            return $book;
+        });
+
+        return Inertia::render('searchBooks/Index',[
+            'books' => $books
+        ]);
     }
 
 }

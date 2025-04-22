@@ -63,8 +63,6 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 export function BookshelfForm({initialData, page, perPage, floorsData=[],  zonesData=[]}:BookshelfFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
-    console.log('floorsData', floorsData);
-    console.log('zonesData', zonesData);
 
     let floorNow = undefined;
 
@@ -196,46 +194,49 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                         required={true}
                         value={selectedFloor}
                         onValueChange={(value) => {
-                            setSelectedFloor(value);
+                        setSelectedFloor(value);
                         }}
                         >
                         <SelectTrigger>
                             <SelectValue placeholder={t("ui.bookshelves.createBookshelf.placeholders.selectFloor")} />
                         </SelectTrigger>
+
                         <SelectContent>
                             {floorsData?.map((floor) => {
-                             const hasZones = zonesData.some(zone => zone.floor_id === floor.id);
-                             const isFull = !hasZones || (
-                               floor.zonesCapacity === floor.occupiedZones &&
-                               zonesData.some(zone => zone.floor_id === floor.id && zone.occupiedBookshelves >= zone.bookshelvesCapacity)
-                             );
-                            const isCurrent = initialData && floor.id === floorNow;
+                                const floorZones = zonesData.filter(zone => zone.floor_id === floor.id);
 
-                            return (
+                                const hasAvailableZone = floorZones.some(
+                                (zone) => zone.occupiedBookshelves < zone.bookshelvesCapacity
+                                );
+
+                                const isFull = floorZones.length === 0 || !hasAvailableZone;
+                                const isCurrent = initialData && floor.id === floorNow;
+
+                                return (
                                 <SelectItem
-                                key={floor.id}
-                                value={floor.id}
-                                disabled={!isCurrent && isFull}
-                                className={!isCurrent && isFull ? "opacity-75 cursor-not-allowed" : ""}
+                                    key={floor.id}
+                                    value={floor.id}
+                                    disabled={!isCurrent && isFull}
+                                    className={!isCurrent && isFull ? "opacity-75 cursor-not-allowed" : ""}
                                 >
-                                <div className="flex items-center justify-between w-full">
+                                    <div className="flex items-center justify-between w-full">
                                     <span>
-                                    {t("ui.bookshelves.floor")}: {floor.floorNumber}
+                                        {t("ui.bookshelves.floor")}: {floor.floorNumber}
                                     </span>
                                     {isCurrent ? (
-                                    <span className="ml-2 text-sm text-blue-600">
+                                        <span className="ml-2 text-sm text-blue-600">
                                         {t("ui.bookshelves.currentFloor")}
-                                    </span>
+                                        </span>
                                     ) : isFull ? (
-                                    <span className="ml-2 text-sm text-red-600">
+                                        <span className="ml-2 text-sm text-red-600">
                                         {t("ui.bookshelves.occupied")}
-                                    </span>
+                                        </span>
                                     ) : null}
-                                </div>
+                                    </div>
                                 </SelectItem>
-                            );
+                                );
                             })}
-                        </SelectContent>
+                            </SelectContent>
                         </Select>
                     </div>
 
@@ -328,16 +329,16 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                             validators={{
                                 onChangeAsync: async ({ value }) => {
                                     await new Promise((resolve) => setTimeout(resolve, 500));
-                                    if (!value) {
+                                    if (value === null || value === undefined) {
                                         return t("ui.validation.required", {
                                             attribute: t("ui.bookshelves.fields.bookshelvesCapacity").toLowerCase(),
                                         });
                                     }
+
                                     if(value<0){
                                         return t("ui.validation.min.numeric", {
                                             attribute: t("ui.bookshelves.columns.bookshelvesCapacity").toLowerCase()
                                         });
-
                                     }
                                     return undefined;
 
@@ -348,7 +349,7 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
                                     <Icon iconNode={Building2} className="w-5 h-5" />
-                                    <Label htmlFor={field.name}>{t("ui.bookshelves.fields.bookshelvesCapacity")}</Label>
+                                    <Label htmlFor={field.name}>{t("ui.bookshelves.fields.booksCapacity")}</Label>
                                     </div>
                                     <Input
                                         id={field.name}
@@ -357,7 +358,7 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                                         value={field.state.value}
                                         onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                         onBlur={field.handleBlur}
-                                        placeholder={t("ui.bookshelves.createBookshelf.placeholders.bookshelvesCapacity")}
+                                        placeholder={t("ui.bookshelves.createBookshelf.placeholders.booksCapacity")}
                                         disabled={form.state.isSubmitting}
                                         required={false}
                                         autoComplete="off"

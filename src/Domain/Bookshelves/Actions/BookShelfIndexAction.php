@@ -15,7 +15,7 @@ class BookShelfIndexAction
         $bookshelves = Bookshelf::query()
         ->join('zones', 'bookshelves.zone_id', '=', 'zones.id')
         ->join('floors', 'zones.floor_id', '=', 'floors.id')
-        ->select('bookshelves.*', 'floors.floorNumber')
+        ->select('bookshelves.*')
         ->when($bookshelfNumber != "null", function ($query) use ($bookshelfNumber){
             $query->where('bookshelves.bookshelfNumber', 'ILIKE', "%".$bookshelfNumber."%");
         })

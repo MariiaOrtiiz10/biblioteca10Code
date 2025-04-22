@@ -37,6 +37,7 @@ export default function BookIndex() {
         filters.author ? filters.author:"null",
         filters.editorial ? filters.editorial:"null",
         filters.pages ? filters.pages:"null",
+        filters.available ? filters.available:"null",
     ]
 
     const { data: books, isLoading, isError, refetch } = useBooks({
@@ -100,25 +101,47 @@ export default function BookIndex() {
             id: "actions",
             header: t("ui.books.columns.actions") || "Actions",
             renderActions: (book) => (
-              <>
-                <Link href={`/books/${book.id}/edit?page=${currentPage}&perPage=${perPage}`}>
-                  <Button variant="outline" size="icon" title={t("ui.books.buttons.edit") || "Edit Book"}>
-                    <PencilIcon className="h-4 w-4" />
-                  </Button>
-                </Link>
-                <DeleteDialog
-                  id={book.id}
-                  onDelete={handleDeleteBook}
-                  title={t("ui.book.delete.title") || "Delete floor"}
-                  description={t("ui.book.delete.description") || "Are you sure you want to delete this zone? This action cannot be undone."}
-                  trigger={
-                    <Button variant="outline" size="icon" className="text-destructive hover:text-destructive" title={t("ui.bookshelves.buttons.delete") || "Delete floor"}>
-                      <TrashIcon className="h-4 w-4" />
+                <>
+                  <Link href={`/books/${book.id}/edit?page=${currentPage} &perPage=${perPage}`}>
+                    <Button variant="outline" size="icon" title={t("ui.books.buttons.edit") || "Edit Book"}>
+                      <PencilIcon className="h-4 w-4" />
                     </Button>
-                  }
-                />
-              </>
-            ),
+                  </Link>
+
+                  {book.available ? (
+                    <DeleteDialog
+                      id={book.id}
+                      onDelete={handleDeleteBook}
+                      title={t("ui.books.delete.title") || "Delete Book"}
+                      description={
+                        t("ui.books.delete.description") ||
+                        "Are you sure you want to delete this book? This action cannot be undone."
+                      }
+                      trigger={
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="text-destructive hover:text-destructive"
+                          title={t("ui.books.buttons.delete") || "Delete Book"}
+                        >
+                          <TrashIcon className="h-4 w-4" />
+                        </Button>
+                      }
+                    />
+                  ) : (
+                    <div title = {t("ui.books.buttons.noDelete") || ""} >
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="text-muted-foreground cursor-not-allowed"
+                        disabled
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
+                </>
+              )
           }),
         ] as ColumnDef<Book>[]), [t, handleDeleteBook]);
 
@@ -173,12 +196,6 @@ export default function BookIndex() {
                                         type: 'number',
                                         placeholder: t('ui.books.placeholders.pages') || 'pages...',
                                     },
-                                    //   {
-                                    //       id: 'genre',
-                                    //       label: t('ui.bookshelves.filters.genre') || 'genre',
-                                    //       type: 'text',
-                                    //       placeholder: t('ui.bookshelves.placeholders.genre') || 'genre...',
-                                    //   },
 
                                   ] as FilterConfig[]
                               }

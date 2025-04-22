@@ -15,10 +15,10 @@ class AppearanceController extends Controller
     public function edit()
     {
         // Get the user's current appearance setting
-        $user = auth()->user();
+        $user = auth()->user;
         $settings = $user->settings;
-        $currentAppearance = $settings && isset($settings->preferences['appearance']) 
-            ? $settings->preferences['appearance'] 
+        $currentAppearance = $settings && isset($settings->preferences['appearance'])
+            ? $settings->preferences['appearance']
             : 'system';
 
         return Inertia::render('settings/appearance', [
@@ -55,6 +55,6 @@ class AppearanceController extends Controller
             $settings->save();
         }
 
-        return redirect()->back()->with('success', __('settings.appearance.updated'));
+        return redirect()->back()->with('success', __('messages.appearance.updated'));
     }
 }

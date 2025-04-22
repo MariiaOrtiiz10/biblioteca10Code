@@ -32,7 +32,7 @@ class BookshelfController extends Controller
     public function create()
     {
         $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
-        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'bookshelvesCapacity', 'occupiedBookshelves'])->get()->toArray();;
+        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'bookshelvesCapacity', 'occupiedBookshelves'])->get()->toArray();
          return Inertia::render('bookshelves/Create',[
             'floorsData' => $floorsData,
             'zonesData' => $zonesData,

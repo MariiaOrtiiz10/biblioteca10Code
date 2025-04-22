@@ -1,7 +1,6 @@
 import { PageProps } from "@inertiajs/core";
 import { useTranslations } from "@/hooks/use-translations";
 import { ZoneLayout } from "@/layouts/zones/ZoneLayout";
-
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import {X, Save, Building2} from "lucide-react";

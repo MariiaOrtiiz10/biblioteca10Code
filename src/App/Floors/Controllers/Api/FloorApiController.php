@@ -61,7 +61,7 @@ class FloorApiController extends Controller{
         $updatedfloor = $action($floor, $validator->validated());
 
         return response()->json([
-            'message' => __('messages.users.updated'),
+            'message' => __('messages.floors.updated'),
             'floor' => $updatedfloor
         ]);
     }
@@ -70,7 +70,7 @@ class FloorApiController extends Controller{
         $action($floor);
 
         return response()->json([
-            'message' => __('messages.users.deleted')
+            'message' => __('messages.floors.deleted')
         ]);
     }
 }

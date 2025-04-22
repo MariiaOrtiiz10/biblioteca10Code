@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Domain\Genres\Models\Genre;
+use Domain\Loans\Models\Loan;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Book extends Model
@@ -26,6 +27,7 @@ class Book extends Model
         'bookshelf_id',
         'isbn',
         'title',
+        'author',
         'editorial',
         'pages',
         'genres',
@@ -66,5 +68,15 @@ class Book extends Model
     {
         return $this->belongsToMany(Genre::class, "book_genre", 'book_id', 'genre_id');
     }
+
+
+        public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
+
+
+
+
 
 }

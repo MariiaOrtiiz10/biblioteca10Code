@@ -18,11 +18,6 @@ interface CreateZoneProps extends PageProps {
         id:string;
         genre:string;
     }[];
-    zoneNameByFloorsNumber?: {
-        floorNumber:number;
-        zoneName: string;
-        floor_id: string;
-    }[];
     zonesData?:{
         id: string;
         zoneName: string;

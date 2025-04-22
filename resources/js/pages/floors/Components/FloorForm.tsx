@@ -153,7 +153,7 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                         value={field.state.value}
                                         onChange={(e) => field.handleChange(e.target.value)}
                                         onBlur={field.handleBlur}
-                                        placeholder={t("ui.floors.placeholders.floorName")}
+                                        placeholder={t("ui.floors.createFloor.placeholders.floorName")}
                                         disabled={form.state.isSubmitting}
                                         required={false}
                                         autoComplete="off"
@@ -199,7 +199,7 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                             onBlur={field.handleBlur}
-                                            placeholder={t("ui.floors.placeholders.zonesCapacity")}
+                                            placeholder={t("ui.floors.createFloor.placeholders.floorNumber")}
                                             disabled={form.state.isSubmitting}
                                             required={false}
                                             autoComplete="off"
@@ -255,7 +255,7 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                             onBlur={field.handleBlur}
-                                            placeholder={t("ui.floors.placeholders.zonesCapacity")}
+                                            placeholder={t("ui.floors.createFloor.placeholders.zonesCapacity")}
                                             disabled={form.state.isSubmitting}
                                             required={false}
                                             autoComplete="off"

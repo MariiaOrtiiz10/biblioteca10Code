@@ -2,12 +2,12 @@ import { FloorLayout } from "@/layouts/floors/FloorLayout";
 import { useTranslations } from "@/hooks/use-translations";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Link, usePage } from "@inertiajs/react";
-import { PencilIcon, PlusIcon, TrashIcon, ChevronDown, ChevronUp } from "lucide-react";
+import { Link, router, usePage } from "@inertiajs/react";
+import { PencilIcon, PlusIcon, TrashIcon, BookUp, ArrowUpDown } from "lucide-react";
 import { createTextColumn, createDateColumn, createActionsColumn } from "@/components/stack-table/columnsTable";
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
-import { ColumnDef, Row } from "@tanstack/react-table";
+import { ColumnDef, createColumn, Row } from "@tanstack/react-table";
 import { DeleteDialog } from "@/components/stack-table/DeleteDialog";
 import { FiltersTable, FilterConfig } from "@/components/stack-table/FiltersTable";
 import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
@@ -37,6 +37,7 @@ export default function SearchBookIndex() {
         filters.author ? filters.author:"null",
         filters.editorial ? filters.editorial:"null",
         filters.pages ? filters.pages:"null",
+        filters.available ? filters.available:"null",
     ]
 
     const { data: books, isLoading, isError, refetch } = useBooks({
@@ -49,7 +50,9 @@ export default function SearchBookIndex() {
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
       };
-
+      function handleCreateLoan(isbn: string){
+        router.get(`loans/create`, {isbn})
+      }
       const handlePerPageChange = (newPerPage: number) => {
         setPerPage(newPerPage);
         setCurrentPage(1); // Reset to first page when changing items per page
@@ -86,6 +89,54 @@ export default function SearchBookIndex() {
             header: t("ui.books.columns.bookshelfNumber") || "bookshelfNumber",
             accessorKey: "bookshelfNumber",
           }),
+          createTextColumn<Book>({
+            id: "available",
+            header: t("ui.books.columns.available") || "available",
+            accessorKey: "available",
+            format: (value) => value ? "True" : "False",
+          }),
+          createTextColumn<Book>({
+            id: "availableBookIsbn",
+            header: t("ui.books.columns.availableBookIsbn") || "Available / Total",
+            accessorKey: "availableBookIsbn",
+
+
+          }),
+
+
+
+
+           createActionsColumn<Book>({
+                      id: "actions",
+                      header: t("ui.books.columns.actions") || "Actions",
+                      renderActions: (book) => (
+                          <>
+                              {book.available && (
+                                <Button
+                                variant="outline"
+                                size="icon"
+                                title= {t("ui.books.buttons.loan") || "Loan Book"}
+                                onClick={()=>handleCreateLoan(book.isbn)}
+                                 >
+                                <ArrowUpDown className="h-4 w-4 text-orange-500" />
+
+                                </Button>
+                            )}
+                            {!book.available && (
+                            <Link href={'/reserves/create'}>
+                                <Button
+                                variant="outline"
+                                size="icon"
+                                title= {t("ui.books.buttons.reserve") || "Reserve Book"} >
+                                <BookUp className="h-5 w-5 text-blue-500" />
+                                </Button>
+                            </Link>
+                            )}
+
+                          </>
+                        )
+                    }),
+
 
         ] as ColumnDef<Book>[]), [t, handleDeleteBook]);
 
@@ -109,6 +160,12 @@ export default function SearchBookIndex() {
                                         label: t('ui.books.filters.isbn') || 'isbn',
                                         type: 'text',
                                         placeholder: t('ui.books.placeholders.isbn') || 'isbn...',
+                                    },
+                                    {
+                                        id: 'available',
+                                        label: t('ui.books.filters.available') || 'available',
+                                        type: 'text',
+                                        placeholder: t('ui.books.placeholders.available') || 'available...',
                                     },
 
                                   ] as FilterConfig[]

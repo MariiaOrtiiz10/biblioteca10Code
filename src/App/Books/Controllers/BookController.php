@@ -4,8 +4,16 @@ namespace App\Books\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Controllers\Controller;
+use Domain\Books\Actions\BookDestroyAction;
+use Domain\Books\Actions\BookStoreAction;
+use Domain\Books\Actions\BookUpdateAction;
 use Domain\Books\Models\Book;
+use Domain\Bookshelves\Models\Bookshelf;
+use Domain\Floors\Models\Floor;
+use Domain\Genres\Models\Genre;
+use Domain\Zones\Models\Zone;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Response;
 
 class BookController extends Controller
@@ -23,15 +31,44 @@ class BookController extends Controller
      */
     public function create()
     {
-        return Inertia::render('books/Create');
+        $genres = Genre::select(['id','genre'])->get()->toArray();
+        $zonesData = Zone::select(['zones.id','zones.zoneName','zones.floor_id','zones.bookshelvesCapacity','occupiedBookshelves','zones.genre_id', 'genres.genre'])->join('genres', 'genres.id', '=', 'zones.genre_id')->get()->toArray();
+        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
+        $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
+        return Inertia::render('books/Create', [
+            'genres' => $genres,
+            'zonesData' => $zonesData,
+            'floorsData' => $floorsData,
+            'bookshelvesData' => $bookshelvesData,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, BookStoreAction $action)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'isbn' => ['required','regex:/^\d{10}(\d{3})?$/'],
+            'title' => ['required','string','min:2'],
+            'author' => ['required'],
+            'editorial' => ['required'],
+            'pages' =>  ['required', 'integer','min:0'],
+            'genres' =>  [''],
+            'bookshelf_id' => ['required'],
+
+
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $action($validator->validated());
+
+        return redirect()->route('books.index')
+            ->with('success', __('messages.books.created'));
+
     }
 
     /**
@@ -39,30 +76,77 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, Book $book)
     {
-        //
+        $genres = Genre::select(['id','genre'])->get()->toArray();
+        $genresData = Book::select(['id','genres'])->get()->toArray();
+        $zonesData = Zone::select(['zones.id','zones.zoneName','zones.floor_id','zones.bookshelvesCapacity','occupiedBookshelves','zones.genre_id', 'genres.genre'])->join('genres', 'genres.id', '=', 'zones.genre_id')->get()->toArray();
+        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
+        $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
+        return Inertia::render('books/Edit', [
+            'book' => $book,
+            'page' => $request->query('page'),
+            'perPage' => $request->query('perPage'),
+            'genres' => $genres,
+            'zonesData' => $zonesData,
+            'floorsData' => $floorsData,
+            'bookshelvesData' => $bookshelvesData,
+            'genresData' => $genresData,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Book $book, BookUpdateAction $action)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'isbn' => ['required','regex:/^\d{10}(\d{3})?$/'],
+            'title' => ['required','string','min:2'],
+            'author' => ['required'],
+            'editorial' => ['required'],
+            'pages' =>  ['required', 'integer','min:0'],
+            'genres' =>  [''],
+            'bookshelf_id' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $action($book, $validator->validated());
+        $redirectUrl = route('books.index');
+
+        if ($request->has('page')) {
+            $redirectUrl .= "?page=" . $request->query('page');
+            if ($request->has('perPage')) {
+                $redirectUrl .= "&per_page=" . $request->query('perPage');
+            }
+        }
+
+        return redirect($redirectUrl)
+            ->with('success', __('messages.books.updated'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Book $book, BookDestroyAction $action)
     {
-        //
+        $success = $action($book);
+
+        if (!$success) {
+            return redirect()->route('books.index')
+                ->with('error', __('messages.books.noDeleted'));
+        }
+
+        return redirect()->route('books.index')
+            ->with('success', __('messages.books.deleted'));
     }
 }

@@ -23,6 +23,8 @@ class BookResource extends Data
         public readonly string $editorial,
         public readonly int $pages,
         public readonly string $genres,
+        public readonly bool $available,
+        public readonly string $availableBookIsbn,
         public readonly string $created_at,
         public readonly string $updated_at,
     ) {
@@ -31,6 +33,14 @@ class BookResource extends Data
 
     public static function fromModel(Book $book): self
     {
+        $totalBookIsbn = Book::where('isbn', $book->isbn)->count();
+
+        $availableBook = Book::where('isbn', $book->isbn)
+            ->whereDoesntHave('loans', function ($query) {
+                $query->where('status', true);
+            })
+            ->count();
+
         return new self(
             id: $book->id,
             floor_id:$book->bookshelf->zone->floor_id,
@@ -47,6 +57,8 @@ class BookResource extends Data
             editorial: $book->editorial,
             pages: $book->pages,
             genres: $book->genres,
+            available: !$book->loans()->where('status', true)->exists(),
+            availableBookIsbn: "$availableBook / $totalBookIsbn",
             created_at: $book->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
             updated_at: $book->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );

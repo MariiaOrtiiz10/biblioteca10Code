@@ -12,6 +12,8 @@ export interface Loan{
     loan_duration:number;
     end_date:string;
     status:boolean;
+    delayed_days:number;
+    returned_at:string;
     created_at: string;
   }
 
@@ -87,7 +89,7 @@ export function useLoans({ search, page = 1, perPage = 10 }: UseLoanParams = {})
 }
 export function useCreateLoan() {
     return useMutation({
-      mutationFn: async (data: {}) => {
+      mutationFn: async (data: {email:string; isbn:string; loan_duration:number;}) => {
         const response = await axios.post("/api/loans", data, {
           headers: {
             'Accept': 'application/json',
@@ -99,19 +101,38 @@ export function useCreateLoan() {
     });
 }
 
-export function useUpdateLoan(loanId: string) {
-    return useMutation({
-      mutationFn: async (data: {}) => {
-        const response = await axios.put(`/api/loans/${loanId}`, data, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
-        return response.data;
-      },
-    });
-  }
+// export function useReturnLoan() {
+//     return useMutation({
+//         mutationFn: async (loanId: string) => {
+//             const response = await axios.put(`/api/loans/${loanId}/return`, null, {
+//                 headers: {
+//                     'Accept': 'application/json',
+//                     'X-Requested-With': 'XMLHttpRequest'
+//                 }
+//             });
+//             return response.data;
+//         },
+//     });
+// }
+
+
+//   export function useReturnLoan() {
+//     return useMutation({
+//       mutationFn: async (loanId: string) => {
+//         const formData = new FormData();
+//         formData.append('_method', 'PUT');
+//         const response = await axios.post(`/api/loans/${loanId}/return`, formData, {
+//           headers: {
+//             'Accept': 'application/json',
+//             'X-Requested-With': 'XMLHttpRequest',
+//           },
+//         });
+
+//         return response.data;
+//       },
+//     });
+//   }
+
 
   export function useDeleteLoan() {
     return useMutation({

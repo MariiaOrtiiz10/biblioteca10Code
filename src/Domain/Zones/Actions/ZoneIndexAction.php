@@ -32,7 +32,6 @@ class ZoneIndexAction
         ->latest()
         ->paginate($perPage);
 
-
         return $zones->through(fn ($zone) => ZoneResource::fromModel($zone));
     }
 }

@@ -34,10 +34,16 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::delete('/bookshelves/{bookshelf}', [BookshelfApiController::class, 'destroy']);
 
 });
+
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/books', [BookApiController::class, 'index']);
+    Route::delete('/books/{book}', [BookApiController::class, 'destroy']);
 });
+
+
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/loans', [LoanApiController::class, 'index']);
+    Route::delete('/loans/{loan}', [LoanApiController::class, 'destroy']);
+    //Route::put('loans/{loan}/return', [LoanApiController::class, 'return']);
 });
 

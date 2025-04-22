@@ -67,7 +67,7 @@ class ZoneController extends Controller
         $action($validator->validated());
 
         return redirect()->route('zones.index')
-            ->with('success', __('messages.floors.created'));
+            ->with('success', __('messages.zones.created'));
 
     }
 

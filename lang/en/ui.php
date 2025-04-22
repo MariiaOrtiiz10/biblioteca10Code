@@ -84,6 +84,11 @@ return [
             'max' => [
                 'string' => 'The :attribute field must not be greater than :max characters',
             ],
+            'numeric'=> 'The :attribute field must contain only numbers.',
+
+            "length"=> [
+                'isbn' => 'The :attribute field must be exactly 10 or 13 characters long',
+            ],
             'capacity' =>[
                 'floor' => 'The :attribute field cannot be less than the occupied zones, that is :occupiedZones',
                 'zone' => 'The :attribute field cannot be less than the occupied bookshelves, that is :occupiedBookshelves',
@@ -238,6 +243,11 @@ return [
         ],
     ],
 
+    'genres' =>[
+        'genre' => 'Genre'
+
+    ],
+
     'floors' =>[
         'title' => 'Floors',
         'title2' => 'Floor',
@@ -279,8 +289,14 @@ return [
             'createdAt' => 'Created At',
         ],
         'createFloor' => [
-            'subtitle' => 'Enter the information to create a new floor in the system'
+            'subtitle' => 'Enter the information to create a new floor in the system',
+            'placeholders' => [
+                'floorNumber' => 'Enter a floor number',
+                'floorName' => 'Enter a floor name',
+                'zonesCapacity' => 'Enter the number of zones that fit on the floor',
+            ],
         ],
+
         'editFloor' => [
             'subtitle' => 'Enter the information to edit a floor in the system'
         ],
@@ -312,7 +328,10 @@ return [
             'new' => 'New Zone',
             'cancel' => 'Cancel',
             'update' => 'Update',
-            'save' => 'Save'
+            'save' => 'Save',
+            'delete' => 'Delete',
+            'edit' => 'Edit',
+
         ],
         'columns' => [
             'zoneName' => 'Zone Name',
@@ -352,8 +371,12 @@ return [
                 'selectFloor' => 'Select an existing floor number',
                 'zoneName' => 'Enter a zone name',
                 'selectGenre' => 'Select an existing genre',
-                'bookshelvesCapacity' => 'Enter a number for bookshelves capacity '
+                'bookshelvesCapacity' => 'Enter the number of bookshelves that fit on the zone'
             ],
+        ],
+        'delete' => [
+            'title' => 'Are you sure?',
+            'description' => 'This action cannot be undone. The zone will be permanently deleted from the system.',
         ],
         'editZone' =>[
                 'title' => 'Edit Zone',
@@ -379,6 +402,8 @@ return [
             'cancel' => 'Cancel',
             'update' => 'Update',
             'save' => 'Save',
+            'delete' => 'Delete',
+            'edit' => 'Edit',
         ],
         'columns' => [
             'zoneName' => 'Zone Name',
@@ -407,7 +432,7 @@ return [
             'bookshelfNumber' => 'Bookshelf Number',
             'floor' => 'Floor',
             'zone' => 'Zone',
-            'bookshelvesCapacity' => 'Bookshelves Capacity',
+            'booksCapacity' => 'Books Capacity',
             'genre' => 'Genre',
         ],
         'createBookshelf' =>[
@@ -420,13 +445,16 @@ return [
                 'zoneName' => 'Enter a zone name',
                 'bookshelfNumber' => 'Enter a bookshelf number',
                 'selectZone' => 'Select an existing zone',
-                'bookshelvesCapacity' => 'Enter a number for bookshelves capacity '
+                'booksCapacity' => 'Enter the number of books that fit on the bookshelf'
             ],
         ],
         'editBookshelf' => [
             'title' => 'Edit Bookshelf',
             'subtitle' => 'Enter the information to edit a bookshelf in the system',
-
+        ],
+        'delete' => [
+            'title' => 'Are you sure?',
+            'description' => 'This action cannot be undone. The bookshelf will be permanently deleted from the system.',
         ],
         'no_results' => 'No results.',
     ],
@@ -435,11 +463,22 @@ return [
         'title' => 'Books',
         'create' => 'Create Book',
         'edit' => 'Edit Book',
+        'floor' => 'Floor',
+        'defaultGenre' => 'Genre Zone',
+        'occupied' => 'Complete',
+        'currentFloor' => 'Current floor',
+        'currentZone' => 'Current zone',
+        'currentBookshelf' => 'Current Bookshelf',
         'buttons' => [
             'new' => 'New  Book',
             'cancel' => 'Cancel',
             'update' => 'Update',
-            'save' => 'Save'
+            'save' => 'Save',
+            'delete' => 'Delete',
+            'edit' => 'Edit',
+            'noDelete' => 'Book currently loaned and cannot be deleted',
+            'loan' => 'Loan Book',
+            'reserve' => 'Reserve Book',
         ],
         'columns' => [
             'isbn' => 'ISBN',
@@ -450,9 +489,11 @@ return [
             'pages' => 'Pages',
             'floorNumber' => 'Floor',
             'zoneName' => 'Zone',
+            'available' => 'Available',
             'bookshelfNumber' => 'Bookshelf',
             'created_at' => 'Created at',
             'actions' => 'Actions',
+            'availableBookIsbn' => 'Available / Total',
         ],
         'placeholders' =>[
             'isbn' => 'Book identifier...',
@@ -460,6 +501,7 @@ return [
             'author' => 'author...',
             'editorial' => 'text...',
             'pages' => 'number...',
+            'available' => 'True/False...'
         ],
         'filters' => [
             'isbn' => 'ISBN',
@@ -467,34 +509,130 @@ return [
             'author' => 'Author',
             'editorial' => 'Editorial',
             'pages' => 'Pages',
+            'available' => 'Available',
 
         ],
         'fields' => [
-
+            'isbn' => 'ISBN',
+            'title' => 'Title',
+            'pages' => 'Pages',
+            'author' => 'Author',
+            'editorial'=>'Editorial',
+            'floor' => 'Floor',
+            'zone' => 'Zone',
+            'bookshelf'=>'Bookshelf',
+            'genres' => 'Genres',
         ],
+
         'createBook' =>[
-            'title' => 'Create Bookshelf',
-            'subtitle' => 'Enter the information to create a new bookshelf in the system',
+            'title' => 'Create Book',
+            'subtitle' => 'Enter the information to create a new book in the system',
             'floor' => 'Floor',
             'genre' => 'Genre',
+            'basicInformation' => 'Basic Information',
+            'location' => 'Location',
             'placeholders' => [
+                'isbn' => 'Enter a valid ISBN (10 or 13 digits)',
+                'title' => 'Enter a book title',
+                'pages' => 'Enter the number of pages in the book',
+                'author' => 'Enter the author of the book ',
+                'editorial'=>'Enter the book editorial',
                 'selectFloor' => 'Select an existing floor',
-                'zoneName' => 'Enter a zone name',
-                'bookshelfNumber' => 'Enter a bookshelf number',
                 'selectZone' => 'Select an existing zone',
-                'bookshelvesCapacity' => 'Enter a number for bookshelves capacity '
+                'selectBookshelf' => 'Select an existing bookshelf',
             ],
         ],
         'editBook' => [
-            'title' => 'Edit Bookshelf',
-            'subtitle' => 'Enter the information to edit a bookshelf in the system',
+            'title' => 'Edit Book',
+            'subtitle' => 'Enter the information to edit a book in the system',
 
+        ],
+        'delete' => [
+            'title' => 'Are you sure?',
+            'description' => 'This action cannot be undone. The book will be permanently deleted from the system.',
         ],
         'no_results' => 'No results.',
     ],
+
     'searchBooks' => [
         'title' => 'Search Books',
     ],
+
+
+    'loans' => [
+        'title' => 'Loans',
+        'create' => 'Create Loan',
+        'edit' => 'Edit Loan',
+        'active' => 'Active',
+        'return'=> 'Returned',
+
+        'buttons' => [
+            'new' => 'New  Loan',
+            'cancel' => 'Cancel',
+            'update' => 'Update',
+            'save' => 'Save',
+            'delete' => 'Delete',
+            'edit' => 'Edit',
+            'return' => 'Return',
+        ],
+        'columns' => [
+            'email' => 'Email',
+            'isbn' => 'ISBN',
+            'actions' => 'Actions',
+            'start_date' => 'Loan Start Date',
+            'end_date' => 'Due Date',
+            'loan_duration'=>'Loan Period',
+            'status' => 'Status',
+            'delayed_days' => 'Delayed Days',
+            'returned_at' => 'Returned At',
+        ],
+        'placeholders' =>[
+            'loan_duration' => 'Days...',
+            'email' => 'mail@example.com',
+            'isbn' => 'ISBN...',
+            'start_date' => 'Date...',
+            'end_date' => 'Date...',
+
+        ],
+        'filters' => [
+            'loan_duration' => 'Loan Period',
+            'email' => 'User Email',
+            'isbn' => 'Book ISBN',
+            'start_date' => 'Start Date',
+            'end_date' => 'Due Date',
+
+
+        ],
+        'fields' => [
+            'email' => 'Email',
+            'isbn' => 'ISBN',
+            'loanDuration' => 'Loan Duration',
+
+        ],
+        'createLoan' =>[
+            'title' => 'Create Loan',
+            'subtitle' => 'Enter the information to create a new loan in the system',
+
+            'placeholders' => [
+                'email' => 'Enter an existing user email',
+                'isbn' => 'Enter an existing isbn book',
+                'loanDuration' => 'Enter the loan duration',
+            ],
+        ],
+        'editLoan' => [
+            'title' => 'Edit Loan',
+            'subtitle' => 'Enter the information to edit a loan in the system',
+
+        ],
+        'delete' => [
+            'title' => 'Are you sure?',
+            'description' => 'This action cannot be undone. The loan will be permanently deleted from the system.',
+        ],
+        'no_results' => 'No results.',
+    ],
+
+
+
 
 
 
