@@ -14,9 +14,18 @@ import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
 import { BookLayout } from "@/layouts/books/BookLayout";
 import { useBooks, Book, useDeleteBook } from "@/hooks/books/useBooks";
+import { PageProps } from "@/types";
 
 
-export default function BookIndex() {
+interface IndexBookProps extends PageProps {
+    genres:{
+        id:string;
+        genre:string;
+    }[];
+
+}
+
+export default function BookIndex({genres}:IndexBookProps) {
   const { t } = useTranslations();
   const { url } = usePage();
 
@@ -37,6 +46,7 @@ export default function BookIndex() {
         filters.author ? filters.author:"null",
         filters.editorial ? filters.editorial:"null",
         filters.pages ? filters.pages:"null",
+        filters.genres ? filters.genres:"null",
         filters.available ? filters.available:"null",
     ]
 
@@ -60,6 +70,7 @@ export default function BookIndex() {
         try {
           await deleteBookMutation.mutateAsync(id);
           refetch();
+          toast.success(t('ui.books.delete_dialog.success') || 'Zone deleted successfully');
         } catch (error) {
           toast.error(t("ui.Book.deleted_error") || "Error deleting Book");
           console.error("Error deleting Book:", error);
@@ -88,15 +99,16 @@ export default function BookIndex() {
             accessorKey: "editorial",
           }),
           createTextColumn<Book>({
-            id: "genres",
-            header: t("ui.books.columns.genres") || "genres",
-            accessorKey: "genres",
-          }),
-          createTextColumn<Book>({
             id: "pages",
             header: t("ui.books.columns.pages") || "pages",
             accessorKey: "pages",
           }),
+          createTextColumn<Book>({
+            id: "genres",
+            header: t("ui.books.columns.genres") || "genres",
+            accessorKey: "genres",
+          }),
+
           createActionsColumn<Book>({
             id: "actions",
             header: t("ui.books.columns.actions") || "Actions",
@@ -162,47 +174,55 @@ export default function BookIndex() {
                       </div>
                       <div></div>
 
-                      <div className="space-y-4">
-                          <FiltersTable
-                              filters={
-                                  [
-                                    {
-                                        id: 'isbn',
-                                        label: t('ui.books.filters.isbn') || 'isbn',
-                                        type: 'text',
-                                        placeholder: t('ui.books.placeholders.isbn') || 'isbn...',
-                                    },
-                                      {
-                                          id: 'title',
-                                          label: t('ui.books.filters.title') || 'title',
-                                          type: 'text',
-                                          placeholder: t('ui.books.placeholders.title') || 'title...',
-                                      },
-                                      {
-                                        id: 'author',
-                                        label: t('ui.books.filters.author') || 'author',
-                                        type: 'text',
-                                        placeholder: t('ui.books.placeholders.author') || 'author...',
-                                    },
-                                    {
-                                        id: 'editorial',
-                                        label: t('ui.books.filters.editorial') || 'editorial',
-                                        type: 'text',
-                                        placeholder: t('ui.books.placeholders.editorial') || 'editorial...',
-                                    },
-                                    {
-                                        id: 'pages',
-                                        label: t('ui.books.filters.pages') || 'pages',
-                                        type: 'number',
-                                        placeholder: t('ui.books.placeholders.pages') || 'pages...',
-                                    },
+             <div className="w-full rounded-2xl  p-4 shadow-md space-y-4">
+                <FiltersTable
+                    filters={[
+                    {
+                        id: 'isbn',
+                        label: t('ui.books.filters.isbn') || 'isbn',
+                        type: 'text',
+                        placeholder: t('ui.books.placeholders.isbn') || 'isbn...',
+                    },
+                    {
+                        id: 'title',
+                        label: t('ui.books.filters.title') || 'title',
+                        type: 'text',
+                        placeholder: t('ui.books.placeholders.title') || 'title...',
+                    },
+                    {
+                        id: 'author',
+                        label: t('ui.books.filters.author') || 'author',
+                        type: 'text',
+                        placeholder: t('ui.books.placeholders.author') || 'author...',
+                    },
+                    {
+                        id: 'editorial',
+                        label: t('ui.books.filters.editorial') || 'editorial',
+                        type: 'text',
+                        placeholder: t('ui.books.placeholders.editorial') || 'editorial...',
+                    },
+                    {
+                        id: 'pages',
+                        label: t('ui.books.filters.pages') || 'pages',
+                        type: 'number',
+                        placeholder: t('ui.books.placeholders.pages') || 'pages...',
+                    },
+                    {
+                        id: 'genres',
+                        label: t('ui.books.filters.genres') || 'genres',
+                        type: 'select',
+                        options: genres.map(genre => ({
+                        label: genre.genre,
+                        value: genre.genre,
+                        })),
+                        placeholder: t('ui.books.placeholders.genres') || 'genre...',
+                    },
+                    ] as FilterConfig[]}
+                    onFilterChange={setFilters}
+                    initialValues={filters}
+                />
+                </div>
 
-                                  ] as FilterConfig[]
-                              }
-                              onFilterChange={setFilters}
-                              initialValues={filters}
-                          />
-                      </div>
 
                       <div className="w-full overflow-hidden">
                           {isLoading ? (

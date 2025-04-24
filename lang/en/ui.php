@@ -13,6 +13,7 @@ return [
             'books' => 'Books',
             'searchBooks' => 'Search Books',
             'loans' => 'Loans',
+            'reservations' => 'Reservations',
 
         ],
     ],
@@ -231,7 +232,7 @@ return [
         'delete_dialog' => [
             'title' => 'Are you sure?',
             'description' => 'This action cannot be undone. The user will be permanently deleted from the system.',
-            'success' => 'Successfully deleted ;)',
+            'success' => 'User deleted successfully',
         ],
         'deleted_error' => 'Error deleting user',
         'no_results' => 'No results.',
@@ -253,6 +254,9 @@ return [
         'title2' => 'Floor',
         'create' => 'Create Floor',
         'edit' => 'Edit Floor',
+        'delete_dialog' => [
+            'success' => 'Floor deleted successfully',
+        ],
         'fields' => [
             'floorNumber' => 'Floor Number',
             'floorName' => 'Floor Name',
@@ -324,6 +328,9 @@ return [
         'edit' => 'Edit Zone',
         'occupied' => 'Complete',
         'currentFloor' => 'Current floor',
+        'delete_dialog' => [
+            'success' => 'Zone deleted successfully',
+        ],
         'buttons' => [
             'new' => 'New Zone',
             'cancel' => 'Cancel',
@@ -351,8 +358,9 @@ return [
         'placeholders' =>[
             'zoneName' => 'Name...',
             'floorNumber' => 'Number...',
-            'genre' => 'text...',
+            'genre' => 'select...',
             'bookshelvesCapacity'=> 'Max bookshelves...',
+            'createdAt' => 'Date...',
 
         ],
         'filters' => [
@@ -360,6 +368,7 @@ return [
             'floorNumber' => 'Floor',
             'genre' => 'Genre',
             'bookshelvesCapacity'=> 'Bookshelves Capacity',
+            'createdAt' => 'Created At',
         ],
         'createZone' =>[
             'title' => 'Create Zone',
@@ -397,6 +406,9 @@ return [
         'occupied' => 'Complete',
         'currentFloor' => 'Current floor',
         'currentZone' => 'Current zone',
+        'delete_dialog' => [
+            'success' => 'Bookshelf deleted successfully',
+        ],
         'buttons' => [
             'new' => 'New Bookshelf',
             'cancel' => 'Cancel',
@@ -404,14 +416,15 @@ return [
             'save' => 'Save',
             'delete' => 'Delete',
             'edit' => 'Edit',
+            'created_at' => 'Created at',
         ],
         'columns' => [
-            'zoneName' => 'Zone Name',
+            'zoneName' => 'Zone',
             'floorNumber' => 'Floor',
             'bookshelfNumber' => 'Bookshelf Number',
             'booksCapacity' => 'Books Capacity',
             'occupiedBooks' => 'Occupied Books',
-            'created_at' => 'Created at',
+            'createdt' => 'Created at',
             'actions' => 'Actions',
         ],
         'placeholders' =>[
@@ -419,6 +432,7 @@ return [
             'floorNumber' => 'Number...',
             'zoneName' => 'Name...',
             'booksCapacity'=> 'Max books...',
+            'createdAt' => 'Date...',
 
         ],
         'filters' => [
@@ -426,6 +440,7 @@ return [
             'zoneName' => 'Zone',
             'floorNumber' => 'Floor',
             'booksCapacity'=> 'Books Capacity',
+            'createdAt' => 'Created at',
 
         ],
         'fields' => [
@@ -469,6 +484,9 @@ return [
         'currentFloor' => 'Current floor',
         'currentZone' => 'Current zone',
         'currentBookshelf' => 'Current Bookshelf',
+        'delete_dialog' => [
+            'success' => 'Book deleted successfully',
+        ],
         'buttons' => [
             'new' => 'New  Book',
             'cancel' => 'Cancel',
@@ -501,7 +519,8 @@ return [
             'author' => 'author...',
             'editorial' => 'text...',
             'pages' => 'number...',
-            'available' => 'True/False...'
+            'available' => 'True/False...',
+            'genres' => 'Genres...',
         ],
         'filters' => [
             'isbn' => 'ISBN',
@@ -509,6 +528,7 @@ return [
             'author' => 'Author',
             'editorial' => 'Editorial',
             'pages' => 'Pages',
+            'genres' => 'Genres',
             'available' => 'Available',
 
         ],
@@ -565,6 +585,12 @@ return [
         'edit' => 'Edit Loan',
         'active' => 'Active',
         'return'=> 'Returned',
+        'confirmReturn' => 'Are you sure to return the book?',
+        'returnEarly' => 'No Delay',
+        'delete_dialog' => [
+            'success' => 'Loan deleted successfully',
+        ],
+
 
         'buttons' => [
             'new' => 'New  Loan',
@@ -578,12 +604,13 @@ return [
         'columns' => [
             'email' => 'Email',
             'isbn' => 'ISBN',
+            'title' => 'Book Title',
             'actions' => 'Actions',
             'start_date' => 'Loan Start Date',
             'end_date' => 'Due Date',
             'loan_duration'=>'Loan Period',
             'status' => 'Status',
-            'delayed_days' => 'Delayed Days',
+            'delayed_days' => 'Delay Days',
             'returned_at' => 'Returned At',
         ],
         'placeholders' =>[
@@ -627,6 +654,66 @@ return [
         'delete' => [
             'title' => 'Are you sure?',
             'description' => 'This action cannot be undone. The loan will be permanently deleted from the system.',
+        ],
+        'no_results' => 'No results.',
+    ],
+
+    'reservations' => [
+        'title' => 'Reservations',
+        'create' => 'Create Reservation',
+        'delete_dialog' => [
+            'success' => 'Reservation deleted successfully',
+        ],
+
+        'buttons' => [
+            'new' => 'New  Reservation',
+            'record' => 'Record',
+            'cancel' => 'Cancel',
+            'update' => 'Update',
+            'save' => 'Save',
+            'delete' => 'Delete',
+            'edit' => 'Edit',
+        ],
+        'columns' => [
+            'email' => 'Email',
+            'isbn' => 'ISBN',
+            'title' => 'Book Title',
+            'actions' => 'Delete',
+            'created_at' => 'Reservation Date'
+        ],
+        'placeholders' =>[
+            'email' => 'mail@example.com',
+            'isbn' => 'ISBN...',
+        ],
+
+        'filters' => [
+            'loan_duration' => 'Loan Period',
+            'email' => 'User Email',
+            'isbn' => 'Book ISBN',
+            'start_date' => 'Start Date',
+            'end_date' => 'Due Date',
+
+
+        ],
+        'fields' => [
+            'email' => 'Email',
+            'isbn' => 'ISBN',
+            'loanDuration' => 'Loan Duration',
+
+        ],
+        'createReservation' =>[
+            'title' => 'Create Reservation',
+            'subtitle' => 'Enter the information to create a new reservation in the system',
+
+            'placeholders' => [
+                'email' => 'Enter an existing user email',
+                'isbn' => 'Enter an existing isbn book',
+                'loanDuration' => 'Enter the loan duration',
+            ],
+        ],
+        'delete' => [
+            'title' => 'Are you sure?',
+            'description' => 'This action cannot be undone. The reservation will be permanently deleted from the system.',
         ],
         'no_results' => 'No results.',
     ],

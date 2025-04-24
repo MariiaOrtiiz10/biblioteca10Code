@@ -58,6 +58,8 @@ export default function FloorIndex() {
         try {
           await deleteFloorMutation.mutateAsync(id);
           refetch();
+          toast.success(t('ui.floors.delete_dialog.success') || 'Floor deleted successfully');
+
         } catch (error) {
           toast.error(t("ui.floors.deleted_error") || "Error deleting Floor");
           console.error("Error deleting Floor:", error);

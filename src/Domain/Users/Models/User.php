@@ -5,6 +5,7 @@ namespace Domain\Users\Models;
 use Domain\Users\Models\UserSetting;
 
 use Database\Factories\UserFactory;
+use Domain\Reservations\Models\Reservation;
 use Domain\Users\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -72,5 +73,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSetting::class, 'user_id');
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+
 
 }

@@ -34,6 +34,7 @@ export default function UsersIndex() {
   const combinedSearch = [
         filters.name ? filters.name: "null",
         filters.email ? filters.email: "null",
+        filters.created_at ? filters.created_at: "null",
   ];
 
   const { data: users, isLoading, isError, refetch } = useUsers({
@@ -56,6 +57,7 @@ export default function UsersIndex() {
     try {
       await deleteUserMutation.mutateAsync(id);
       refetch();
+    toast.success(t('ui.users.delete_dialog.success') || 'User deleted successfully');
     } catch (error) {
       toast.error(t("ui.users.deleted_error") || "Error deleting user");
       console.error("Error deleting user:", error);
@@ -141,6 +143,13 @@ export default function UsersIndex() {
                                       type: 'text',
                                       placeholder: t('ui.users.placeholders.email') || 'Email...',
                                   },
+                                  {
+                                    id: 'created_at',
+                                    label: t('ui.floors.filters.createdAt') || 'Created At',
+                                    type: 'date',
+                                    placeholder: t('ui.floors.placeholders.createdAt') || 'Select Date...',
+                                    format: 'YYYY-MM-DD',
+                                  }
                               ] as FilterConfig[]
                           }
                           onFilterChange={setFilters}

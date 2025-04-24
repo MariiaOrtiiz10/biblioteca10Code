@@ -1,18 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "../../lib/axios";
 
-export interface Loan{
+export interface Reservation{
     id: string;
     user_id:string;
     email:string;
     book_id:string;
     isbn:string;
     title:string;
-    start_date: string;
-    loan_duration:number;
-    end_date:string;
-    status:boolean;
-    delayed_days:number;
     returned_at:string;
     created_at: string;
   }
@@ -50,17 +45,17 @@ export interface PaginatedResponse<T> {
     };
   }
 
-  interface UseLoanParams {
+  interface UseReservationParams {
     search?: any[];
     page?: number;
     perPage?: number;
   }
 
-export function useLoans({ search, page = 1, perPage = 10 }: UseLoanParams = {}) {
+export function useReservations({ search, page = 1, perPage = 10 }: UseReservationParams = {}) {
   return useQuery({
-    queryKey: ["loans", { search, page, perPage }],
+    queryKey: ["reservations", { search, page, perPage }],
     queryFn: async () => {
-      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Loan>>("/api/loans", {
+      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Reservation>>("/api/reservations", {
         params: {
           search,
           page,
@@ -83,14 +78,14 @@ export function useLoans({ search, page = 1, perPage = 10 }: UseLoanParams = {})
           to: apiResponse.to,
           total: apiResponse.total
         }
-      } as PaginatedResponse<Loan>;
+      } as PaginatedResponse<Reservation>;
     },
   });
 }
-export function useCreateLoan() {
+export function useCreateReservation() {
     return useMutation({
-      mutationFn: async (data: {email:string; isbn:string; loan_duration:number;}) => {
-        const response = await axios.post("/api/loans", data, {
+      mutationFn: async (data: {email:string; isbn:string;}) => {
+        const response = await axios.post("/api/reservations", data, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
@@ -101,24 +96,11 @@ export function useCreateLoan() {
     });
 }
 
-export function useUpdateLoan(loanId: string) {
-    return useMutation({
-      mutationFn: async (data: {loan_duration:number;}) => {
-        const response = await axios.put(`/api/loans/${loanId}`, data, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
-        return response.data;
-      },
-    });
-  }
 
-  export function useDeleteLoan() {
+  export function useDeleteReservation() {
     return useMutation({
-      mutationFn: async (loanId: string) => {
-        await axios.delete(`/api/loans/${loanId}`, {
+      mutationFn: async (reservationId: string) => {
+        await axios.delete(`/api/reservations/${reservationId}`, {
           headers: {
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'

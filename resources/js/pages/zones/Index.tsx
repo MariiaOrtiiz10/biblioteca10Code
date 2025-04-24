@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link, usePage } from "@inertiajs/react";
 import { PencilIcon, PlusIcon, TrashIcon, ChevronDown, ChevronUp } from "lucide-react";
-
+import { PageProps } from "@/types";
 import { createTextColumn, createDateColumn, createActionsColumn } from "@/components/stack-table/columnsTable";
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
@@ -16,10 +16,17 @@ import { Table } from "@/components/stack-table/Table";
 import { useZones , Zone, useDeleteZone } from "@/hooks/zones/useZones";
 import { ZoneLayout } from "@/layouts/zones/ZoneLayout";
 
+interface IndexZoneProps extends PageProps {
+    genres:{
+        id:string;
+        genre:string;
+    }[];
 
-export default function ZoneIndex() {
+}
+export default function ZoneIndex({genres}:IndexZoneProps) {
   const { t } = useTranslations();
   const { url } = usePage();
+  console.log(genres)
 
     // Obtener los parámetros de la URL actual
     const urlParams = new URLSearchParams(url.split('?')[1] || '');
@@ -37,6 +44,7 @@ export default function ZoneIndex() {
       filters.floorNumber ? filters.floorNumber : "null",
       filters.genre ? filters.genre : "null",
       filters.bookshelvesCapacity ? filters.bookshelvesCapacity : "null",
+      filters.created_at ? filters.created_at : "null",
     ]
 
     const { data: zones, isLoading, isError, refetch } = useZones({
@@ -59,6 +67,7 @@ export default function ZoneIndex() {
         try {
           await deleteZoneMutation.mutateAsync(id);
           refetch();
+          toast.success(t('ui.zones.delete_dialog.success') || 'Zone deleted successfully');
         } catch (error) {
           toast.error(t("ui.zones.deleted_error") || "Error deleting Zone");
           console.error("Error deleting Zone:", error);
@@ -139,6 +148,7 @@ export default function ZoneIndex() {
                       </div>
                       <div></div>
 
+
                       <div className="space-y-4">
                           <FiltersTable
                               filters={
@@ -158,7 +168,11 @@ export default function ZoneIndex() {
                                       {
                                         id: 'genre',
                                         label: t('ui.zones.filters.genre') || 'genre',
-                                        type: 'text',
+                                        type: 'select',
+                                        options:genres.map(genre => ({
+                                            label: genre.genre,
+                                            value: genre.genre,
+                                        })),
                                         placeholder: t('ui.zones.placeholders.genre') || 'genre...',
                                     },
                                     {
@@ -167,6 +181,14 @@ export default function ZoneIndex() {
                                         type: 'number',
                                         placeholder: t('ui.zones.placeholders.bookshelvesCapacity') || 'bookshelvesCapacity...',
                                     },
+                                    {
+                                        id: 'created_at',
+                                        label: t('ui.zones.filters.createdAt') || 'Select Date...',
+                                        type: 'date',
+                                        placeholder: t('ui.zones.placeholders.createdAt') || 'created_at...',
+                                        format: 'YYYY-MM-DD',
+                                    },
+
 
                                   ] as FilterConfig[]
                               }
@@ -174,6 +196,9 @@ export default function ZoneIndex() {
                               initialValues={filters}
                           />
                       </div>
+                      {/* <div>
+                        {zones?.meta.total}
+                      </div> */}
 
                       <div className="w-full overflow-hidden">
                           {isLoading ? (

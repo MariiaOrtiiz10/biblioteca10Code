@@ -20,8 +20,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@example.com',
             ]);
         }
-
-        //User::factory(10)->create();
+        User::factory(10)->create();
 
     }
 }

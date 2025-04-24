@@ -7,15 +7,9 @@ use Illuminate\Http\JsonResponse;
 
 class BookDestroyAction
 {
-    public function __invoke(Book $book): JsonResponse|string
+    public function __invoke(Book $book): void
     {
-        $isAvailable = !$book->loans()->where('status', true)->exists();
-
-        if (!$isAvailable) {
-            return false;
-        }
 
         $book->delete();
-        return true;
     }
 }

@@ -37,6 +37,8 @@ export default function BookshelfIndex() {
         filters.floorNumber ? filters.floorNumber : "null",
         filters.zoneName ? filters.zoneName : "null",
         filters.booksCapacity ? filters.booksCapacity : "null",
+        filters.created_at ? filters.created_at : "null",
+
     ];
 
     const { data: bookshelves, isLoading, isError, refetch } = useBookshelves({
@@ -59,6 +61,7 @@ export default function BookshelfIndex() {
         try {
           await deleteBookshelfMutation.mutateAsync(id);
           refetch();
+          toast.success(t('ui.bookshelves.delete_dialog.success') || 'Bookshelf deleted successfully');
         } catch (error) {
           toast.error(t("ui.bookshelves.deleted_error") || "Error deleting Zone");
           console.error("Error deleting Zone:", error);
@@ -171,6 +174,13 @@ export default function BookshelfIndex() {
                                         label: t('ui.bookshelves.filters.booksCapacity') || 'booksCapacity',
                                         type: 'number',
                                         placeholder: t('ui.bookshelves.placeholders.booksCapacity') || 'booksCapacity...',
+                                    },
+                                    {
+                                        id: 'created_at',
+                                        label: t('ui.bookshelves.filters.createdAt') || 'Select Date...',
+                                        type: 'date',
+                                        placeholder: t('ui.bookshelves.placeholders.createdAt') || 'created_at...',
+                                        format: 'YYYY-MM-DD',
                                     },
 
                                   ] as FilterConfig[]

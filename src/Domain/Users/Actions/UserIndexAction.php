@@ -2,6 +2,7 @@
 
 namespace Domain\Users\Actions;
 
+use Carbon\Carbon;
 use Domain\Users\Data\Resources\UserResource;
 use Domain\Users\Models\User;
 
@@ -11,6 +12,7 @@ class UserIndexAction
     {
         $name = $search[0];
         $email = $search[1];
+        $created_at = $search[2];
 
         $users = User::query()
         ->when($name != "null", function ($query) use ($name){
@@ -19,8 +21,11 @@ class UserIndexAction
         ->when($email != "null", function ($query) use ($email){
             $query->where('email', 'ILIKE', "%".$email."%");
         })
-            ->latest()
-            ->paginate($perPage);
+        ->when($created_at != "null", function ($query) use ($created_at) {
+            $query->whereDate('created_at', '=', Carbon::parse($created_at));
+        })
+        ->latest()
+        ->paginate($perPage);
 
         return $users->through(fn ($user) => UserResource::fromModel($user));
     }

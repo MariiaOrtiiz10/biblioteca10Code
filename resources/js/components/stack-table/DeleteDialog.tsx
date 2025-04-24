@@ -65,12 +65,12 @@ export function DeleteDialog({
     if (!externalIsDeleting) {
       setIsDeleting(true);
     }
-    
+
     try {
       await onDelete(id);
-      toast.success(
-        successMessage || t("ui.common.delete_dialog.success")
-      );
+    //   toast.success(
+    //      successMessage || t("ui.common.delete_dialog.success")
+    //   );
       setOpen(false);
       onSuccess?.();
     } catch (error) {

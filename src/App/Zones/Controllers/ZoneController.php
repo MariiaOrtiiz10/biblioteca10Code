@@ -23,7 +23,10 @@ class ZoneController extends Controller
      */
     public function index()
     {
-        return Inertia::render('zones/Index');
+        $genres = Genre::orderBy('genre')->get(['id', 'genre']);
+        return Inertia::render('zones/Index',  [
+            'genres' => $genres,
+        ]);
     }
 
     /**
@@ -79,7 +82,6 @@ class ZoneController extends Controller
         $floorsData = Floor::select(['id','floorNumber','floorName', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
         $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();
-        //$zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
         return Inertia::render('zones/Edit', [
             'zone' => $zone,
             'page' => $request->query('page'),
@@ -87,7 +89,6 @@ class ZoneController extends Controller
             'floorsData' => $floorsData,
             'genresData' => $genresData,
             'zonesData' => $zonesData,
-            //'zoneNameByFloorsNumber' => $zoneNameByFloorsNumber,
         ]);
 
     }

@@ -15,8 +15,8 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-        
-        
+
+
         //Para crear permisos --> Como ya están creados, para evitar error lo comento.
         $user_permission = Permission::create(attributes: [
             'name' => 'users.view',

@@ -15,7 +15,7 @@ class LoanStoreAction
 
         $book = Book::where('isbn', $data['isbn'])
             ->whereDoesntHave('loans', fn ($q) => $q->where('status', true))
-            ->firstOrFail();
+        ->firstOrFail();
 
         $start_date = now();
 

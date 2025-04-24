@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
-            $table->foreignUuid('user_id')->constrained();
-            $table->foreignUuid('book_id')->constrained();
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');;
+            $table->foreignUuid('book_id')->constrained()->onDelete('cascade');;
             $table->date('start_date');
             $table->integer('loan_duration');
             $table->date('end_date')->nullable();

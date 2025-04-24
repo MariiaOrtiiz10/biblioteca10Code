@@ -14,7 +14,7 @@ return [
     'users' => [
         'created' => 'User created successfully',
         'updated' => 'User updated successfully',
-        'deleted' => 'User deleted successfully',
+        'deleted' => 'User deleteddd successfully',
         'error' => [
             'create' => 'Error creating user',
             'update' => 'Error updating user',
@@ -66,6 +66,7 @@ return [
         'created' => 'Loan created successfully',
         'updated' => 'Loan updated successfully',
         'deleted' => 'Loan deleted successfully',
+        'returned' => 'Loan returned successfully',
         'error' => [
             'create' => 'Error creating loan',
             'update' => 'Error updating loan',

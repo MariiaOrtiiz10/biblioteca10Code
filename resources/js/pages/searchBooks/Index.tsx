@@ -37,6 +37,7 @@ export default function SearchBookIndex() {
         filters.author ? filters.author:"null",
         filters.editorial ? filters.editorial:"null",
         filters.pages ? filters.pages:"null",
+        filters.genres ? filters.genres:"null",
         filters.available ? filters.available:"null",
     ]
 
@@ -53,6 +54,14 @@ export default function SearchBookIndex() {
       function handleCreateLoan(isbn: string){
         router.get(`loans/create`, {isbn})
       }
+
+      function handleCreateReservation(isbn: string){
+        router.get(`reservations/create`, {isbn})
+      }
+
+
+
+
       const handlePerPageChange = (newPerPage: number) => {
         setPerPage(newPerPage);
         setCurrentPage(1); // Reset to first page when changing items per page
@@ -117,20 +126,21 @@ export default function SearchBookIndex() {
                                 size="icon"
                                 title= {t("ui.books.buttons.loan") || "Loan Book"}
                                 onClick={()=>handleCreateLoan(book.isbn)}
-                                 >
+                                >
                                 <ArrowUpDown className="h-4 w-4 text-orange-500" />
 
                                 </Button>
                             )}
                             {!book.available && (
-                            <Link href={'/reserves/create'}>
                                 <Button
                                 variant="outline"
                                 size="icon"
-                                title= {t("ui.books.buttons.reserve") || "Reserve Book"} >
+                                title= {t("ui.books.buttons.reserve") || "Reserve Book"}
+                                onClick={()=>handleCreateReservation(book.isbn)}
+
+                                >
                                 <BookUp className="h-5 w-5 text-blue-500" />
                                 </Button>
-                            </Link>
                             )}
 
                           </>

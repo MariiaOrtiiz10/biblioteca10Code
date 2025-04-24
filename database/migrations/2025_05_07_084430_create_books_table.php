@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('editorial');
             $table->integer('pages');
             $table->string('genres');
-            $table->foreignUuid('bookshelf_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('bookshelf_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

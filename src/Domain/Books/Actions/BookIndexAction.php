@@ -13,36 +13,34 @@ class BookIndexAction
         $author= $search[2];
         $editorial= $search[3];
         $pages= $search[4];
-        $available = $search[5];
+        $genres= $search[5];
+        $available = $search[6];
 
         $books = Book::query()
+        ->join('bookshelves', 'books.bookshelf_id', '=', 'bookshelves.id')
+        ->join('zones', 'bookshelves.zone_id', '=', 'zones.id')
+        ->join('floors', 'zones.floor_id', '=', 'floors.id')
+        ->select('books.*')
         ->when($isbn != "null", function ($query) use ($isbn){
-            $query->where('isbn', 'ILIKE', "%".$isbn."%");
+            $query->where('books.isbn', 'ILIKE', "%".$isbn."%");
         })
         ->when($title != "null", function ($query) use ($title){
-            $query->where('title', 'ILIKE', "%".$title."%");
+            $query->where('books.title', 'ILIKE', "%".$title."%");
         })
         ->when($author != "null", function ($query) use ($author){
-            $query->where('author', 'ILIKE', "%".$author."%");
+            $query->where('books.author', 'ILIKE', "%".$author."%");
         })
         ->when($editorial != "null", function ($query) use ($editorial){
-            $query->where('editorial', 'ILIKE', "%".$editorial."%");
+            $query->where('books.editorial', 'ILIKE', "%".$editorial."%");
         })
         ->when($pages != "null", function ($query) use ($pages){
-            $query->where('pages', 'ILIKE', "%".$pages."%");
+            $query->where('books.pages', 'ILIKE', "%".$pages."%");
+        })
+        ->when($genres != "null", function ($query) use ($genres){
+            $query->where('books.genres', 'ILIKE', "%".$genres."%");
         })
         ->when($available != "null", function ($query) use ($available) {
-            if ($available === "true") {
-                // Libros disponibles (sin préstamos activos)
-                $query->whereDoesntHave('loans', function ($subQuery) {
-                    $subQuery->where('status', true);
-                });
-            } else {
-                // Libros no disponibles (con préstamos activos)
-                $query->whereHas('loans', function ($subQuery) {
-                    $subQuery->where('status', true);
-                });
-            }
+
         })
         ->latest()
         ->paginate($perPage);
