@@ -36,10 +36,7 @@ interface BookFormProps {
         pages:number;
         genres:string;
     };
-    genresData?: {
-        id:string;
-        genres:string;
-    }[];
+    genresData?: string[];
 
     genres?: {
         id:string;
@@ -124,7 +121,9 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
     : null;
 
     //Array de los genres
-    const [selectedGenres, setSelectedGenres] = useState<string[]>(zoneGenreId ? [zoneGenreId] : []);
+    const [selectedGenres, setSelectedGenres] = useState<string[]>(
+        genresData || (zoneGenreId ? [zoneGenreId] : [])
+    );
 
     const handleGenreChange = (genreId: string) => {
         setSelectedGenres((prev) => {
@@ -136,7 +135,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
         });
     };
 
-
+    const initialGenres = genresData?.length ? genresData.join(",") : initialData?.genres ?? '';
 
  const form = useForm({
         defaultValues: {
@@ -146,9 +145,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
             author:initialData?.author ?? "",
             editorial:initialData?.editorial ?? "",
             bookshelf_id: initialData?.bookshelf_id ?? '',
-            genres:initialData?.genres ?? '',
-
-
+            genres: initialGenres,
         },
         onSubmit: async ({ value }) => {
             const options = {
@@ -207,6 +204,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         e.stopPropagation();
+
         const finalGenres = [...new Set([...selectedGenres, zoneGenreId])];
         const genreNames = finalGenres
         .map((id) => genres.find((g) => g.id === id)?.genre)
@@ -728,7 +726,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                     type="button"
                     variant="outline"
                     onClick={() => {
-                        let url = "/users";
+                        let url = "/books";
                         if (page) {
                             url += `?page=${page}`;
                             if (perPage) {

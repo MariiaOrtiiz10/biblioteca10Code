@@ -4,7 +4,7 @@ import { useTranslations } from "@/hooks/use-translations";
 import { PageProps } from "@/types";
 
 interface CreateUserProps extends PageProps {
-  arrayRolePermissions?: String[];
+  arrayRolePermissions?: string[];
 }
 
 

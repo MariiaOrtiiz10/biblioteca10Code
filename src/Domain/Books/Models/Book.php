@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Domain\Genres\Models\Genre;
 use Domain\Loans\Models\Loan;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
     use HasFactory,HasUuids;
+    use SoftDeletes;
 
 
 
@@ -63,20 +65,16 @@ class Book extends Model
         return $this->belongsTo(Bookshelf::class);
     }
 
-
+    //N:M
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class, "book_genre", 'book_id', 'genre_id');
     }
 
-
         public function loans()
     {
         return $this->hasMany(Loan::class);
     }
-
-
-
 
 
 }

@@ -11,7 +11,6 @@ interface CreateBookProps extends PageProps {
         id:string;
         genre:string;
     }[];
-
     zonesData?:{
         id:string;
         zoneName:string;

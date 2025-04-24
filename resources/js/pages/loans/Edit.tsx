@@ -13,12 +13,14 @@ interface EditLoanProps extends PageProps {
         isbn:string;
         loan_duration: number;
     }
+    email:string;
+    isbn:string;
     page?: string;
     perPage?: string;
 
 }
 
-export default function EditLoan({loan, page, perPage}: EditLoanProps) {
+export default function EditLoan({loan,email,isbn, page, perPage}: EditLoanProps) {
   const { t } = useTranslations();
 
   return (
@@ -37,6 +39,8 @@ export default function EditLoan({loan, page, perPage}: EditLoanProps) {
             initialData={loan}
             page={page}
             perPage={perPage}
+            email = {email}
+            isbn = {isbn}
           />
         </div>
       </div>

@@ -34,7 +34,6 @@ class BookResource extends Data
     public static function fromModel(Book $book): self
     {
         $totalBookIsbn = Book::where('isbn', $book->isbn)->count();
-
         $availableBook = Book::where('isbn', $book->isbn)
             ->whereDoesntHave('loans', function ($query) {
                 $query->where('status', true);

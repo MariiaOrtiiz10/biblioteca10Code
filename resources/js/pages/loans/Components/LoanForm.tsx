@@ -25,6 +25,8 @@ interface LoanFormProps {
     //paginación
     page?: string;
     perPage?: string;
+    email:string;
+    isbn:string;
     bookISBN: string|null;
 
 
@@ -44,13 +46,17 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function LoanForm({initialData, page, perPage, bookISBN}:LoanFormProps){
+export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:LoanFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
+    console.log(initialData);
+    console.log(email);
+    console.log(isbn);
+
     const form = useForm({
         defaultValues: {
-            email: initialData?.email ?? "",
-            isbn: initialData?.isbn ?? bookISBN ?? '',
+            email: initialData?.email ?? email ?? '',
+            isbn: initialData?.isbn ?? bookISBN ?? isbn ?? '',
             loan_duration: initialData?.loan_duration ?? undefined,
 
         },
@@ -126,7 +132,7 @@ export function LoanForm({initialData, page, perPage, bookISBN}:LoanFormProps){
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     onBlur={field.handleBlur}
                                     placeholder={t("ui.loans.createLoan.placeholders.email")}
-                                    disabled={form.state.isSubmitting}
+                                    disabled={form.state.isSubmitting || email!=null}
                                     required={false}
                                     autoComplete="off"
                                 />
@@ -169,7 +175,7 @@ export function LoanForm({initialData, page, perPage, bookISBN}:LoanFormProps){
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     onBlur={field.handleBlur}
                                     placeholder={t("ui.loans.createLoan.placeholders.isbn")}
-                                    disabled={form.state.isSubmitting || bookISBN!=null }
+                                    disabled={form.state.isSubmitting || bookISBN!=null || isbn!=null }
                                     required={false}
                                     autoComplete="off"
                                 />

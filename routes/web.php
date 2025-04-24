@@ -19,8 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('books', \App\Books\Controllers\BookController::class);
     Route::resource('searchBooks',\App\searchBooks\Controllers\SearchbookController::class);
     Route::resource('loans', \App\Loans\Controllers\LoanController::class);
-
-    //Route::put('loans/{loan}/return', [\App\Loans\Controllers\LoanController::class, 'return']);
+    Route::resource('reservations', \App\Reservations\Controllers\ReservationController::class);
 });
 
 require __DIR__.'/settings.php';

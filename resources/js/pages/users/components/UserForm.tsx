@@ -34,7 +34,7 @@ interface UserFormProps {
     //paginación
     page?: string;
     perPage?: string;
-    arrayRolePermissions?: String[];
+    arrayRolePermissions?: string[];
 }
 
 

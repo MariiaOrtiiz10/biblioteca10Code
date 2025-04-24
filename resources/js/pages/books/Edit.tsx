@@ -19,10 +19,7 @@ interface EditBookProps extends PageProps {
     pages: number;
     genres: string;
   };
-genresData?: {
-    id:string;
-    genres:string;
-}[];
+  genresData?: string[];
 
 genres?: {
     id:string;

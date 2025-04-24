@@ -14,6 +14,7 @@ import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
 import { useLoans , Loan, useDeleteLoan } from "@/hooks/loans/useLoans";
 import { LoanLayout } from "@/layouts/loans/LoanLayout";
+import axios from "../../lib/axios";
 
 
 export default function LoanIndex() {
@@ -63,38 +64,45 @@ export default function LoanIndex() {
         try {
           await deleteLoanMutation.mutateAsync(id);
           refetch();
+          toast.success(t('ui.loans.delete_dialog.success') || 'Loan deleted successfully');
         } catch (error) {
           toast.error(t("ui.Loan.deleted_error") || "Error deleting Loan");
           console.error("Error deleting Loan:", error);
         }
       };
 
-    //   const handleReturnLoan = async (id: string) => {
-    //     try {
-    //       await returnLoanMutation.mutateAsync(id);
-    //       refetch();
-    //       toast.success(t("ui.Loan.returned_success") || "Loan returned successfully");
-    //     } catch (error) {
-    //       toast.error(t("ui.Loan.returned_error") || "Error returning Loan");
-    //       console.error("Error returning Loan:", error);
-    //     }
-    //   };
 
 
-    // function handleChangeStatus (id: string){
-    //     const newStatus = false;
-    //     //const newReturned = new Date().toISOString().split('T')[0];
-    //     const informacion = new FormData();
-    //     informacion.append('newStatus', newStatus);
-    //     informacion.append('_method', 'PUT');
-    //     router.post(/loans/${id}, informacion);
-    //     refetch();
-    //   };
+
+      function handleChangeStatus(id: string) {
+        if (confirm(t('ui.loans.confirmReturn'))) {
+
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            const formattedDate = `${day}-${month}-${year}`;
+
+            const formData = new FormData();
+            formData.append('status', '0');
+            formData.append('returned_at', formattedDate);
+            formData.append('_method', 'PUT');
+
+            router.post(`/loans/${id}`, formData, {
+                onSuccess: () => {
+                    refetch();
+                },
+                onError: (error) => {
+                    console.error('Error al cambiar estado:', error);
+                }
+            });
+        }
+    }
+
 
 
 
       const columns = useMemo(() => ([
-
 
           createTextColumn<Loan>({
             id: "email",
@@ -106,11 +114,12 @@ export default function LoanIndex() {
             header: t("ui.loans.columns.isbn") || "isbn",
             accessorKey: "isbn",
           }),
-        //   createTextColumn<Loan>({
-        //     id: "title",
-        //     header: t("ui.loans.columns.title") || "title",
-        //     accessorKey: "title",
-        //   }),
+          createTextColumn<Loan>({
+            id: "title",
+            header: t("ui.loans.columns.title") || "title",
+            accessorKey: "title",
+          }),
+
           createTextColumn<Loan>({
             id: "start_date",
             header: t("ui.loans.columns.start_date") || "start_date",
@@ -121,22 +130,45 @@ export default function LoanIndex() {
             header: t("ui.loans.columns.end_date") || "end_date",
             accessorKey: "end_date",
           }),
-          createTextColumn<Loan>({
-            id: "loan_duration",
-            header: t("ui.loans.columns.loan_duration") || "loan_duration",
-            accessorKey: "loan_duration",
-          }),
+        //   createTextColumn<Loan>({
+        //     id: "loan_duration",
+        //     header: t("ui.loans.columns.loan_duration") || "loan_duration",
+        //     accessorKey: "loan_duration",
+        //   }),
           createTextColumn<Loan>({
             id: "status",
             header: t("ui.loans.columns.status") || "Status",
             accessorKey: "status",
             format: (value) => value ? t("ui.loans.active") : t("ui.loans.return"),
           }),
-          createTextColumn<Loan>({
+        //   createActionsColumn<Loan>({
+        //     id: "delayed_days",
+        //     header: t("ui.loans.columns.delayed_days") || "Delays Days",
+        //     renderActions: (loan) => {
+        //         const delayedDays = loan.delayed_days ?? 0;
+        //         const isDelayed = delayedDays > 0;
+        //         const isEarly = delayedDays < 0;
+
+        //         const className = isDelayed
+        //           ? "font-bold text-red-600 dark:text-red-400 px-2 py-1 rounded"
+        //           : isEarly
+        //             ? "text-green-600 dark:text-green-400 px-2 py-1 rounded"
+        //             : "text-gray-600 dark:text-gray-400 px-2 py-1 rounded";
+
+        //         return (
+        //           <span className={className}>
+        //             {delayedDays}
+        //           </span>
+        //         );
+        //       }
+        //  }),
+
+          createTextColumn <Loan>({
             id: "delayed_days",
             header: t("ui.loans.columns.delayed_days") || "delayed_date",
             accessorKey: "delayed_days",
           }),
+
           createTextColumn<Loan>({
             id: "returned_at",
             header: t("ui.loans.columns.returned_at") || "returned_at                                                                                                                                ",
@@ -154,7 +186,7 @@ export default function LoanIndex() {
                  {loan.status && (
                         <Button
                         variant="outline"
-                        //onClick={() => handleReturnLoan(loan.id)}
+                        onClick={() => handleChangeStatus(loan.id)}
                         size="icon"
                         title= {t("ui.loans.buttons.return") || "Return Book"} >
                         <Undo2 className="h-4 w-4 text-blue-700" />
@@ -234,12 +266,12 @@ export default function LoanIndex() {
                                         format: 'DD-MM-YYYY',
                                       },
 
-                                    {
-                                        id: 'loan_duration',
-                                        label: t('ui.loans.filters.loan_duration') || 'loan_duration',
-                                        type: 'number',
-                                        placeholder: t('ui.loans.placeholders.loan_duration') || 'loan_duration...',
-                                    },
+                                    // {
+                                    //     id: 'loan_duration',
+                                    //     label: t('ui.loans.filters.loan_duration') || 'loan_duration',
+                                    //     type: 'number',
+                                    //     placeholder: t('ui.loans.placeholders.loan_duration') || 'loan_duration...',
+                                    // },
 
 
                                   ] as FilterConfig[]

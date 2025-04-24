@@ -19,8 +19,8 @@ class LoanResource extends Data
         public readonly int $loan_duration,
         public readonly string $end_date, //start_dtae + loan_duration
         public readonly string $status,
-        // public readonly ?int $delayed_days,
-        // public readonly ?string $returned_at,
+        public readonly ?int $delayed_days,
+        public readonly ?string $returned_at,
         public readonly string $created_at,
         public readonly string $updated_at,
     ) {
@@ -39,12 +39,12 @@ class LoanResource extends Data
             book_id: $loan->book_id,
             isbn: $loan->book->isbn,
             title: $loan->book->title,
-            start_date: $startDate->format('d-m-Y'),
+            start_date: $startDate->format('Y-m-d'),
             loan_duration: $loan->loan_duration,
-            end_date: $endDate->format('d-m-Y'),
+            end_date: $endDate->format('Y-m-d'),
             status: $loan->status,
-            // delayed_days: $loan->delayed_days,
-            // returned_at: $loan->returned_at->format('d-m-Y'),
+            delayed_days: $loan->delayed_days,
+            returned_at: $loan->returned_at,
             created_at: $loan->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
             updated_at: $loan->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );

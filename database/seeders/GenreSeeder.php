@@ -13,34 +13,26 @@ class GenreSeeder extends Seeder
      */
     public function run(): void
     {
-        Genre::create([
-            'genre' => 'Fiction',
-        ]);
-        Genre::create([
-            'genre' => 'No fiction',
-        ]);
-        Genre::create([
-            'genre' => 'Childrens literature',
-        ]);
-        Genre::create([
-            'genre' => 'Youth literature',
-        ]);
-        Genre::create([
-            'genre' => 'Poetry',
-        ]);
-        Genre::create([
-            'genre' => 'Theater',
-        ]);
-        Genre::create([
-            'genre' => 'Comics and graphic novels',
-        ]);
-        Genre::create([
-            'genre' => 'Specific genres',
-        ]);
-        Genre::create([
-            'genre' => 'Top read',
-        ]);
+        $genres = [
+            'Science Fiction',
+            'Fantasy',
+            'Historical',
+            'Mystery',
+            'Horror',
+            'Biography',
+            'Autobiography',
+            'Self-help',
+            'Travel',
+            'Cooking',
+            'Childrens literature',
+            'Youth literature',
+        ];
 
+        foreach ($genres as $genre) {
+            Genre::create([
+                'genre' => $genre,
+            ]);
+        }
 
 
     }

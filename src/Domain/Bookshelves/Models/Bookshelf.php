@@ -40,7 +40,6 @@ class Bookshelf extends Model
                 $newZoneId = $bookshelf->zone_id;
 
                 Zone::find($originalZoneId)?->decrement('occupiedBookshelves');
-
                 Zone::find($newZoneId)?->increment('occupiedBookshelves');
             }
         });

@@ -4,7 +4,7 @@ namespace Domain\Books\Actions;
 
 use Domain\Books\Data\Resources\BookResource;
 use Domain\Books\Models\Book;
-
+use Domain\Genres\Models\Genre;
 
 class BookUpdateAction
 {
@@ -19,6 +19,9 @@ class BookUpdateAction
             'genres' =>  $data['genres'],
             'bookshelf_id' =>  $data['bookshelf_id'],
         ];
+        $genreNames = explode(', ', $data['genres'] ?? '');
+        $genreIds = Genre::whereIn('genre', $genreNames)->pluck('id')->toArray();
+        $book->genres()->sync($genreIds);
 
         $book->update($updateData);
 

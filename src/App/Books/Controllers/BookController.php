@@ -11,6 +11,7 @@ use Domain\Books\Models\Book;
 use Domain\Bookshelves\Models\Bookshelf;
 use Domain\Floors\Models\Floor;
 use Domain\Genres\Models\Genre;
+use Domain\Loans\Models\Loan;
 use Domain\Zones\Models\Zone;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,10 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Inertia::render('books/Index');
+        $genres = Genre::orderBy('genre')->get(['id', 'genre']);
+        return Inertia::render('books/Index', [
+            'genres' => $genres,
+        ]);
     }
 
     /**
@@ -85,9 +89,10 @@ class BookController extends Controller
     public function edit(Request $request, Book $book)
     {
         $genres = Genre::select(['id','genre'])->get()->toArray();
-        $genresData = Book::select(['id','genres'])->get()->toArray();
+        $genresData = $book->genres()->pluck('id')->toArray();
         $zonesData = Zone::select(['zones.id','zones.zoneName','zones.floor_id','zones.bookshelvesCapacity','occupiedBookshelves','zones.genre_id', 'genres.genre'])->join('genres', 'genres.id', '=', 'zones.genre_id')->get()->toArray();
         $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
+
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
         return Inertia::render('books/Edit', [
             'book' => $book,
@@ -134,12 +139,15 @@ class BookController extends Controller
             ->with('success', __('messages.books.updated'));
     }
 
+
+
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Book $book, BookDestroyAction $action)
     {
-        $success = $action($book);
+            $success = $action($book);
 
         if (!$success) {
             return redirect()->route('books.index')

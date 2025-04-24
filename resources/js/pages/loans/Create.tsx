@@ -8,7 +8,6 @@ import { LoanForm } from "./Components/LoanForm";
 
 interface CreateLoanProps extends PageProps {
 
-
 }
 
 export default function createLoan({}:CreateLoanProps) {
