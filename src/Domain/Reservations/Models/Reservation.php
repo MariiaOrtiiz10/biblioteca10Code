@@ -13,8 +13,6 @@ class Reservation extends Model
 {
     use HasFactory,HasUuids;
 
-
-
     protected static function newFactory()
     {
         return ReservationFactory::new();
@@ -25,8 +23,6 @@ class Reservation extends Model
         'user_id',
         'book_id',
     ];
-
-
 
     public function book()
     {

@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             ZoneSeeder::class,
             BookshelfSeeder::class,
             BookSeeder::class,
-            // LoanSeeder::class,
+            LoanSeeder::class,
+            ReservationSeeder::class,
         ]);
 
 

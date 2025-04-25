@@ -14,9 +14,24 @@ import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
 import { BookLayout } from "@/layouts/books/BookLayout";
 import { useBooks, Book, useDeleteBook } from "@/hooks/books/useBooks";
+import { PageProps } from "@/types";
 
+interface IndexBookProps extends PageProps {
+    floors:{
+        id:string;
+        floorNumber:number;
+    }[];
+    zones:{
+        id:string;
+        zoneName:string;
+    }[];
+    bookshelves:{
+        id:string;
+        bookshelfNumber:number;
+    }[];
+}
 
-export default function SearchBookIndex() {
+export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookProps) {
   const { t } = useTranslations();
   const { url } = usePage();
 
@@ -39,6 +54,9 @@ export default function SearchBookIndex() {
         filters.pages ? filters.pages:"null",
         filters.genres ? filters.genres:"null",
         filters.available ? filters.available:"null",
+        filters.floorNumber ? filters.floorNumber:'null',
+        filters.zoneName ? filters.zoneName:'null',
+        filters.bookshelfNumber ? filters.bookshelfNumber:'null',
     ]
 
     const { data: books, isLoading, isError, refetch } = useBooks({
@@ -102,7 +120,7 @@ export default function SearchBookIndex() {
             id: "available",
             header: t("ui.books.columns.available") || "available",
             accessorKey: "available",
-            format: (value) => value ? "True" : "False",
+            format: (value) => value ? t("ui.books.available") : t("ui.books.notAvailable"),
           }),
           createTextColumn<Book>({
             id: "availableBookIsbn",
@@ -161,7 +179,7 @@ export default function SearchBookIndex() {
                       </div>
                       <div></div>
 
-                      <div className="space-y-4">
+                      <div className="w-full rounded-2xl p-4 shadow-md border">
                           <FiltersTable
                               filters={
                                   [
@@ -173,9 +191,43 @@ export default function SearchBookIndex() {
                                     },
                                     {
                                         id: 'available',
-                                        label: t('ui.books.filters.available') || 'available',
-                                        type: 'text',
-                                        placeholder: t('ui.books.placeholders.available') || 'available...',
+                                        label: t('ui.books.filters.available')||  'available',
+                                        type: 'select',
+                                        options:[
+                                            {value:'true', label: t('ui.books.available') || 'Available'},
+                                            {value:'false', label: t('ui.books.notAvailable') || 'Available'},
+                                        ],
+                                        placeholder: t('ui.books.placeholders.available')||  'available',
+                                    },
+                                    {
+                                        id: 'floorNumber',
+                                        label: t('ui.books.filters.floors') || 'floors',
+                                        type: 'select',
+                                        options: floors.map(floor => ({
+                                        label: floor.floorNumber,
+                                        value: floor.floorNumber,
+                                        })),
+                                        placeholder: t('ui.books.placeholders.floors') || 'floors...',
+                                    },
+                                    {
+                                        id: 'zoneName',
+                                        label: t('ui.books.filters.zones') || 'zones',
+                                        type: 'select',
+                                        options: Array.from(
+                                            new Map(zones.map(zone => [zone.zoneName, { label: zone.zoneName, value: zone.zoneName }]))
+                                            .values()
+                                          ),
+                                        placeholder: t('ui.books.placeholders.zones') || 'zones...',
+                                    },
+                                    {
+                                        id: 'bookshelfNumber',
+                                        label: t('ui.books.filters.bookshelves') || 'zones',
+                                        type: 'select',
+                                        options: bookshelves.map(bookshelf => ({
+                                        label: bookshelf.bookshelfNumber,
+                                        value: bookshelf.bookshelfNumber,
+                                        })),
+                                        placeholder: t('ui.books.placeholders.zones') || 'zones...',
                                     },
 
                                   ] as FilterConfig[]
@@ -183,6 +235,10 @@ export default function SearchBookIndex() {
                               onFilterChange={setFilters}
                               initialValues={filters}
                           />
+                          <div className="text-right mt-2">
+                              <span className="text-gray-500 text-sm">{t('ui.common.results')}</span>
+                              <span className="font-bold text-blue-600 ml-1">{books?.meta.total}</span>
+                          </div>
                       </div>
 
                       <div className="w-full overflow-hidden">

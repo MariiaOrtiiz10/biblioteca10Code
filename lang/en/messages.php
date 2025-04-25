@@ -73,4 +73,13 @@ return [
             'delete' => 'Error deleting loan',
         ],
     ],
+    'reservations' => [
+        'created' => 'Reservation created successfully',
+        'deleted' => 'Reservation deleted successfully',
+        'error' => [
+            'create' => 'Error creating reservation',
+            'update' => 'Error updating reservation',
+            'delete' => 'Error deleting reservation',
+        ],
+    ],
 ];

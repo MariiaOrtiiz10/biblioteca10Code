@@ -38,6 +38,8 @@ export default function LoanIndex() {
         filters.loan_duration ? filters.loan_duration:"null",
         filters.start_date ? filters.start_date: "null",
         filters.end_date ? filters.end_date: "null",
+        filters.title ? filters.title:"null",
+        filters.status? filters.status:"null",
     ]
 
     const { data: loans, isLoading, isError, refetch } = useLoans({
@@ -141,33 +143,38 @@ export default function LoanIndex() {
             accessorKey: "status",
             format: (value) => value ? t("ui.loans.active") : t("ui.loans.return"),
           }),
-        //   createActionsColumn<Loan>({
-        //     id: "delayed_days",
-        //     header: t("ui.loans.columns.delayed_days") || "Delays Days",
-        //     renderActions: (loan) => {
-        //         const delayedDays = loan.delayed_days ?? 0;
-        //         const isDelayed = delayedDays > 0;
-        //         const isEarly = delayedDays < 0;
 
-        //         const className = isDelayed
-        //           ? "font-bold text-red-600 dark:text-red-400 px-2 py-1 rounded"
-        //           : isEarly
-        //             ? "text-green-600 dark:text-green-400 px-2 py-1 rounded"
-        //             : "text-gray-600 dark:text-gray-400 px-2 py-1 rounded";
-
-        //         return (
-        //           <span className={className}>
-        //             {delayedDays}
-        //           </span>
-        //         );
-        //       }
-        //  }),
-
-          createTextColumn <Loan>({
+          createActionsColumn<Loan>({
             id: "delayed_days",
-            header: t("ui.loans.columns.delayed_days") || "delayed_date",
-            accessorKey: "delayed_days",
+            header: t("ui.loans.columns.delayed_days") || "Delay Days",
+            renderActions: (loan) => {
+              if (loan.status) {
+                return null;
+              }
+
+              const delayedDays = loan.delayed_days ?? 0;
+              const isDelayed = delayedDays > 0;
+              const isEarly = delayedDays < 0;
+
+              const className = isDelayed
+                ? "font-bold text-red-600 dark:text-red-400 px-2 py-1 rounded"
+                : isEarly
+                  ? "text-green-600 dark:text-green-400 px-2 py-1 rounded"
+                  : "text-gray-600 dark:text-gray-400 px-2 py-1 rounded";
+
+              return (
+                <span className={className}>
+                  {delayedDays}
+                </span>
+              );
+            }
           }),
+
+        //   createTextColumn <Loan>({
+        //     id: "delayed_days",
+        //     header: t("ui.loans.columns.delayed_days") || "delayed_date",
+        //     accessorKey: "delayed_days",
+        //   }),
 
           createTextColumn<Loan>({
             id: "returned_at",
@@ -235,7 +242,7 @@ export default function LoanIndex() {
                       </div>
                       <div></div>
 
-                      <div className="space-y-4">
+                      <div className="w-full rounded-2xl p-4 shadow-md border">
                           <FiltersTable
                               filters={
                                   [
@@ -252,6 +259,12 @@ export default function LoanIndex() {
                                         placeholder: t('ui.loans.placeholders.isbn') || 'isbn...',
                                     },
                                     {
+                                        id: 'title',
+                                        label: t('ui.loans.filters.title') || 'title',
+                                        type: 'text',
+                                        placeholder: t('ui.loans.placeholders.title') || 'title...',
+                                    },
+                                    {
                                         id: 'start_date',
                                         label: t('ui.loans.filters.start_date') || 'start_date',
                                         type: 'date',
@@ -265,6 +278,17 @@ export default function LoanIndex() {
                                         placeholder: t('ui.loans.placeholders.end_date') || 'Select Date...',
                                         format: 'DD-MM-YYYY',
                                       },
+                                      {
+                                        id: 'status',
+                                        label: t('ui.loans.filters.status')||  'status',
+                                        type: 'select',
+                                        options:[
+                                            {value:'true', label: t('ui.loans.active') || 'Available'},
+                                            {value:'false', label: t('ui.loans.return') || 'Available'},
+                                        ],
+                                        placeholder: t('ui.loans.placeholders.status')||  'available',
+                                    },
+
 
                                     // {
                                     //     id: 'loan_duration',
@@ -279,6 +303,10 @@ export default function LoanIndex() {
                               onFilterChange={setFilters}
                               initialValues={filters}
                           />
+                          <div className="text-right mt-2">
+                              <span className="text-gray-500 text-sm">{t('ui.common.results')}</span>
+                              <span className="font-bold text-blue-600 ml-1">{loans?.meta.total}</span>
+                          </div>
                       </div>
 
                       <div className="w-full overflow-hidden">

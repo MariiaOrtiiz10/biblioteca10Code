@@ -15,6 +15,8 @@ class LoanIndexAction
         $loan_duration = $search[2];
         $start_date = $search[3];
         $end_date = $search[4];
+        $title = $search[5];
+        $status = $search[6];
 
         $loans = Loan::query()
         ->join('users', 'loans.user_id', '=', 'users.id')
@@ -34,6 +36,12 @@ class LoanIndexAction
         })
         ->when($end_date != "null", function ($query) use ($end_date) {
             $query->whereDate('loans.end_date', '=', Carbon::parse($end_date));
+        })
+        ->when($title != "null", function ($query) use ($title){
+            $query->where('books.title', 'ILIKE', "%".$title."%");
+        })
+        ->when($status != "null", function ($query) use ($status){
+            $query->where('loans.status', 'ILIKE', "%".$status."%");
         })
 
 

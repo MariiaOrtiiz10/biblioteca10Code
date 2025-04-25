@@ -120,6 +120,7 @@ return [
         ],
         'per_page' => 'Per page',
         'no_results' => 'No results',
+        'results'=>'Total results found: ',
     ],
     'createUser' => [
         'pwd' => 'including characters and numbers',
@@ -424,7 +425,7 @@ return [
             'bookshelfNumber' => 'Bookshelf Number',
             'booksCapacity' => 'Books Capacity',
             'occupiedBooks' => 'Occupied Books',
-            'createdt' => 'Created at',
+            'created_at' => 'Created at',
             'actions' => 'Actions',
         ],
         'placeholders' =>[
@@ -480,6 +481,8 @@ return [
         'edit' => 'Edit Book',
         'floor' => 'Floor',
         'defaultGenre' => 'Genre Zone',
+        'available' => 'Available',
+        'notAvailable' => ' Not Available',
         'occupied' => 'Complete',
         'currentFloor' => 'Current floor',
         'currentZone' => 'Current zone',
@@ -507,7 +510,7 @@ return [
             'pages' => 'Pages',
             'floorNumber' => 'Floor',
             'zoneName' => 'Zone',
-            'available' => 'Available',
+            'available' => 'Availability',
             'bookshelfNumber' => 'Bookshelf',
             'created_at' => 'Created at',
             'actions' => 'Actions',
@@ -519,8 +522,11 @@ return [
             'author' => 'author...',
             'editorial' => 'text...',
             'pages' => 'number...',
-            'available' => 'True/False...',
+            'available' => 'select availability...',
             'genres' => 'Genres...',
+            'floors' =>'select floor...',
+            'zones' => 'select zone...',
+            'bookshelves' => 'select bookshelf...',
         ],
         'filters' => [
             'isbn' => 'ISBN',
@@ -529,7 +535,11 @@ return [
             'editorial' => 'Editorial',
             'pages' => 'Pages',
             'genres' => 'Genres',
-            'available' => 'Available',
+            'available' => 'Availability',
+            'floors' =>'Floors',
+            'zones' => 'Zones',
+            'bookshelves' => 'Bookshelves',
+
 
         ],
         'fields' => [
@@ -619,6 +629,8 @@ return [
             'isbn' => 'ISBN...',
             'start_date' => 'Date...',
             'end_date' => 'Date...',
+            'title' => 'Book title...',
+            'status' => 'Select status...'
 
         ],
         'filters' => [
@@ -627,8 +639,8 @@ return [
             'isbn' => 'Book ISBN',
             'start_date' => 'Start Date',
             'end_date' => 'Due Date',
-
-
+            'title' => 'Title',
+            'status' => 'Status',
         ],
         'fields' => [
             'email' => 'Email',

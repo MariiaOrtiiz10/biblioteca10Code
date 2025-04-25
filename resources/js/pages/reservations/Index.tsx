@@ -133,7 +133,7 @@ export default function ReservationIndex() {
                       </div>
                       <div></div>
 
-                      <div className="space-y-4">
+                      <div className="w-full rounded-2xl p-4 shadow-md border">
                           <FiltersTable
                               filters={
                                   [
@@ -154,6 +154,10 @@ export default function ReservationIndex() {
                               onFilterChange={setFilters}
                               initialValues={filters}
                           />
+                          <div className="text-right mt-2">
+                              <span className="text-gray-500 text-sm">{t('ui.common.results')}</span>
+                              <span className="font-bold text-blue-600 ml-1">{reservations?.meta.total}</span>
+                          </div>
                       </div>
 
                       <div className="w-full overflow-hidden">

@@ -121,41 +121,37 @@ export default function UsersIndex() {
                   </div>
                   <div></div>
 
-                  <div className="space-y-4">
-                      <FiltersTable
-                          filters={
-                              [
-                                //   {
-                                //       id: 'search',
-                                //       label: t('ui.users.filters.search') || 'Buscar',
-                                //       type: 'text',
-                                //       placeholder: t('ui.users.placeholders.search') || 'Buscar...',
-                                //   },
-                                  {
-                                      id: 'name',
-                                      label: t('ui.users.filters.name') || 'Nombre',
-                                      type: 'text',
-                                      placeholder: t('ui.users.placeholders.name') || 'Nombre...',
-                                  },
-                                  {
-                                      id: 'email',
-                                      label: t('ui.users.filters.email') || 'Email',
-                                      type: 'text',
-                                      placeholder: t('ui.users.placeholders.email') || 'Email...',
-                                  },
-                                  {
-                                    id: 'created_at',
-                                    label: t('ui.floors.filters.createdAt') || 'Created At',
-                                    type: 'date',
-                                    placeholder: t('ui.floors.placeholders.createdAt') || 'Select Date...',
-                                    format: 'YYYY-MM-DD',
-                                  }
-                              ] as FilterConfig[]
-                          }
-                          onFilterChange={setFilters}
-                          initialValues={filters}
-                      />
-                  </div>
+                    <div className="w-full rounded-2xl p-4 shadow-md border">
+                    <FiltersTable
+                        filters={[
+                            {
+                                id: 'name',
+                                label: t('ui.users.filters.name') || 'Nombre',
+                                type: 'text',
+                                placeholder: t('ui.users.placeholders.name') || 'Introduce un nombre...',
+                            },
+                            {
+                                id: 'email',
+                                label: t('ui.users.filters.email') || 'Email',
+                                type: 'text',
+                                placeholder: t('ui.users.placeholders.email') || 'Introduce un email...',
+                            },
+                            {
+                                id: 'created_at',
+                                label: t('ui.floors.filters.createdAt') || 'Fecha de creación',
+                                type: 'date',
+                                placeholder: t('ui.floors.placeholders.createdAt') || 'Selecciona una fecha...',
+                                format: 'YYYY-MM-DD',
+                            },
+                        ] as FilterConfig[]}
+                        onFilterChange={setFilters}
+                        initialValues={filters}
+                    />
+            <div className="text-right mt-2">
+                <span className="text-gray-500 text-sm">{t('ui.common.results')}</span>
+                <span className="font-bold text-blue-600 ml-1">{users?.meta.total}</span>
+            </div>
+    </div>
 
                   <div className="w-full overflow-hidden">
                       {isLoading ? (

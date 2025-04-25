@@ -48,6 +48,9 @@ export default function BookIndex({genres}:IndexBookProps) {
         filters.pages ? filters.pages:"null",
         filters.genres ? filters.genres:"null",
         filters.available ? filters.available:"null",
+        filters.floorNumber ? filters.floorNumber:'null',
+        filters.zoneName ? filters.zoneName:'null',
+        filters.bookshelfNumber ? filters.bookshelfNumber:'null',
     ]
 
     const { data: books, isLoading, isError, refetch } = useBooks({
@@ -174,7 +177,7 @@ export default function BookIndex({genres}:IndexBookProps) {
                       </div>
                       <div></div>
 
-             <div className="w-full rounded-2xl  p-4 shadow-md space-y-4">
+             <div className="w-full rounded-2xl p-4 shadow-md border">
                 <FiltersTable
                     filters={[
                     {
@@ -221,6 +224,10 @@ export default function BookIndex({genres}:IndexBookProps) {
                     onFilterChange={setFilters}
                     initialValues={filters}
                 />
+                    <div className="text-right mt-2">
+                        <span className="text-gray-500 text-sm">{t('ui.common.results')}</span>
+                        <span className="font-bold text-blue-600 ml-1">{books?.meta.total}</span>
+                    </div>
                 </div>
 
 

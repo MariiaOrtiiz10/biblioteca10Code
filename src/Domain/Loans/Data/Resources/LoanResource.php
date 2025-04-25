@@ -29,9 +29,6 @@ class LoanResource extends Data
 
     public static function fromModel(Loan $loan): self
     {
-        $startDate = $startDate = Carbon::now();
-        $endDate = $startDate->copy()->addDays($loan->loan_duration);
-
         return new self(
             id: $loan->id,
             user_id: $loan->user_id,
@@ -39,9 +36,9 @@ class LoanResource extends Data
             book_id: $loan->book_id,
             isbn: $loan->book->isbn,
             title: $loan->book->title,
-            start_date: $startDate->format('Y-m-d'),
+            start_date: $loan->start_date,
             loan_duration: $loan->loan_duration,
-            end_date: $endDate->format('Y-m-d'),
+            end_date:  $loan->end_date,
             status: $loan->status,
             delayed_days: $loan->delayed_days,
             returned_at: $loan->returned_at,
