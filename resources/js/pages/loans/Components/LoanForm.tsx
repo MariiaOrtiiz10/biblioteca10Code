@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import { ScrollArea } from "@/components/ui/scroll-area"
-import {X, Save, Building2} from "lucide-react";
+import {X, Save, Building2, Mail, Barcode, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card"
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "@inertiajs/react";
@@ -28,6 +27,14 @@ interface LoanFormProps {
     email:string;
     isbn:string;
     bookISBN: string|null;
+    usersEmail:{
+        id:string;
+        email:string;
+    }[];
+    booksISBN:{
+        id:string;
+        isbn:string;
+    }[];
 
 
 }
@@ -46,12 +53,12 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:LoanFormProps){
+export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, usersEmail=[], booksISBN=[ ]}:LoanFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
-    console.log(initialData);
-    console.log(email);
-    console.log(isbn);
+    //console.log(initialData);
+    console.log(usersEmail);
+    //console.log(isbn);
 
     const form = useForm({
         defaultValues: {
@@ -114,6 +121,13 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:Loa
                                             attribute: t("ui.loans.fields.email").toLowerCase(),
                                         });
                                     }
+                                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                                        return t("ui.validation.email", { attribute: t("ui.loans.fields.email").toLowerCase() })
+                                    }
+                                    const emailExists = usersEmail.some(user => user.email === value);
+                                    if (!emailExists) {
+                                        return t("ui.validation.emailLoan");
+                                    }
 
                                     return undefined;
                                 },
@@ -122,7 +136,7 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:Loa
                         {(field) => (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                <Icon iconNode={Building2} className="w-5 h-5" />
+                                <Icon iconNode={Mail} className="w-5 h-5" />
                                 <Label htmlFor={field.name}>{t("ui.loans.fields.email")}</Label>
                                 </div>
                                 <Input
@@ -154,8 +168,18 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:Loa
                                     }
                                     if (!/^\d+$/.test(value)) {
                                         return t("ui.validation.numeric", {
-                                            attribute: t("ui.books.columns.isbn").toLowerCase(),
+                                          attribute: t("ui.books.columns.isbn").toLowerCase(),
                                         });
+                                    }
+
+                                    if (value.length !== 10 && value.length !== 13) {
+                                        return t("ui.validation.length.isbn", {
+                                          attribute: t("ui.books.columns.isbn").toLowerCase(),
+                                        });
+                                      }
+                                    const isbnExists = booksISBN.some(book => book.isbn === value);
+                                    if (!isbnExists) {
+                                        return t("ui.validation.isbnLoan");
                                     }
 
                                     return undefined;
@@ -165,7 +189,7 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:Loa
                         {(field) => (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                <Icon iconNode={Building2} className="w-5 h-5" />
+                                <Icon iconNode={Barcode} className="w-5 h-5" />
                                 <Label htmlFor={field.name}>{t("ui.loans.fields.isbn")}</Label>
                                 </div>
                                 <Input
@@ -195,6 +219,13 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:Loa
                                                     attribute: t("ui.loans.fields.loanDuration").toLowerCase(),
                                                 });
                                             }
+                                            if(value<0){
+                                                return t("ui.validation.min.numeric", {
+                                                    attribute: t("ui.loans.columns.loan_duration").toLowerCase()
+                                                });
+
+                                            }
+
 
                                             return undefined;
 
@@ -204,7 +235,7 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn}:Loa
                                     {(field) => (
                                         <div>
                                             <div className="flex items-center gap-2 mb-2">
-                                            <Icon iconNode={Building2} className="w-5 h-5" />
+                                            <Icon iconNode={Clock} className="w-5 h-5" />
                                             <Label htmlFor={field.name}>{t("ui.loans.fields.loanDuration")}</Label>
                                             </div>
                                             <Input

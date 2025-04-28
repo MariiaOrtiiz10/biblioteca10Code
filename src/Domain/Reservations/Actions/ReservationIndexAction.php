@@ -12,6 +12,8 @@ class ReservationIndexAction
 
         $isbn = $search[0];
         $email = $search[1];
+        $title = $search[2];
+        $created_at = $search[3];
 
         $reservations = Reservation::query()
         ->join('users', 'reservations.user_id', '=', 'users.id')
@@ -22,6 +24,12 @@ class ReservationIndexAction
         })
         ->when($email != "null", function ($query) use ($email){
             $query->where('users.email', 'ILIKE', "%".$email."%");
+        })
+        ->when($title != "null", function ($query) use ($title){
+            $query->where('books.title', 'ILIKE', "%".$title."%");
+        })
+        ->when($created_at != "null", function ($query) use ($created_at) {
+            $query->whereDate('reservations.created_at', '=', Carbon::parse($created_at));
         })
 
         ->latest()

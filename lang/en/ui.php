@@ -97,6 +97,8 @@ return [
             ],
             'unique' => 'The :attribute has already been taken.',
             'confirmed' => 'The :attribute confirmation does not match.',
+            'emailLoan' => 'This email does not exist on our system',
+            'isbnLoan' => 'The book isbn does not exist in our system',
     ],
     'common' => [
         'buttons' => [
@@ -695,15 +697,17 @@ return [
         ],
         'placeholders' =>[
             'email' => 'mail@example.com',
-            'isbn' => 'ISBN...',
+            'isbn' => 'Book ISBN...',
+            'title' =>'Book title...',
+            'created_at' => 'date...'
         ],
 
         'filters' => [
             'loan_duration' => 'Loan Period',
             'email' => 'User Email',
-            'isbn' => 'Book ISBN',
-            'start_date' => 'Start Date',
-            'end_date' => 'Due Date',
+            'isbn' => 'ISBN',
+            'title'=> 'Title',
+            'created_at' => 'Reservation Date',
 
 
         ],

@@ -42,7 +42,7 @@ class Notify extends Notification
                     ->line('The book you reservated is now available to loan')
                     ->line('Title: ' . $this->book->title)
                     ->line('ISBN: ' . $this->book->isbn)
-                    ->action('Loan now', url("/loans/create?isbn={$this->book->isbn}"))
+                    ->action('Take it loaned now', url("/loans/create?isbn={$this->book->isbn}"))
                     ->line('Thank you for using our application!');
     }
 

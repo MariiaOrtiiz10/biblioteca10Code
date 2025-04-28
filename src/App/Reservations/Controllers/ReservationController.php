@@ -29,7 +29,10 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        return Inertia::render('reservations/Create');
+        $usersEmail = User::orderBy('email')->get(['id', 'email']);
+        return Inertia::render('reservations/Create',[
+            'usersEmail'=>$usersEmail,
+        ]);
     }
 
     public function store(Request $request, ReservationStoreAction $action)

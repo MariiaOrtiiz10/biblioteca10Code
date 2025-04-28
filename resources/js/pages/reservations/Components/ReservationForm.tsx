@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import { ScrollArea } from "@/components/ui/scroll-area"
-import {X, Save, Building2} from "lucide-react";
+import {X, Save, Mail, Barcode} from "lucide-react";
 import { Card } from "@/components/ui/card"
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "@inertiajs/react";
@@ -21,12 +20,13 @@ interface ReservationFormProps {
         email:string;
         isbn:string;
     };
-
+    usersEmail:{
+        id:string;
+        email:string;
+    }[];
     page?: string;
     perPage?: string;
     bookISBN: string|null;
-
-
 }
 function FieldInfo({ field }: { field: AnyFieldApi }) {
     return (
@@ -43,7 +43,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function ReservationForm({initialData, page, perPage, bookISBN}:ReservationFormProps){
+export function ReservationForm({initialData, page, perPage, bookISBN, usersEmail=[]}:ReservationFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
 
@@ -106,6 +106,13 @@ export function ReservationForm({initialData, page, perPage, bookISBN}:Reservati
                                             attribute: t("ui.loans.fields.email").toLowerCase(),
                                         });
                                     }
+                                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                                        return t("ui.validation.email", { attribute: t("ui.loans.fields.email").toLowerCase() })
+                                    }
+                                    const emailExists = usersEmail.some(user => user.email === value);
+                                    if (!emailExists) {
+                                        return t("ui.validation.emailLoan");
+                                    }
 
                                     return undefined;
                                 },
@@ -114,7 +121,7 @@ export function ReservationForm({initialData, page, perPage, bookISBN}:Reservati
                         {(field) => (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                <Icon iconNode={Building2} className="w-5 h-5" />
+                                <Icon iconNode={Mail} className="w-5 h-5" />
                                 <Label htmlFor={field.name}>{t("ui.loans.fields.email")}</Label>
                                 </div>
                                 <Input
@@ -157,7 +164,7 @@ export function ReservationForm({initialData, page, perPage, bookISBN}:Reservati
                         {(field) => (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                <Icon iconNode={Building2} className="w-5 h-5" />
+                                <Icon iconNode={Barcode} className="w-5 h-5" />
                                 <Label htmlFor={field.name}>{t("ui.loans.fields.isbn")}</Label>
                                 </div>
                                 <Input

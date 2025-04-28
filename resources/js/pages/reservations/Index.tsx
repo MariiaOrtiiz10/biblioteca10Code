@@ -3,7 +3,7 @@ import { useTranslations } from "@/hooks/use-translations";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link, router, usePage } from "@inertiajs/react";
-import { PencilIcon, PlusIcon, TrashIcon, Undo2, ChevronUp } from "lucide-react";
+import { PencilIcon, PlusIcon, TrashIcon, Undo2, ChevronUp, History } from "lucide-react";
 import { createTextColumn, createDateColumn, createActionsColumn } from "@/components/stack-table/columnsTable";
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
@@ -35,6 +35,8 @@ export default function ReservationIndex() {
     const combinedSearch = [
         filters.isbn ? filters.isbn:"null",
         filters.email ? filters.email:"null",
+        filters.title ? filters.title:"null",
+        filters.created_at ? filters.created_at: "null",
     ]
 
     const { data: reservations , isLoading, isError, refetch } = useReservations({
@@ -126,7 +128,7 @@ export default function ReservationIndex() {
                           <h1 className="text-3xl font-bold">{t('ui.reservations.title')}</h1>
                           <Link href="">
                                     <Button>
-                                        {/* <PlusIcon className="mr-2 h-4 w-4" /> */}
+                                         <History className="h-4 w-4" />
                                         {t('ui.reservations.buttons.record')}
                                     </Button>
                             </Link>
@@ -145,10 +147,23 @@ export default function ReservationIndex() {
                                     },
                                     {
                                         id: 'isbn',
-                                        label: t('ui.reservations.filters.isbn') || 'loan_duration',
+                                        label: t('ui.reservations.filters.isbn') || 'isbn',
                                         type: 'text',
                                         placeholder: t('ui.reservations.placeholders.isbn') || 'isbn...',
                                     },
+                                    {
+                                        id: 'title',
+                                        label: t('ui.reservations.filters.title') || 'title',
+                                        type: 'text',
+                                        placeholder: t('ui.reservations.placeholders.title') || 'title...',
+                                    },
+                                    {
+                                        id: 'created_at',
+                                        label: t('ui.reservations.filters.created_at') || 'start_date',
+                                        type: 'date',
+                                        placeholder: t('ui.reservations.placeholders.created_at') || 'Select Date...',
+                                        format: 'DD-MM-YYYY',
+                                      },
                                   ] as FilterConfig[]
                               }
                               onFilterChange={setFilters}

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User, Mail, Lock, X, Eye, Save, Shield, Users,  Barcode, FileText, Signature, Book, UserRoundPen, Building2} from "lucide-react";
+import { User, Mail, Lock, X, Eye, Save, Shield, Users,  Barcode, FileText, Signature, Book, UserRoundPen, Building2, Bookmark, SquareLibrary} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -579,7 +579,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                         <div className="mb-4">
                             {/* SELECT DE ZONE */}
                              <div className="flex items-center gap-2 mb-2">
-                                <Icon iconNode={Building2} className="w-5 h-5" />
+                                <Icon iconNode={Bookmark} className="w-5 h-5" />
                                 <Label>{t("ui.books.fields.zone")}</Label>
                             </div>
                             <Select
@@ -652,7 +652,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                             {(field) => (
                                 <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <Icon iconNode={Building2} className="w-5 h-5" />
+                                    <Icon iconNode={SquareLibrary} className="w-5 h-5" />
                                     <Label htmlFor={field.name}>{t("ui.books.fields.bookshelf")}</Label>
                                 </div>
                                 <Select

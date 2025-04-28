@@ -8,10 +8,13 @@ import { ReservationLayout } from "@/layouts/reservations/ReservationLayout";
 import { ReservationForm } from "./Components/ReservationForm";
 
 interface CreateReservationProps extends PageProps {
-
+    usersEmail:{
+        id:string;
+        email:string;
+    }[];
 }
 
-export default function createReservation({}:CreateReservationProps) {
+export default function createReservation({usersEmail}:CreateReservationProps) {
   const { t } = useTranslations();
   const paramsString = window.location.search;
     const searchParams = new URLSearchParams(paramsString);
@@ -32,7 +35,7 @@ export default function createReservation({}:CreateReservationProps) {
                         </header>
                          <ReservationForm
                          bookISBN = {bookISBN}
-
+                         usersEmail = {usersEmail}
                          />
         </div>
         </div>
