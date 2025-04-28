@@ -27,12 +27,15 @@ class LoanController extends Controller
         return Inertia::render('loans/Index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        return Inertia::render('loans/Create');
+        $usersEmail = User::orderBy('email')->get(['id', 'email']);
+        $booksISBN = Book::orderBy('isbn')->get(['id', 'isbn']);
+        return Inertia::render('loans/Create',[
+            'usersEmail'=>$usersEmail,
+            'booksISBN' => $booksISBN,
+        ]);
     }
 
     public function store(Request $request, LoanStoreAction $action)
@@ -94,6 +97,7 @@ class LoanController extends Controller
             ->first();
             if($reservation){
                 $reservation->user->notify(new Notify($loan->book));
+                $reservation->delete();
             }
         }
 

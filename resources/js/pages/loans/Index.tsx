@@ -149,7 +149,7 @@ export default function LoanIndex() {
             header: t("ui.loans.columns.delayed_days") || "Delay Days",
             renderActions: (loan) => {
               if (loan.status) {
-                return null;
+                return null; // Ocultar si el préstamo está activo
               }
 
               const delayedDays = loan.delayed_days ?? 0;
@@ -164,7 +164,7 @@ export default function LoanIndex() {
 
               return (
                 <span className={className}>
-                  {delayedDays}
+                  {isEarly ? t("ui.loans.returnEarly") || "Sin retraso" : delayedDays}
                 </span>
               );
             }

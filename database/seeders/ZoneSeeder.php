@@ -25,6 +25,8 @@ class ZoneSeeder extends Seeder
         $genre4 = Genre::where('genre', 'Youth literature')->first();
         $floor5 = Floor::where('floorNumber', 2)->first();
         $genre5 = Genre::where('genre', 'Horror')->first();
+        $floor6 = Floor::where('floorNumber', 2)->first();
+        $genre6 = Genre::where('genre', 'Crime')->first();
         Zone::create([
             'zoneName' => 'Fantasy',
             'floor_id' => $floor1->id,
@@ -32,13 +34,13 @@ class ZoneSeeder extends Seeder
             'bookshelvesCapacity' => 5,
         ]);
         Zone::create([
-            'zoneName' => 'Childrens literature 0',
+            'zoneName' => 'Childrens literature 1',
             'floor_id' => $floor2->id,
             'genre_id' => $genre2->id,
             'bookshelvesCapacity' => 2,
         ]);
         Zone::create([
-            'zoneName' => 'Childrens literature 1',
+            'zoneName' => 'Childrens literature 2',
             'floor_id' => $floor3->id,
             'genre_id' => $genre3->id,
             'bookshelvesCapacity' => 4,
@@ -54,6 +56,12 @@ class ZoneSeeder extends Seeder
             'floor_id' => $floor5->id,
             'genre_id' => $genre5->id,
             'bookshelvesCapacity' => 5,
+        ]);
+        Zone::create([
+            'zoneName' => 'Crime',
+            'floor_id' => $floor6->id,
+            'genre_id' => $genre6->id,
+            'bookshelvesCapacity' => 3,
         ]);
         //Zone::factory()->count(10)->create();
     }

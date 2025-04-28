@@ -17,9 +17,11 @@ class LoanSeeder extends Seeder
     {
         $user1 = User::where('email', 'mortiz@example.com')->first();
         $user2 = User::where('email', 'jgarcia@example.com')->first();
+        $user3 = User::where('email', 'admin@example.com')->first();
         $book1 = Book::where('isbn', '9780307743657')->first();
         $book3 = Book::where('isbn', '9780307947306')->first();
         $book2 = Book::where('isbn', '9788498672220')->first();
+        $book4 = Book::where('isbn', '9781982137274')->first();
         Loan::create([
             'user_id' => $user1->id,
             'book_id' => $book1->id,
@@ -45,6 +47,16 @@ class LoanSeeder extends Seeder
             'status' => false,
             'returned_at' => '2025-04-25',
             'delayed_days' => 10
+        ]);
+        Loan::create([
+            'user_id' => $user3->id,
+            'book_id' => $book4->id,
+            'start_date' => '2025-04-15',
+            'loan_duration' => 10,
+            'end_date' => '2025-04-25',
+            'status' => false,
+            'returned_at' => '2025-04-25',
+            'delayed_days' => 0
         ]);
         //Loan::factory(30)->create();
     }

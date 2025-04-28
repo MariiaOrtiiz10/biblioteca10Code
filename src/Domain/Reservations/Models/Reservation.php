@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Domain\Books\Models\Book;
 use Domain\Users\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
 {
     use HasFactory,HasUuids;
+    use SoftDeletes;
 
     protected static function newFactory()
     {

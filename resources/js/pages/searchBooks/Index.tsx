@@ -45,7 +45,6 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
     const [perPage, setPerPage] = useState(perPageParam ? parseInt(perPageParam) : 10);
     const [filters, setFilters] = useState<Record<string, any>>({});
 
-    // Combine name and email filters into a single search string if they exist
     const combinedSearch = [
         filters.isbn ? filters.isbn:"null",
         filters.title ? filters.title:"null",
@@ -100,6 +99,11 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
             id: "isbn",
             header: t("ui.books.columns.isbn") || "isbn",
             accessorKey: "isbn",
+          }),
+          createTextColumn<Book>({
+            id: "title",
+            header: t("ui.books.columns.title") || "title",
+            accessorKey: "title",
           }),
           createTextColumn<Book>({
             id: "floorNumber",
@@ -188,6 +192,12 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
                                         label: t('ui.books.filters.isbn') || 'isbn',
                                         type: 'text',
                                         placeholder: t('ui.books.placeholders.isbn') || 'isbn...',
+                                    },
+                                    {
+                                        id: 'title',
+                                        label: t('ui.books.filters.title') || 'title',
+                                        type: 'text',
+                                        placeholder: t('ui.books.placeholders.title') || 'title...',
                                     },
                                     {
                                         id: 'available',

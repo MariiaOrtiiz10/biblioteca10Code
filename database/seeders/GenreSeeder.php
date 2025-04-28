@@ -19,7 +19,7 @@ class GenreSeeder extends Seeder
             'Historical',
             'Mystery',
             'Horror',
-            'Biography',
+            'Crime',
             'Autobiography',
             'Self-help',
             'Travel',
