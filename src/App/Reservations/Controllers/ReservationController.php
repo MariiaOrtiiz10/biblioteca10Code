@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ReservationController extends Controller
+class      ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,6 +22,11 @@ class ReservationController extends Controller
     public function index()
     {
         return Inertia::render('reservations/Index');
+    }
+
+    public function history()
+    {
+        return Inertia::render('reservations/History');
     }
 
     /**

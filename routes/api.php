@@ -49,6 +49,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/reservations', [ReservationApiController::class, 'index']);
+    Route::get('/reservations/history', [ReservationApiController::class, 'history']);
     Route::delete('/reservations/{reservation}', [ReservationApiController::class, 'destroy']);
 });
 

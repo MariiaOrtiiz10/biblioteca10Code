@@ -1,5 +1,6 @@
 <?php
 
+use App\Reservations\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,7 +20,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('books', \App\Books\Controllers\BookController::class);
     Route::resource('searchBooks',\App\searchBooks\Controllers\SearchbookController::class);
     Route::resource('loans', \App\Loans\Controllers\LoanController::class);
+    Route::get('/reservations/history', [ReservationController::class, 'history']);
     Route::resource('reservations', \App\Reservations\Controllers\ReservationController::class);
+
 });
 
 require __DIR__.'/settings.php';

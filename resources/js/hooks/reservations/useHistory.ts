@@ -46,17 +46,17 @@ export interface PaginatedResponse<T> {
     };
   }
 
-  interface UseReservationParams {
+  interface UseHistoryParams {
     search?: any[];
     page?: number;
     perPage?: number;
   }
 
-export function useReservations({ search, page = 1, perPage = 10 }: UseReservationParams = {}) {
+export function useHistory({ search, page = 1, perPage = 10 }: UseHistoryParams = {}) {
   return useQuery({
     queryKey: ["reservations", { search, page, perPage }],
     queryFn: async () => {
-      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Reservation>>("/api/reservations", {
+      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Reservation>>("/api/reservations/history", {
         params: {
           search,
           page,
@@ -83,30 +83,5 @@ export function useReservations({ search, page = 1, perPage = 10 }: UseReservati
     },
   });
 }
-export function useCreateReservation() {
-    return useMutation({
-      mutationFn: async (data: {email:string; isbn:string;}) => {
-        const response = await axios.post("/api/reservations", data, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
-        return response.data;
-      },
-    });
-}
 
 
-  export function useDeleteReservation() {
-    return useMutation({
-      mutationFn: async (reservationId: string) => {
-        await axios.delete(`/api/reservations/${reservationId}`, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
-      },
-    });
-  }
