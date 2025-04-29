@@ -31,12 +31,8 @@ class ReservationIndexAction
         ->when($created_at != "null", function ($query) use ($created_at) {
             $query->whereDate('reservations.created_at', '=', Carbon::parse($created_at));
         })
-
         ->latest()
         ->paginate($perPage);
-
         return $reservations->through(fn ($reservation) => ReservationResource::fromModel($reservation));
-
-
     }
 }

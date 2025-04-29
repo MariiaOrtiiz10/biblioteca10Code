@@ -12,12 +12,12 @@ import { DeleteDialog } from "@/components/stack-table/DeleteDialog";
 import { FiltersTable, FilterConfig } from "@/components/stack-table/FiltersTable";
 import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
-import { useReservations , Reservation, useDeleteReservation } from "@/hooks/reservations/useReservations";
 import axios from "../../lib/axios";
 import { ReservationLayout } from "@/layouts/reservations/ReservationLayout";
+import { useHistory, Reservation } from "@/hooks/reservations/useHistory";
 
 
-export default function ReservationIndex() {
+export default function HistoryIndex() {
   const { t } = useTranslations();
   const { url } = usePage();
 
@@ -33,20 +33,16 @@ export default function ReservationIndex() {
 
     // Combine name and email filters into a single search string if they exist
     const combinedSearch = [
-        filters.isbn ? filters.isbn:"null",
-        filters.email ? filters.email:"null",
-        filters.title ? filters.title:"null",
-        filters.created_at ? filters.created_at: "null",
+        // filters.isbn ? filters.isbn:"null",
+        // filters.email ? filters.email:"null",
+        // filters.title ? filters.title:"null",
     ]
 
-    const { data: reservations , isLoading, isError, refetch } = useReservations({
+    const { data: reservations , isLoading, isError, refetch } = useHistory({
         search: combinedSearch,
         page: currentPage,
         perPage: perPage,
       });
-
-      const deleteReservationMutation = useDeleteReservation();
-      //const returnLoanMutation = useReturnLoan();
 
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -59,17 +55,6 @@ export default function ReservationIndex() {
         setCurrentPage(1); // Reset to first page when changing items per page
       };
 
-      const handleDeleteReservation = async (id: string) => {
-        try {
-          await deleteReservationMutation.mutateAsync(id);
-          refetch();
-          toast.success(t('ui.reservations.delete_dialog.success') || 'Zone deleted successfully');
-
-        } catch (error) {
-          toast.error(t("ui.reservations.deleted_error") || "Error deleting Loan");
-          console.error("Error deleting Loan:", error);
-        }
-      };
 
       const columns = useMemo(() => ([
 
@@ -89,45 +74,25 @@ export default function ReservationIndex() {
             accessorKey: "title",
           }),
           createTextColumn<Reservation>({
-            id: "created_at",
-            header: t("ui.reservations.columns.created_at") || "created_at",
-            accessorKey: "created_at",
+            id: "deleted_at",
+            header: t("ui.reservations.columns.deleted_at") || "deleted_at",
+            accessorKey: "deleted_at",
           }),
 
-          createActionsColumn<Reservation>({
-            id: "actions",
-            header: t("ui.reservations.columns.actions") || "Actions",
-            renderActions: (reservation) => (
-              <>
-
-                <DeleteDialog
-                  id={reservation.id}
-                  onDelete={handleDeleteReservation}
-                  title={t("ui.reservations.delete.title") || "Delete rservation"}
-                  description={t("ui.reservations.delete.description") || "Are you sure you want to delete this reservation? This action cannot be undone."}
-                  trigger={
-                    <Button variant="outline" size="icon" className="text-destructive hover:text-destructive" title={t("ui.reservations.buttons.delete") || "Delete Loan"}>
-                      <TrashIcon className="h-4 w-4" />
-                    </Button>
-                  }
-                />
-              </>
-            ),
-          }),
-        ] as ColumnDef<Reservation>[]), [t, handleDeleteReservation]);
+        ] as ColumnDef<Reservation>[]), [t]);
 
 
 
   return (
-     <ReservationLayout title={t('ui.reservations.title')}>
+     <ReservationLayout title={t('ui.history.title')}>
               <div className="p-6">
                   <div className="space-y-6">
                       <div className="flex items-center justify-between">
-                          <h1 className="text-3xl font-bold">{t('ui.reservations.title')}</h1>
-                          <Link href="/reservations/history">
+                          <h1 className="text-3xl font-bold">{t('ui.history.title')}</h1>
+                          <Link href="/reservations">
                                     <Button>
-                                         <History className="h-4 w-4" />
-                                        {t('ui.reservations.buttons.history')}
+                                         <Undo2 className="h-4 w-4" />
+                                        {t('ui.reservations.buttons.back')}
                                     </Button>
                             </Link>
                       </div>
@@ -137,31 +102,24 @@ export default function ReservationIndex() {
                           <FiltersTable
                               filters={
                                   [
-                                    {
-                                        id: 'email',
-                                        label: t('ui.reservations.filters.email') || 'email',
-                                        type: 'text',
-                                        placeholder: t('ui.reservations.placeholders.email') || 'email...',
-                                    },
-                                    {
-                                        id: 'isbn',
-                                        label: t('ui.reservations.filters.isbn') || 'isbn',
-                                        type: 'text',
-                                        placeholder: t('ui.reservations.placeholders.isbn') || 'isbn...',
-                                    },
-                                    {
-                                        id: 'title',
-                                        label: t('ui.reservations.filters.title') || 'title',
-                                        type: 'text',
-                                        placeholder: t('ui.reservations.placeholders.title') || 'title...',
-                                    },
-                                    {
-                                        id: 'created_at',
-                                        label: t('ui.reservations.filters.created_at') || 'start_date',
-                                        type: 'date',
-                                        placeholder: t('ui.reservations.placeholders.created_at') || 'Select Date...',
-                                        format: 'DD-MM-YYYY',
-                                      },
+                                    // {
+                                    //     id: 'email',
+                                    //     label: t('ui.reservations.filters.email') || 'email',
+                                    //     type: 'text',
+                                    //     placeholder: t('ui.reservations.placeholders.email') || 'email...',
+                                    // },
+                                    // {
+                                    //     id: 'isbn',
+                                    //     label: t('ui.reservations.filters.isbn') || 'isbn',
+                                    //     type: 'text',
+                                    //     placeholder: t('ui.reservations.placeholders.isbn') || 'isbn...',
+                                    // },
+                                    // {
+                                    //     id: 'title',
+                                    //     label: t('ui.reservations.filters.title') || 'title',
+                                    //     type: 'text',
+                                    //     placeholder: t('ui.reservations.placeholders.title') || 'title...',
+                                    // },
                                   ] as FilterConfig[]
                               }
                               onFilterChange={setFilters}

@@ -681,19 +681,21 @@ return [
 
         'buttons' => [
             'new' => 'New  Reservation',
-            'record' => 'Record',
+            'history' => 'History',
             'cancel' => 'Cancel',
             'update' => 'Update',
             'save' => 'Save',
             'delete' => 'Delete',
             'edit' => 'Edit',
+            'back' => 'Return to reservations'
         ],
         'columns' => [
             'email' => 'Email',
             'isbn' => 'ISBN',
             'title' => 'Book Title',
             'actions' => 'Delete',
-            'created_at' => 'Reservation Date'
+            'created_at' => 'Reservation Date',
+            'deleted_at' => 'Deleted at'
         ],
         'placeholders' =>[
             'email' => 'mail@example.com',
@@ -731,6 +733,10 @@ return [
             'title' => 'Are you sure?',
             'description' => 'This action cannot be undone. The reservation will be permanently deleted from the system.',
         ],
+        'no_results' => 'No results.',
+    ],
+    'history' => [
+        'title' => 'Reservations history',
         'no_results' => 'No results.',
     ],
 

@@ -17,6 +17,7 @@ class ReservationResource extends Data
         public readonly string $title,
         public readonly string $created_at,
         public readonly string $updated_at,
+        public readonly ?string $deleted_at,
     ) {
     }
 
@@ -32,6 +33,9 @@ class ReservationResource extends Data
             title: $reservation->book->title,
             created_at: $reservation->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
             updated_at: $reservation->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
+            deleted_at: $reservation->deleted_at
+            ? $reservation->deleted_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s')
+            : null,
         );
     }
 }

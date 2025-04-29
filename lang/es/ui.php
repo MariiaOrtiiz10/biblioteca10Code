@@ -644,12 +644,13 @@ return [
         ],
         'buttons' => [
             'new' => 'Nueva Reserva',
-            'record' => 'Registrar',
+            'history' => 'Historial',
             'cancel' => 'Cancelar',
             'update' => 'Actualizar',
             'save' => 'Guardar',
             'delete' => 'Eliminar',
             'edit' => 'Editar',
+            'back' => 'Volver a reservas',
         ],
         'columns' => [
             'email' => 'Correo electrónico',
@@ -661,6 +662,8 @@ return [
         'placeholders' =>[
             'email' => 'correo@ejemplo.com',
             'isbn' => 'ISBN del Libro...',
+            'title'=> 'Titulo del Libro...',
+            'created_at'=> 'Fecha ...',
         ],
         'filters' => [
             'loan_duration' => 'Período de Préstamo',
@@ -688,5 +691,9 @@ return [
             'description' => 'Esta acción no se puede deshacer. La reserva será eliminada permanentemente del sistema.',
         ],
         'no_results' => 'Sin resultados.',
+    ],
+    'history' => [
+        'title' => 'Historial de reservas',
+        'no_results' => 'No results.',
     ],
 ];
