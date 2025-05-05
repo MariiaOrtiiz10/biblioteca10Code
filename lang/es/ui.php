@@ -696,4 +696,15 @@ return [
         'title' => 'Historial de reservas',
         'no_results' => 'No results.',
     ],
+
+    'timeline' => [
+        'author' => 'Autor',
+        'start_date' => 'Inicio préstamo',
+        'end_date' => 'Fin de prétamo',
+        'returned' => 'Devuelto el',
+        'status' => 'Estado',
+        'no_delay' => 'Sin Retraso',
+        'delay' => ' días de retraso',
+        'start_reservation' => 'Reservado el',
+    ]
 ];

@@ -18,9 +18,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $user = auth()->user();
+        $loans = $user->loans()->with('book')->orderBy('start_date')->get();
+        $reservations = $user->reservations()->with('book')->orderBy('created_at')->get();
         return Inertia::render('settings/profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
+            'loans' => $loans,
+            'reservations' => $reservations,
         ]);
     }
 

@@ -29,8 +29,8 @@ class LanguageController extends Controller
         // Get the user's current language
         $user = auth()->user();
         $settings = $user->settings;
-        $currentLocale = $settings && isset($settings->preferences['locale']) 
-            ? $settings->preferences['locale'] 
+        $currentLocale = $settings && isset($settings->preferences['locale'])
+            ? $settings->preferences['locale']
             : config('app.locale');
 
         return Inertia::render('settings/languages', [

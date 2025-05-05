@@ -1,10 +1,11 @@
 import { DashboardCard } from '@/components/dashboard/DashboardCard';
-import { Users, User, Building2, Bookmark, SquareLibrary, Book, Search, ArrowUpDown} from 'lucide-react';
+import { Users, User, Building2, Bookmark, SquareLibrary, Book, Search, ArrowUpDown, BookUp} from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import CardFlip from "@/components/ui/card-flip";
 import { Icon } from '@/components/icon';
+import { useTranslations } from '@/hooks/use-translations';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -15,52 +16,59 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard() {
+    const { t } = useTranslations();
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title= {t('ui.navigation.items.dashboard')} />
             <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-3 ">
                 <DashboardCard
-                    title="Usuarios"
+                    title= {t('ui.navigation.items.users')}
                     description="Gestiona los usuarios del sistema"
                     href="/users"
                     icon={Users}
                 />
 
                  <DashboardCard
-                    title="Pisos"
+                    title= {t('ui.navigation.items.floors')}
                     description="Gestiona los pisos del sistema"
                     href="/floors"
                     icon={Building2}
                 />
                 <DashboardCard
-                    title="Zonas"
+                    title={t('ui.navigation.items.zones')}
                     description="Gestiona las zonas del sistema"
                     href="/zones"
                     icon={Bookmark}
                 />
                 <DashboardCard
-                    title="Estanterias"
+                    title={t('ui.navigation.items.bookshelves')}
                     description="Gestiona las estanterias del sistema"
                     href="/bookshelves"
                     icon={SquareLibrary}
                 />
                 <DashboardCard
-                    title="Libros"
+                    title={t('ui.navigation.items.books')}
                     description="Gestiona los libros del sistema"
                     href="/books"
                     icon={Book}
                 />
                 <DashboardCard
-                    title="Buscador de libros"
+                    title={t('ui.navigation.items.searchBooks')}
                     description="Localiza los libros del sistema"
                     href="/searchBooks"
                     icon={Search}
                 />
                 <DashboardCard
-                    title="Prestamos"
+                    title={t('ui.navigation.items.loans')}
                     description="Localiza los prestamos del sistema"
                     href="/loans"
                     icon={ArrowUpDown}
+                />
+                <DashboardCard
+                    title={t('ui.navigation.items.reservations')}
+                    description="Localiza las Reservas del sistema"
+                    href="/reservations"
+                    icon={BookUp}
                 />
 
                     {/* <CardFlip

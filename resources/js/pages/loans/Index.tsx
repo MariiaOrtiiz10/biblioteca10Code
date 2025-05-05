@@ -17,6 +17,10 @@ import { LoanLayout } from "@/layouts/loans/LoanLayout";
 import axios from "../../lib/axios";
 
 
+//import * as React from 'react';
+//import {Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineOppositeContent, TimelineDot,Typography } from "@/components/ui/timeline";
+
+
 export default function LoanIndex() {
   const { t } = useTranslations();
   const { url } = usePage();
@@ -154,21 +158,20 @@ export default function LoanIndex() {
 
               const delayedDays = loan.delayed_days ?? 0;
               const isDelayed = delayedDays > 0;
-              const isEarly = delayedDays < 0;
+              const isOnTimeOrEarly = delayedDays <= 0;
 
               const className = isDelayed
                 ? "font-bold text-red-600 dark:text-red-400 px-2 py-1 rounded"
-                : isEarly
-                  ? "text-green-600 dark:text-green-400 px-2 py-1 rounded"
-                  : "text-gray-600 dark:text-gray-400 px-2 py-1 rounded";
+                : "text-green-600 dark:text-green-400 px-2 py-1 rounded";
 
               return (
                 <span className={className}>
-                  {isEarly ? t("ui.loans.returnEarly") || "Sin retraso" : delayedDays}
+                  {isOnTimeOrEarly ? t("ui.loans.returnEarly") || "Sin retraso" : delayedDays}
                 </span>
               );
             }
           }),
+
 
         //   createTextColumn <Loan>({
         //     id: "delayed_days",
@@ -240,7 +243,10 @@ export default function LoanIndex() {
                               </Button>
                           </Link>
                       </div>
-                      <div></div>
+                      <div>
+
+                      </div>
+
 
                       <div className="w-full rounded-2xl p-4 shadow-md border">
                           <FiltersTable

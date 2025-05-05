@@ -5,6 +5,7 @@ namespace Domain\Users\Models;
 use Domain\Users\Models\UserSetting;
 
 use Database\Factories\UserFactory;
+use Domain\Loans\Models\Loan;
 use Domain\Reservations\Models\Reservation;
 use Domain\Users\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -77,6 +78,11 @@ class User extends Authenticatable
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
     }
 
 

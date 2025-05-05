@@ -681,7 +681,7 @@ return [
 
         'buttons' => [
             'new' => 'New  Reservation',
-            'history' => 'History',
+            'history' => 'Record',
             'cancel' => 'Cancel',
             'update' => 'Update',
             'save' => 'Save',
@@ -736,9 +736,27 @@ return [
         'no_results' => 'No results.',
     ],
     'history' => [
-        'title' => 'Reservations history',
+        'title' => 'Reservations record',
         'no_results' => 'No results.',
     ],
+
+    'timeline' => [
+        'author' => 'Author',
+        'start_date' => 'Loan start',
+        'end_date' => 'Loan end',
+        'returned' => 'Returned on',
+        'status' => 'Status',
+        'returned2' => 'Returned',
+        'ongoing' => 'Ongoing',
+        'no_delay' => 'No Delay',
+        'delay' => ' days late',
+        'start_reservation' => 'Reserved on',
+        'filter' => [
+            'all' => 'All',
+            'reservation' => 'Reservations',
+            'loans' => 'Loans',
+        ],
+    ]
 
 
 
