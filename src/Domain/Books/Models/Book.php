@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Domain\Genres\Models\Genre;
 use Domain\Loans\Models\Loan;
+use Domain\Reservations\Models\Reservation;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -74,6 +75,11 @@ class Book extends Model
         public function loans()
     {
         return $this->hasMany(Loan::class);
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 
 
