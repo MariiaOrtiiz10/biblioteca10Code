@@ -14,6 +14,7 @@ return [
             'searchBooks' => 'Buscar Libros',
             'loans' => 'Préstamos',
             'reservations' => 'Reservas',
+            'charts' => 'Gráficas',
         ],
     ],
     'user_menu' => [
@@ -706,5 +707,22 @@ return [
         'no_delay' => 'Sin Retraso',
         'delay' => ' días de retraso',
         'start_reservation' => 'Reservado el',
-    ]
+    ],
+    'charts' => [
+        'title' => 'Graficos en vivo',
+        'description' => 'Descubre las estádisticas mas destacadas: los libros favoritos, los lectores más activos y las zonas con más movimiento en un vistazo.',
+        'navigation' => [
+            'books' => 'Libros',
+            'users' => 'Usuarios',
+            'zones' => 'Zonas',
+        ],
+        'book' => [
+            'title' => 'Estadísticas de libros',
+        ],
+        'user' => [
+            'title' => 'Estadísticas de usuarios',
+        ],
+
+    ],
+
 ];

@@ -1,6 +1,8 @@
 <?php
 
 use App\Reservations\Controllers\ReservationController;
+use App\Charts\Controllers\ChartBookController;
+use App\Charts\Controllers\ChartUserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -22,9 +24,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('loans', \App\Loans\Controllers\LoanController::class);
     Route::get('/reservations/history', [ReservationController::class, 'history']);
     Route::resource('reservations', \App\Reservations\Controllers\ReservationController::class);
-
 });
 
 require __DIR__.'/settings.php';
+require __DIR__.'/charts.php';
 require __DIR__.'/auth.php';
 

@@ -14,6 +14,7 @@ return [
             'searchBooks' => 'Search Books',
             'loans' => 'Loans',
             'reservations' => 'Reservations',
+            'graphics' => 'Charts'
 
         ],
     ],
@@ -756,7 +757,30 @@ return [
             'reservation' => 'Reservations',
             'loans' => 'Loans',
         ],
-    ]
+    ],
+
+    'charts' => [
+        'title' => 'Live charts',
+        'description' => 'Discover the most outstanding statistics: favorite books, the most active users and the areas with the most movement at a glance.',
+        'navigation' => [
+            'books' => 'Books',
+            'users' => 'Users',
+            'zones' => 'Zones',
+        ],
+        'book' => [
+            'title' => 'Books charts',
+        ],
+        'user' => [
+            'title' => 'More active users',
+            'loans' => 'Loans',
+            'reservations' => 'Reservations',
+            'total' => 'Total',
+            'topLoans' => 'Top 6 Users with Loans',
+            'topReservations' => 'Top 6 Users with Reservations'
+        ],
+
+
+    ],
 
 
 

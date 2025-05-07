@@ -13,8 +13,6 @@ import {ArrowUpDown,  BookOpen, Calendar, Clock, CheckCircle, XCircle, Tag , Hou
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 
-type FilterType = 'all' | 'reservation' | 'loan';
-
 interface EditProfileProps extends PageProps {
     loans:any[];
     reservations:any[];
@@ -25,14 +23,14 @@ export default function Profile({loans, reservations}:EditProfileProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const [filter, setFilter] = useState('all');
-    const filteredItems = [...reservations.map(r => ({
-        ...r,
+    const filteredItems = [...reservations.map(reservation => ({
+        ...reservation,
         type: 'reservation' as const,
-        sortDate: new Date(r.created_at)
-    })), ...loans.map(l => ({
-        ...l,
+        sortDate: new Date(reservation.created_at)
+    })), ...loans.map(loan => ({
+        ...loan,
         type: 'loan' as const,
-        sortDate: new Date(l.start_date)
+        sortDate: new Date(loan.start_date)
     }))]
     .filter(item => {
         if (filter === 'all') return true;
@@ -58,7 +56,7 @@ export default function Profile({loans, reservations}:EditProfileProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={t('ui.settings.profile.title')} />
             <SettingsLayout>
-            <div className="w-full max-w-5xl px-4 xl:max-w-none xl:w-[175%] xl:px-0 mx-auto">
+            <div className="w-full px-2 mx-auto">
                 <div className="mb-4">
                     <HeadingSmall
                         title={t('ui.settings.profile.title')}
