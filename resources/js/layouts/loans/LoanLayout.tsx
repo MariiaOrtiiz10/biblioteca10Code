@@ -3,6 +3,7 @@ import { BreadcrumbItem } from "@/types";
 import { Head, usePage } from "@inertiajs/react";
 import { PropsWithChildren, useEffect } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "@/hooks/use-translations";
 
 interface FlashMessages {
   success?: string;
@@ -20,6 +21,7 @@ interface LoanLayout extends PropsWithChildren {
 
 export function LoanLayout({ title, children }: LoanLayout) {
   const { flash } = usePage<PageProps>().props;
+  const { t } = useTranslations();
 
   useEffect(() => {
     if (flash.success) {
@@ -32,16 +34,16 @@ export function LoanLayout({ title, children }: LoanLayout) {
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
-      title: "Dashboard",
+      title: t("ui.navigation.items.dashboard"),
       href: "/dashboard",
     },
     {
-      title: "Loans",
+      title: t("ui.navigation.items.loans"),
       href: "/loans",
     },
   ];
 
-  if (title !== "Loans") {
+  if (title !== t("ui.navigation.items.loans")) {
     breadcrumbs.push({
       title,
       href: "#",

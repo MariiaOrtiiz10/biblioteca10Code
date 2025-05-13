@@ -7,6 +7,7 @@ use App\Zones\Controllers\Api\ZoneApiController;
 use App\Books\Controllers\Api\BookApiController;
 use App\Loans\Controllers\Api\LoanApiController;
 use App\Reservations\Controllers\Api\ReservationApiController;
+use App\searchBooks\Controllers\Api\searchBookApiController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth'])->group(function () {
@@ -38,6 +39,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/books', [BookApiController::class, 'index']);
+    Route::get('/searchBooks', [searchBookApiController::class, 'index']);
     Route::delete('/books/{book}', [BookApiController::class, 'destroy']);
 });
 

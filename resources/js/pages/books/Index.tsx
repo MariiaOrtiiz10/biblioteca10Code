@@ -117,11 +117,11 @@ export default function BookIndex({genres}:IndexBookProps) {
             header: t("ui.books.columns.actions") || "Actions",
             renderActions: (book) => (
                 <>
-                  <Link href={`/books/${book.id}/edit?page=${currentPage} &perPage=${perPage}`}>
+                  {/* <Link href={`/books/${book.id}/edit?page=${currentPage} &perPage=${perPage}`}>
                     <Button variant="outline" size="icon" title={t("ui.books.buttons.edit") || "Edit Book"}>
                       <PencilIcon className="h-4 w-4" />
                     </Button>
-                  </Link>
+                  </Link> */}
 
                   {book.available ? (
                     <DeleteDialog

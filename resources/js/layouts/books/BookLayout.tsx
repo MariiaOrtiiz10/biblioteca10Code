@@ -3,6 +3,7 @@ import { BreadcrumbItem } from "@/types";
 import { Head, usePage } from "@inertiajs/react";
 import { PropsWithChildren, useEffect } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "@/hooks/use-translations";
 
 interface FlashMessages {
   success?: string;
@@ -20,6 +21,7 @@ interface BookLayout extends PropsWithChildren {
 
 export function BookLayout({ title, children }: BookLayout) {
   const { flash } = usePage<PageProps>().props;
+  const { t } = useTranslations();
 
   useEffect(() => {
     if (flash.success) {
@@ -32,16 +34,16 @@ export function BookLayout({ title, children }: BookLayout) {
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
-      title: "Dashboard",
+      title: t("ui.navigation.items.dashboard"),
       href: "/dashboard",
     },
     {
-      title: "Books",
+        title: t("ui.navigation.items.books"),
       href: "/books",
     },
   ];
 
-  if (title !== "Books") {
+  if (title !== t("ui.navigation.items.books")) {
     breadcrumbs.push({
       title,
       href: "#",

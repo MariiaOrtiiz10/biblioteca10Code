@@ -106,6 +106,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
         floorNow = zone?.floor_id;
         zoneNow = zone?.id;
       }
+
       const [selectedFloor, setSelectedFloor] = useState<string | undefined>(floorNow ?? undefined);
       const [selectedZone, setSelectedZone] = useState<string | undefined>(zoneNow ?? undefined);
 

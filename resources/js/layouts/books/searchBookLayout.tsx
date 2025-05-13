@@ -15,11 +15,11 @@ interface PageProps {
   [key: string]: unknown;
 }
 
-interface BookshelfLayout extends PropsWithChildren {
+interface searchBookLayout extends PropsWithChildren {
   title: string;
 }
 
-export function BookshelfLayout({ title, children }:    BookshelfLayout) {
+export function SearchBookLayout({ title, children }: searchBookLayout) {
   const { flash } = usePage<PageProps>().props;
   const { t } = useTranslations();
 
@@ -38,12 +38,12 @@ export function BookshelfLayout({ title, children }:    BookshelfLayout) {
       href: "/dashboard",
     },
     {
-    title: t("ui.navigation.items.bookshelves"),
-      href: "/bookshelves",
+        title: t("ui.navigation.items.searchBooks"),
+      href: "/books",
     },
   ];
 
-  if (title !== t("ui.navigation.items.bookshelves"))  {
+  if (title !== t("ui.navigation.items.searchBooks")) {
     breadcrumbs.push({
       title,
       href: "#",

@@ -62,11 +62,11 @@ export interface PaginatedResponse<T> {
     perPage?: number;
   }
 
-export function useBooks({ search, page = 1, perPage = 10 }: UseBookParams = {}) {
+export function useSearchBook({ search, page = 1, perPage = 10 }: UseBookParams = {}) {
   return useQuery({
     queryKey: ["books", { search, page, perPage }],
     queryFn: async () => {
-      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Book>>("/api/books", {
+      const { data: apiResponse } = await axios.get<ApiPaginatedResponse<Book>>("/api/searchBooks", {
         params: {
           search,
           page,
@@ -93,20 +93,6 @@ export function useBooks({ search, page = 1, perPage = 10 }: UseBookParams = {})
     },
   });
 }
-export function useCreateBook() {
-    return useMutation({
-      mutationFn: async (data: {isbn:string; title:string; author:string; editorial:string; pages:number; genres:string; bookshelf_id:string;}) => {
-        const response = await axios.post("/api/books", data, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
-        return response.data;
-      },
-    });
-}
-
 export function useUpdateBook(bookId: string) {
     return useMutation({
       mutationFn: async (data: {isbn:string; title:string; author:string; editorial:string; pages:number; genres:string; bookshelf_id:string;}) => {
@@ -117,19 +103,6 @@ export function useUpdateBook(bookId: string) {
           }
         });
         return response.data;
-      },
-    });
-  }
-
-  export function useDeleteBook() {
-    return useMutation({
-      mutationFn: async (bookId: string) => {
-        await axios.delete(`/api/books/${bookId}`, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
       },
     });
   }
