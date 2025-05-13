@@ -17,7 +17,6 @@ class UserStoreAction
         ]);
 
         $user->syncPermissions($data['permissions']);
-
         return UserResource::fromModel($user);
     }
 }

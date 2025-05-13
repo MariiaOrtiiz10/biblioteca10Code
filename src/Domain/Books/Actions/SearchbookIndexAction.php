@@ -3,7 +3,7 @@ namespace Domain\Books\Actions;
 
 use Domain\Books\Data\Resources\BookResource;
 use Domain\Books\Models\Book;
-
+use Domain\Loans\Models\Loan;
 
 class SearchbookIndexAction
 {
@@ -19,12 +19,17 @@ class SearchbookIndexAction
         $floorNumber = $search[7];
         $zoneName = $search[8];
         $bookshelfNumber = $search[9];
+
+
+      $libros_prestados = Loan::where('status', '=', true)->pluck('book_id');
+
+
         $books = Book::query()
-        ->with(['loans'])
         ->join('bookshelves', 'books.bookshelf_id', '=', 'bookshelves.id')
         ->join('zones', 'bookshelves.zone_id', '=', 'zones.id')
         ->join('floors', 'zones.floor_id', '=', 'floors.id')
         ->select('books.*')
+        ->with(['activeLoan'])
         ->when($isbn != "null", function ($query) use ($isbn){
             $query->where('books.isbn', 'ILIKE', "%".$isbn."%");
         })
@@ -43,19 +48,11 @@ class SearchbookIndexAction
         ->when($genres != "null", function ($query) use ($genres){
             $query->where('books.genres', 'ILIKE', "%".$genres."%");
         })
-        ->when($available != "null", function ($query) use ($available) {
-            if ($available === "true") {
-                $query->where(function($q) {
-                    $q->whereDoesntHave('loans') //no tiene prestamo el libro ->  AVAIBLE = TRUE.
-                      ->orWhereHas('loans', function($subQ) {
-                          $subQ->where('status', false); //tiene prestamos, pero status = false. AVAIBLE = TRUE.
-                      });
-                });
-            } elseif ($available === "false") {
-                $query->whereHas('loans', function($subQ) {
-                    $subQ->where('status', true); //tiene préstamos con status = true. AVAIBLE = False.
-                });
-            }
+        ->when($available=='true', function ($query) use ($libros_prestados) {
+            $query->whereNotIn('books.id', $libros_prestados);
+        })
+        ->when($available=='false', function ($query) use ($libros_prestados) {
+            $query->whereIn('books.id', $libros_prestados);
         })
         ->when($floorNumber != "null", function ($query) use ($floorNumber){
             $query->where('floors.floorNumber', 'ILIKE', "%".$floorNumber."%");

@@ -33,17 +33,17 @@ export default function ChartsLayout({ children,title }: ChartLayout) {
     const sidebarNavItems: NavItem[] = [
         {
             title: t('ui.charts.navigation.books'),
-            url: '/charts/books',
+            url: '/booksCharts',
             icon: Book,
         },
         {
             title: t('ui.charts.navigation.users'),
-            url: '/charts/users',
+            url: '/usersCharts',
             icon: User,
         },
         {
             title: t('ui.charts.navigation.zones'),
-            url: '/charts/zones',
+            url: '/zonesCharts',
             icon: undefined,
         },
 
@@ -59,16 +59,16 @@ export default function ChartsLayout({ children,title }: ChartLayout) {
 
       const breadcrumbs: BreadcrumbItem[] = [
         {
-          title: "Dashboard",
+          title: t("ui.navigation.items.dashboard"),
           href: "/dashboard",
         },
         {
-          title: "Charts",
-          href: "/charts",
+            title: t("ui.navigation.items.Charts"),
+          href: "/booksCharts",
         },
       ];
 
-      if (title !== "Charts") {
+      if (title !== t("ui.navigation.items.booksCharts")) {
         breadcrumbs.push({
           title,
           href: "#",

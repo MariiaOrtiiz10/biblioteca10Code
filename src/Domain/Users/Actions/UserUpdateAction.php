@@ -20,6 +20,7 @@ class UserUpdateAction
         }
 
         $user->update($updateData);
+        $user->syncPermissions($data['permissions']);
 
         return UserResource::fromModel($user->fresh());
     }

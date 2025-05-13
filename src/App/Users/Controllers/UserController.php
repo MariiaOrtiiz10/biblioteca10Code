@@ -4,6 +4,7 @@ namespace App\Users\Controllers;
 
 use App\Core\Controllers\Controller;
 use Domain\Loans\Models\Loan;
+use Domain\Permissions\Models\Permission;
 use Domain\Users\Actions\UserDestroyAction;
 use Domain\Users\Actions\UserIndexAction;
 use Domain\Users\Actions\UserStoreAction;
@@ -21,6 +22,7 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('users/Index', [
+
         ]);
     }
 
@@ -28,7 +30,6 @@ class UserController extends Controller
     {
         $loans = $user->loans()->with('book')->orderBy('start_date')->get();
         $reservations = $user->reservations()->withTrashed()->with('book')->orderBy('created_at')->get();
-
         return Inertia::render('users/Timeline', [
             'user' => $user,
             'loans' => $loans,
@@ -38,14 +39,23 @@ class UserController extends Controller
 
     public function create()
     {
-         $role = Role::all();
-        $arrayRolePermissions=[];
-        foreach($role as $rol){
-            foreach($rol->permissions as $perm){
-                array_push($arrayRolePermissions, [$rol->name, $perm->name]);
-            }
-        }
-        return Inertia::render('users/Create', ["arrayRolePermissions"=> $arrayRolePermissions]);
+        $roles = Role::with('permissions')->get()->map(function ($role) {
+            return [
+                'id' => $role->id,
+                'name' => $role->name,
+                'display_name' => $role->display_name,
+                'permissions' => $role->permissions->pluck('name')
+            ];
+        });
+
+        $permissions = Permission::all()->groupBy(function ($permission) {
+            return explode('.', $permission->name)[0];
+        });
+
+        return Inertia::render('users/Create', [
+            'roles' => $roles,
+            'permissions' => $permissions
+        ]);
     }
 
 
@@ -75,12 +85,26 @@ class UserController extends Controller
 
     public function edit(Request $request, User $user)
     {
+        $permissionNames = $user->getPermissionNames();
+        $roles = Role::with('permissions')->get()->map(function ($role) {
+            return [
+                'id' => $role->id,
+                'name' => $role->name,
+                'display_name' => $role->display_name,
+                'permissions' => $role->permissions->pluck('name')
+            ];
+        });
 
+        $permissions = Permission::all()->groupBy(function ($permission) {
+            return explode('.', $permission->name)[0];
+        });
         return Inertia::render('users/Edit', [
             'user' => $user,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
-            //'userPermissions' => $user->permissions->pluck('name'),
+            'permissionNames' => $permissionNames,
+            'roles' => $roles,
+            'permissions' => $permissions
         ]);
     }
 

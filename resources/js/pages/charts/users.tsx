@@ -40,7 +40,7 @@ export default function Users({usersWithLoansReservation, usersWithLoans, usersW
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('ui.charts.user.title'),
-            href: '/charts/users',
+            href: '/usersCharts',
         },
     ];
     console.log(usersWithLoans);

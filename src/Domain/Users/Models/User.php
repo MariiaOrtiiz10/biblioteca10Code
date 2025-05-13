@@ -6,6 +6,7 @@ use Domain\Users\Models\UserSetting;
 
 use Database\Factories\UserFactory;
 use Domain\Loans\Models\Loan;
+use Domain\Permissions\Models\Permission;
 use Domain\Reservations\Models\Reservation;
 use Domain\Users\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
@@ -70,6 +72,7 @@ class User extends Authenticatable
     /**
      * Get the settings associated with the user.
      */
+
     public function settings(): HasOne
     {
         return $this->hasOne(UserSetting::class, 'user_id');
@@ -84,7 +87,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
-
-
 
 }

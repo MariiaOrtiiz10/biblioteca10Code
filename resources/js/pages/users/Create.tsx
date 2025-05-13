@@ -7,11 +7,12 @@ import { Icon } from "@/components/ui/icon";
 import { User } from "lucide-react";
 
 interface CreateUserProps extends PageProps {
-  arrayRolePermissions?: string[];
+  roles?: any[];
+  permissions?: any[];
 }
 
 
-export default function CreateUser({arrayRolePermissions}:CreateUserProps) {
+export default function CreateUser({roles, permissions}:CreateUserProps) {
 
   const { t } = useTranslations();
 
@@ -28,7 +29,11 @@ export default function CreateUser({arrayRolePermissions}:CreateUserProps) {
                     </div>
                     <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
                 </header>
-                <UserForm arrayRolePermissions={arrayRolePermissions} />
+                <UserForm
+                 roles={roles}
+                 permissions = {permissions}
+                 />
+
             </div>
         </div>
       </div>

@@ -41,7 +41,7 @@ export default function Books({bookswithLoansReservations, bookswithLoans, books
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('ui.charts.book.title'),
-            href: '/charts/books',
+            href: '/booksCharts',
         },
     ];
     return (

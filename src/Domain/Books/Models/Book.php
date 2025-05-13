@@ -77,6 +77,10 @@ class Book extends Model
         return $this->hasMany(Loan::class);
     }
 
+    public function activeLoan(){
+        return $this->hasOne(Loan::class)->where('status', true);
+    }
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class);

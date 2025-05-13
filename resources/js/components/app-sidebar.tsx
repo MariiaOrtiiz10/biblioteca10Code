@@ -56,7 +56,7 @@ const mainNavItems = (t: (key: string) => string): NavItem[] => [
     },
     {
         title: t('ui.navigation.items.graphics'),
-        url: '/charts/books',
+        url: '/booksCharts',
         icon: ChartLine,
     },
 

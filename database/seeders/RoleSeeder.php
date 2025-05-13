@@ -41,6 +41,9 @@ class RoleSeeder extends Seeder
             'guard_name' => 'web',
             'system' => true,
         ]);
+
+
+
         $rolAdmin ->givePermissionTo([
             'users.view',
             'users.create',
@@ -54,7 +57,7 @@ class RoleSeeder extends Seeder
             'reports.export',
             'reports.print',
             'settings.access',
-            'settings.modify',     
+            'settings.modify',
         ]);
         $rolEmployer ->givePermissionTo([
             'users.view',
@@ -64,7 +67,7 @@ class RoleSeeder extends Seeder
             'reports.export',
             'reports.print',
             'settings.access',
-            'settings.modify',     
+            'settings.modify',
         ]);
         $rolEditor ->givePermissionTo([
             'users.view',
@@ -75,7 +78,7 @@ class RoleSeeder extends Seeder
             'products.create',
             'products.edit',
             'products.delete',
-            'reports.view',   
+            'reports.view',
         ]);
         $rolReader ->givePermissionTo([
             'users.view',
@@ -83,6 +86,6 @@ class RoleSeeder extends Seeder
             'reports.view',
         ]);
 
-        
+
     }
 }

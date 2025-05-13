@@ -35,6 +35,10 @@ interface UserFormProps {
     page?: string;
     perPage?: string;
     arrayRolePermissions?: string[];
+    permissionNames?: any[];
+    roles?: any[];
+    permissions?: any[];
+
 }
 
 
@@ -57,54 +61,47 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 
 
 
-export function UserForm({ initialData, page, perPage, arrayRolePermissions = []}: UserFormProps) {
+export function UserForm({ initialData, page, perPage, permissionNames, roles = [], permissions=[]}: UserFormProps) {
     const { t } = useTranslations();
     const queryClient = useQueryClient();
-    //const types = ["basicInformation", "rp"];
-    const [arrayPermissions, setArrayPermissions] = useState<string[]>([]);
-    const [selectedRole, setSelectedRole] = useState<string>("default");
 
 
+    //Rol seleccionado
+    const [selectedRole, setSelectedRole] = useState<string | undefined>(undefined);
+    //array de permisos
+    const [selectedPermissions, setSelectedPermissions] = useState<string[]>(permissionNames ?? []);
 
-    function handleRoleChange(role: string) {
-        setSelectedRole(role);
-        console.log("Rol seleccionado:", role);
-        const defaultPermissionRole = arrayRolePermissions
-            .filter(([rol]) => rol === role)
-            .map(([_, permiso]) => permiso);
-            setArrayPermissions(defaultPermissionRole);
-        console.log("Permisos:", defaultPermissionRole);
-    }
+    const handleRoleChange = (value: string) => {
+        setSelectedRole(value);
+        // Buscar el rol y actualizar los permisos
+        const role = roles.find(r => r.name === value);
+        if (role) {
+            setSelectedPermissions(role.permissions);
+            // console.log("Permisos del rol seleccionado:", selectedPermissions);
+        } else {
+            setSelectedPermissions([]);
+        }
+    };
 
+    const handlePermissionChange = (permissionName: string) => {
+        setSelectedPermissions(prev =>
+            prev.includes(permissionName)
+                ? prev.filter(p => p !== permissionName)
+                : [...prev, permissionName]
+        );
+    };
 
-    function togglePermission(permission: string, isChecked: boolean) {
-        setArrayPermissions((prev) => {
-            const updatedPermissions = isChecked
-                ? [...prev, permission]
-                : prev.filter((perm) => perm !== permission);
-
-            console.log("Permisos actualizados:", updatedPermissions);
-            return updatedPermissions;
-        });
-    }
 
     const form = useForm({
         defaultValues: {
             name: initialData?.name ?? "",
             email: initialData?.email ?? "",
             password: "",
-            role: 'default',
-            permissions: {
-                users: { view: false, create: false, edit: false, delete: false },
-                products: { view: false, create: false, edit: false, delete: false },
-                reports: { view: false, export: false, print: false },
-                settings: { access: false, modify: false },
-            },
         },
         onSubmit: async ({ value }) => {
             const userData ={
                 ...value,
-                permissions: arrayPermissions,
+                permissions: selectedPermissions,
             }
             const options = {
                 onSuccess: () => {
@@ -298,30 +295,36 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                             <Label className="font-black capitalize">{t("ui.createUser.Rol.create")}</Label>
                         </div>
                         <div className="">
-                        <form.Field
-                                        name="role"
-                                        children={(field) => (
-                                            <div>
-                                            <Select
-                                            value={selectedRole}
-                                            onValueChange={handleRoleChange}
-                                            >
-                                                <SelectTrigger className="mt-3 border-2 w-full py-2 px-1 rounded-md dark:bg-[#272726]">
-                                                    <SelectValue/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="default">{t("ui.createUser.Rol.select.default")}</SelectItem>
-                                                    <SelectItem value="admin">{t("ui.createUser.Rol.select.op1")}</SelectItem>
-                                                    <SelectItem value="employer">{t("ui.createUser.Rol.select.op2")}</SelectItem>
-                                                    <SelectItem value="editor">{t("ui.createUser.Rol.select.op3")}</SelectItem>
-                                                    <SelectItem value="reader">{t("ui.createUser.Rol.select.op4")}</SelectItem>
-                                                </SelectContent>
-                                                </Select>
-                                                {field.state.value == 'default' && <p className="mt-1">{t("ui.createUser.Rol.select.msg")}</p>}
-                                             </div>
-                                        )
-                                    }
-                                    />
+                        <Select
+                            value={selectedRole}
+
+                            onValueChange={handleRoleChange}
+                        >
+                            <SelectTrigger className="mt-3 border-2 w-full py-2 px-1 rounded-md dark:bg-[#272726]">
+                                <SelectValue placeholder="Selecciona un rol" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectItem value="default">
+                                    {t("ui.createUser.Rol.select.default")}
+
+                                </SelectItem>
+
+                                {roles.map((role) => (
+                                    <SelectItem key={role.name} value={role.name}>
+                                        {role.display_name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+
+                        {selectedRole === "default" && (
+                            <p className="mt-1 text-sm text-red-500">
+                                {t("ui.createUser.Rol.select.msg")}
+                            </p>
+                        )}
+
+
                         </div>
 
                             <div className="p-3"></div>
@@ -330,250 +333,34 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
                                 <Icon iconNode={Shield} className="w-5 h-5 text-blue-500" />
                                 <Label className="font-black capitalize">{t("ui.createUser.Rol.permission.title")}</Label>
                             </div>
-                            {/*DIV DE LOS 4 DIVS */}
                             <div className="mb-4 grid grid-cols-2 grid-rows-2 gap-4 ">
-                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
-                                    <div className="flex items-center gap-2 mb-1.5">
-                                        <Icon iconNode={Users} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.users.title")}</Label>
-                                    </div>
-                                    <form.Field
-                                        name="permissions.users.view"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="users.view"
-                                                    checked={ arrayPermissions.includes("users.view")}
-                                                    onCheckedChange={(checked) =>
-                                                        togglePermission("users.view", !!checked)
-                                                    }
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500">
-                                                </Checkbox>
-
-                                                <Label htmlFor="users.view" className="text-sm">{t("ui.createUser.Rol.permission.users.1")}</Label>
-
-                                            </div>
-                                        )}
-                                    />
-                                    <form.Field
-                                        name="permissions.users.create"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="users.create"
-                                                    checked={arrayPermissions.includes("users.create")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("users.create", !!checked) ;
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500">
-                                                    </Checkbox>
-                                                <Label htmlFor="users.create" className="text-sm">{t("ui.createUser.Rol.permission.users.2")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                    <form.Field
-                                        name="permissions.users.edit"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="users.edit"
-                                                    checked={arrayPermissions.includes("users.edit")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("users.edit", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                                />
-                                                <Label htmlFor="users.edit" className="text-sm">{t("ui.createUser.Rol.permission.users.3")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                    <form.Field
-                                        name="permissions.users.delete"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="users.delete"
-                                                    checked={arrayPermissions.includes("users.delete")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("users.delete", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="users.delete" className="text-sm">{t("ui.createUser.Rol.permission.users.4")}</Label>
-                                            </div>
-                                        )}
-                                    />
+                            {Object.entries(permissions).map(([groupKey, groupPermissions]) => (
+                                <div key={groupKey} className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
+                                <div className="flex items-center gap-2 mb-1.5">
+                                    {groupKey === 'users' && <Icon iconNode={Users} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'products' && <Icon iconNode={PackageOpen} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'reports' && <Icon iconNode={FileText} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'settings' && <Icon iconNode={Settings} className="w-4 h-4 text-blue-500" />}
+                                    <Label className="text-sm font-black">
+                                    {t(`ui.createUser.Rol.permission.${groupKey}.title`)}
+                                    </Label>
                                 </div>
 
-
-                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
-                                    <div className="flex items-center gap-2 mb-1.5">
-                                        <Icon iconNode={PackageOpen} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.products.title")}</Label>
+                                    {groupPermissions.map((permission: { name: string, display_name: string }) => (
+                                    <div className="flex items-center gap-2">
+                                      <Checkbox
+                                        id={permission.name}
+                                        checked={selectedPermissions.includes(permission.name)}
+                                        onCheckedChange={() => handlePermissionChange(permission.name)}
+                                        className="h-4 w-4 border-2 border-gray-300 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
+                                      />
+                                      <Label htmlFor={permission.name} className="text-sm cursor-pointer">
+                                        {t(`ui.permissions["${permission.name}"]`) ?? permission.display_name}
+                                      </Label>
                                     </div>
-                                    <form.Field
-                                        name="permissions.products.view"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="products.view"
-                                                    checked={arrayPermissions.includes("products.view")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("products.view", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="products.view" className="text-sm">{t("ui.createUser.Rol.permission.products.1")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                     <form.Field
-                                        name="permissions.products.create"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="products.create"
-                                                    checked={arrayPermissions.includes("products.create")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("products.create", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="products.create" className="text-sm">{t("ui.createUser.Rol.permission.products.2")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                     <form.Field
-                                        name="permissions.products.edit"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="products.edit"
-                                                    checked={arrayPermissions.includes("products.edit")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("products.edit", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="products.edit" className="text-sm">{t("ui.createUser.Rol.permission.products.3")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                     <form.Field
-                                        name="permissions.products.delete"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="products.delete"
-                                                    checked={arrayPermissions.includes("products.delete")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("products.delete", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="products.delete" className="text-sm">{t("ui.createUser.Rol.permission.products.4")}</Label>
-                                            </div>
-                                        )}
-                                    />
+                                    ))}
                                 </div>
-
-
-                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
-                                    <div className="flex items-center gap-2 mb-1.5">
-                                        <Icon iconNode={FileText} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.reports.title")}</Label>
-                                    </div>
-                                    <form.Field
-                                        name="permissions.reports.view"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="reports.view"
-                                                    checked={arrayPermissions.includes("reports.view")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("reports.view", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="reports.view" className="text-sm">{t("ui.createUser.Rol.permission.reports.1")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                    <form.Field
-                                        name="permissions.reports.export"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="reports.export"
-                                                    checked={arrayPermissions.includes("reports.export")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("reports.export", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="reports.export" className="text-sm">{t("ui.createUser.Rol.permission.reports.2")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                    <form.Field
-                                        name="permissions.reports.print"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="reports.print"
-                                                    checked={arrayPermissions.includes("reports.print")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("reports.print", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="reports.print" className="text-sm">{t("ui.createUser.Rol.permission.reports.3")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-
-
-                                <div className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
-                                    <div className="flex items-center gap-2 mb-1.5">
-                                        <Icon iconNode={Settings} className="w-4 h-4 text-blue-500" />
-                                        <Label className="text-sm font-black">{t("ui.createUser.Rol.permission.settings.title")}</Label>
-                                    </div>
-                                    <form.Field
-                                        name="permissions.settings.access"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="settings.access"
-                                                    checked={arrayPermissions.includes("settings.access")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("settings.access", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="settings.access" className="text-sm">{t("ui.createUser.Rol.permission.settings.1")}</Label>
-                                            </div>
-                                        )}
-                                    />
-                                    <form.Field
-                                        name="permissions.settings.modify"
-                                        children={(field) => (
-                                            <div className="flex items-center gap-2">
-                                                <Checkbox
-                                                    id="settings.modify"
-                                                    checked={arrayPermissions.includes("settings.modify")}
-                                                    onCheckedChange={(checked) => {
-                                                        togglePermission("settings.modify", !!checked);
-                                                    }}
-                                                    className="border-1 border-blue-500 bg-white data-[state=checked]:bg-blue-500"
-                                            />
-                                                <Label htmlFor="settings.modify" className="text-sm">{t("ui.createUser.Rol.permission.settings.2")}</Label>
-                                            </div>
-                                        )}
-                                    />
-
-                                </div>
-
+                            ))}
                             </div>
 
                         </div>

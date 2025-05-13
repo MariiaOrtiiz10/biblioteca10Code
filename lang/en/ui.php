@@ -14,7 +14,7 @@ return [
             'searchBooks' => 'Search Books',
             'loans' => 'Loans',
             'reservations' => 'Reservations',
-            'graphics' => 'Charts',
+            'Charts' => 'Statistics',
             'description' => [
                 'users' => 'Manage the system users',
                 'floors' => 'Manage the system floors',
@@ -29,6 +29,26 @@ return [
         ],
 
     ],
+    'permissions' => [
+        'users.view' => 'View users',
+        'users.create' => 'Create users',
+        'users.edit' => 'Edit users',
+        'users.delete' => 'Delete users',
+
+        'products.view' => 'View products',
+        'products.create' => 'Create products',
+        'products.edit' => 'Edit products',
+        'products.delete' => 'Delete products',
+
+        'reports.view' => 'View reports',
+        'reports.export' => 'Export reports',
+        'reports.print' => 'Print reports',
+
+        'settings.access' => 'Access settings',
+        'settings.modify' => 'Modify settings',
+    ],
+
+
     'user_menu' => [
         'settings' => 'Settings',
         'logout' => 'Log out',
@@ -169,29 +189,15 @@ return [
                 'title' => 'Specific permission',
                 'users' =>[
                     'title' => 'Users',
-                    '1' => 'View users',
-                    '2' => 'Create users',
-                    '3' => 'Edit users',
-                    '4' => 'Delete users',
-
                 ],
                 'products' => [
                     'title' => 'Products',
-                    '1' => 'View products',
-                    '2' => 'Create products',
-                    '3' => 'Edit products',
-                    '4' => 'Delete products',
                 ],
                 'reports'=>[
                     'title' => 'Reports',
-                    '1' => 'View reports',
-                    '2' => 'Export reports',
-                    '3' => 'Print reports',
                 ],
                 'settings' => [
                     'title'=> 'Settings',
-                    '1' => 'Access to settings',
-                    '2' => 'Modify settings',
                 ],
             ],
         ],

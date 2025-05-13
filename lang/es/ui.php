@@ -14,7 +14,7 @@ return [
             'searchBooks' => 'Buscar Libros',
             'loans' => 'Préstamos',
             'reservations' => 'Reservas',
-            'charts' => 'Gráficas',
+            'Charts' => 'Estadísticas',
             'description' => [
                 'users' => 'Gestiona a los usuarios del sistema',
                 'floors' =>'Gestiona los pisos del sistema',
@@ -27,6 +27,24 @@ return [
                 'charts' =>'Visualiza las estadísticas del sistema',
             ],
         ],
+    ],
+    'permissions' => [
+        'users.view' => 'Ver usuarios',
+        'users.create' => 'Crear usuarios',
+        'users.edit' => 'Editar usuarios',
+        'users.delete' => 'Eliminar usuarios',
+
+        'products.view' => 'Ver productos',
+        'products.create' => 'Crear productos',
+        'products.edit' => 'Editar productos',
+        'products.delete' => 'Eliminar productos',
+
+        'reports.view' => 'Ver reportes',
+        'reports.export' => 'Exportar reportes',
+        'reports.print' => 'Imprimir reportes',
+
+        'settings.access' => 'Acceder a configuración',
+        'settings.modify' => 'Modificar configuración',
     ],
     'user_menu' => [
         'settings' => 'Configuración',
@@ -86,6 +104,7 @@ return [
             'description' => 'Cambia tu idioma preferido',
         ],
     ],
+
     'validation' => [
         'required' => 'El campo :attribute es obligatorio.',
         'email' => 'El campo :attribute debe ser una dirección de correo electrónico válida.',
@@ -133,6 +152,7 @@ return [
         'no_results' => 'Sin resultados',
         'results'=>'Total de resultados encontrados: ',
     ],
+
     'createUser' => [
         'pwd' => 'incluyendo caracteres y números',
         'Header' => [
@@ -161,32 +181,20 @@ return [
                 'title' => 'Permisos específicos',
                 'users' =>[
                     'title' => 'Usuarios',
-                    '1' => 'Ver usuarios',
-                    '2' => 'Crear usuarios',
-                    '3' => 'Editar usuarios',
-                    '4' => 'Eliminar usuarios',
                 ],
                 'products' => [
                     'title' => 'Productos',
-                    '1' => 'Ver productos',
-                    '2' => 'Crear productos',
-                    '3' => 'Editar productos',
-                    '4' => 'Eliminar productos',
                 ],
                 'reports'=>[
                     'title' => 'Informes',
-                    '1' => 'Ver informes',
-                    '2' => 'Exportar informes',
-                    '3' => 'Imprimir informes',
                 ],
                 'settings' => [
                     'title'=> 'Configuración',
-                    '1' => 'Acceder a configuración',
-                    '2' => 'Modificar configuración',
                 ],
             ],
         ],
     ],
+
     'editUser' => [
         'Header' => [
             'editUser'=> 'Editar usuario',

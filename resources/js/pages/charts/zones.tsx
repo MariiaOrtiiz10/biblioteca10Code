@@ -24,7 +24,7 @@ export default function Zones({}:EditZoneProps) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('ui.charts.zones.title'),
-            href: '/charts/zones',
+            href: '/zonesCharts',
         },
     ];
     return (
