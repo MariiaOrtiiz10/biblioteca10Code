@@ -3,10 +3,10 @@ import { Input } from "@/components/ui/input";
 import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { UserLayout } from "@/layouts/users/UserLayout";
 import { User, useDeleteUser, useUsers } from "@/hooks/users/useUsers";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { PencilIcon, PlusIcon, TrashIcon, Clock} from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useState, useMemo } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, usePage, router } from "@inertiajs/react";
 import { useTranslations } from "@/hooks/use-translations";
 import { Table } from "@/components/stack-table/Table";
 import { createTextColumn, createDateColumn, createActionsColumn } from "@/components/stack-table/columnsTable";
@@ -14,11 +14,18 @@ import { DeleteDialog } from "@/components/stack-table/DeleteDialog";
 import { FiltersTable, FilterConfig } from "@/components/stack-table/FiltersTable";
 import { toast } from "sonner";
 import { ColumnDef, Row } from "@tanstack/react-table";
+import { PageProps } from "@/types";
+
+
+interface IndexUserProps extends PageProps {
+
+}
 
 //Página principal que muestra una lista de usuarios.
-export default function UsersIndex() {
+export default function UsersIndex({userWithLoansansReservations}:IndexUserProps) {
   const { t } = useTranslations();
   const { url } = usePage();
+  console.log(userWithLoansansReservations);
 
   // Obtener los parámetros de la URL actual
   const urlParams = new URLSearchParams(url.split('?')[1] || '');
@@ -64,6 +71,11 @@ export default function UsersIndex() {
     }
   };
 
+  const handleViewTimeLine = async (id: string) => {
+    router.get(`users/timeline`);
+  }
+
+
   const columns = useMemo(() => ([
     createTextColumn<User>({
       id: "name",
@@ -85,11 +97,26 @@ export default function UsersIndex() {
       header: t("ui.users.columns.actions") || "Actions",
       renderActions: (user) => (
         <>
+                {(user.has_reservations || user.has_loans) && (
+           <Link href={`/users/${user.id}`}>
+                <Button
+                variant="outline"
+                size="icon"
+                title={t("ui.users.buttons.timeLine") || "View TimeLine"}
+                >
+                <Clock className="h-4 w-4 text-blue-500" />
+                </Button>
+            </Link>
+            )}
+
+
           <Link href={`/users/${user.id}/edit?page=${currentPage}&perPage=${perPage}`}>
             <Button variant="outline" size="icon" title={t("ui.users.buttons.edit") || "Edit user"}>
               <PencilIcon className="h-4 w-4" />
             </Button>
           </Link>
+
+
           <DeleteDialog
             id={user.id}
             onDelete={handleDeleteUser}

@@ -4,7 +4,7 @@ import { useTranslations } from '@/hooks/use-translations';
 import HeadingSmall from '@/components/heading-small';
 import AppLayout from '@/layouts/app-layout';
 import { PageProps } from "@/types";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, Typography, Chip, Stack, Box, Divider, useMediaQuery } from '@mui/material';
 import {ArrowUpDown,  BookOpen, Calendar, Clock, CheckCircle, XCircle, Tag , Hourglass, User, Undo2, BookUp} from "lucide-react";
@@ -24,6 +24,19 @@ export default function Users({usersWithLoansReservation, usersWithLoans, usersW
     const { t } = useTranslations();
     const page = usePage<SharedData>();
     const { auth } = page.props;
+    const [isTablet, setIsTablet] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+        useEffect(() => {
+        const handleResize = () => {
+            setIsTablet(window.innerWidth < 1400);
+            setIsMobile(window.innerWidth < 767);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+        }, []);
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('ui.charts.user.title'),
@@ -48,36 +61,64 @@ export default function Users({usersWithLoansReservation, usersWithLoans, usersW
             <div className='w-full overflow-x-auto'>
             <div className="min-w-[600px] h-[460px]">
             <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                data={usersWithLoansReservation}
-                >
+            <BarChart data={usersWithLoansReservation}>
                 <CartesianGrid strokeDasharray="4 4" stroke="#eee" />
                 <XAxis
                     dataKey="email"
                     angle={-35}
                     textAnchor="end"
-                    height={150}
+                    height={75}
+                    tickFormatter={(value, index) => `TOP ${index + 1}`}
                 />
                 <YAxis allowDecimals={false} />
                 <Tooltip
-                    cursor = {{fill: 'rgba(120, 120, 120, 0.1)'}}
-                    labelClassName='font-bold dark:text-gray-800 font-bold '
-                    contentStyle={{
-                    borderRadius: '8px',
-                    border: '1px solid #e5e7eb',
-                    background: 'white',
-
-                    }}
+                cursor={{ fill: 'rgba(120, 120, 120, 0.1)' }}
+                labelClassName="font-bold dark:text-gray-800"
+                contentStyle={{
+                borderRadius: '8px',
+                border: '1px solid #e5e7eb',
+                background: 'white',
+                }}
+                content={({ payload, label }) => {
+                    if (!payload || payload.length === 0) return null;
+                    const data = payload[0].payload;
+                    return (
+                    <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
+                        <p className="font-bold text-gray-800 mb-2">{label}</p>
+                        <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2 dark:text-gray-800">
+                            <User></User>
+                            <span>{data.name}</span>
+                        </div>
+                        <div className="flex items-center gap-2 dark:text-gray-600">
+                            <div className="w-3 h-3 rounded-full bg-[#F97316]"></div>
+                            <span>{t("ui.charts.user.loans")}: {data.loans_count}</span>
+                        </div>
+                        <div className="flex items-center gap-2 dark:text-gray-800">
+                            <div className="w-3 h-3 rounded-full bg-[#3B82F6]"></div>
+                            <span>{t("ui.charts.user.reservations")}: {data.reservations_count}</span>
+                        </div>
+                        <div className="flex items-center gap-2 font-bold dark:text-gray-800">
+                            <span>{t("ui.charts.user.total")}: {data.total}</span>
+                        </div>
+                        </div>
+                    </div>
+                    );
+                }}
                 />
-                <Legend
+                <Legend />
+                <Bar
+                    dataKey="loans_count"
+                    stackId="a"
+                    fill="#F97316"
+                    name={t("ui.charts.user.loans")}
                 />
                 <Bar
-                 dataKey="loans_count"
-                 fill="#F97316"
-                 name={t("ui.charts.user.loans")}
-                 />
-                <Bar dataKey="reservations_count" fill="#3B82F6" name={t("ui.charts.user.reservations")} />
-                <Bar dataKey="total" fill="#10B981" name={t("ui.charts.user.total")} />
+                    dataKey="reservations_count"
+                    stackId="a"
+                    fill="#3B82F6"
+                    name={t("ui.charts.user.reservations")}
+                />
                 </BarChart>
             </ResponsiveContainer>
             </div>
@@ -92,7 +133,7 @@ export default function Users({usersWithLoansReservation, usersWithLoans, usersW
             <h3 className="text-gray-800 mb-4 dark:text-gray-200">
                 {t("ui.charts.user.topLoans")}
             </h3>
-            <div className="h-[370px]">
+            <div className="h-[375px]">
                 <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                     <Pie
@@ -109,29 +150,42 @@ export default function Users({usersWithLoansReservation, usersWithLoans, usersW
                         <Cell
                         key={`cell-${index}`}
                         fill={[
-                            '#10B981', // Verde
-                            '#3B82F6', // Azul
-                            '#8B5CF6', // Violeta
-                            '#EF4444', // Rojo
-                            '#F97316', // Naranja
-                            '#EAB308'  // Amarillo
-                          ][index % 6]}
+                            '#FF0000',
+                            '#FFFF00',
+                            '#00FF00',
+                            '#008000',
+                            '#00FFFF',
+                            '#000080',
+                            '#FF00FF',
+                            '#800080'
+                          ][index % 8]}
                         />
                     ))}
                     </Pie>
                     <Tooltip
-                    formatter={(value, email , props) => [
-                        `${value} ${t("ui.charts.user.loans")}`,
-                        props.payload.name,
-                    ]}
+                      labelClassName="font-bold dark:text-gray-800"
+                      content={({ payload, label }) => {
+                        if (!payload || payload.length === 0) return null;
+                        const data = payload[0].payload;
+                        console.log("data", data)
+                        return (
+                        <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
+                            <p className="font-bold text-gray-800 mb-2">{label}</p>
+                            <div className="flex items-center gap-2 dark:text-gray-800">
+                                <span className='font-bold'>{data.name}:</span>{data.loans_count} {t("ui.charts.user.loans")}
+                            </div>
+                        </div>
+                        );
+                    }}
                     />
                     <Legend
                     layout="vertical"
-                    verticalAlign="bottom"
-                    align="center"
+                    verticalAlign={isTablet && !isMobile ? "bottom" : "middle"}
+                    align={isTablet && !isMobile ? "center" : "right"}
+                    wrapperStyle={isTablet && !isMobile ? { paddingTop: '20px' } : {}}
                     formatter={(value, entry, index) => (
-                        <span className="text-sm text-gray-600">
-                            <strong>{usersWithLoans[index]?.email}</strong>
+                        <span className="text-sm text-gray-900 dark:text-gray-200">
+                        <strong>{usersWithLoans[index]?.email}</strong>
                         </span>
                     )}
                     />
@@ -145,7 +199,7 @@ export default function Users({usersWithLoansReservation, usersWithLoans, usersW
             <h3 className="text-gray-800 mb-4 dark:text-gray-200">
                 {t("ui.charts.user.topReservations")}
             </h3>
-            <div className="h-[370px]">
+            <div className="h-[375px]">
                 <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                     <Pie
@@ -162,28 +216,41 @@ export default function Users({usersWithLoansReservation, usersWithLoans, usersW
                         <Cell
                         key={`cell-${index}`}
                         fill={[
-                            '#10B981', // Verde
-                            '#3B82F6', // Azul
-                            '#8B5CF6', // Violeta
-                            '#EF4444', // Rojo
-                            '#F97316', // Naranja
-                            '#EAB308'  // Amarillo
-                          ][index % 6]}
+                            '#FF0000',
+                            '#FFFF00',
+                            '#00FF00',
+                            '#008000',
+                            '#00FFFF',
+                            '#000080',
+                            '#FF00FF',
+                            '#800080'
+                          ][index % 8]}
                         />
                     ))}
                     </Pie>
                     <Tooltip
-                    formatter={(value, name, props) => [
-                        `${value} ${t("ui.charts.user.reservations")}`,
-                        props.payload.name,
-                    ]}
+                      labelClassName="font-bold dark:text-gray-800"
+                      content={({ payload, label }) => {
+                        if (!payload || payload.length === 0) return null;
+                        const data = payload[0].payload;
+                        console.log("data", data)
+                        return (
+                        <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
+                            <p className="font-bold text-gray-800 mb-2">{label}</p>
+                            <div className="flex items-center gap-2 dark:text-gray-800">
+                                <span className='font-bold'>{data.name}:</span>{data.reservations_count} {t("ui.charts.user.reservations")}
+                            </div>
+                        </div>
+                        );
+                    }}
                     />
-                    <Legend
+                     <Legend
                     layout="vertical"
-                    verticalAlign="bottom"
-                    align="center"
+                    verticalAlign={isTablet && !isMobile ? "bottom" : "middle"}
+                    align={isTablet && !isMobile ? "center" : "right"}
+                    wrapperStyle={isTablet && !isMobile ? { paddingTop: '20px' } : {}}
                     formatter={(value, entry, index) => (
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-gray-900 dark:text-gray-200">
                         <strong>{usersWithReservations[index]?.email}</strong>
                         </span>
                     )}

@@ -7,18 +7,14 @@ import { LoanLayout } from "@/layouts/loans/LoanLayout";
 import { LoanForm } from "./Components/LoanForm";
 
 interface CreateLoanProps extends PageProps {
-    usersEmail:{
-        id:string;
-        email:string;
-    }[];
-    booksISBN:{
-        id:string;
-        isbn:string;
-    }[];
+    allUsersEmail:any[];
+    allBooksISBN:any[];
+    email:string;
+    isbn:string;
 
 }
 
-export default function createLoan({usersEmail, booksISBN}:CreateLoanProps) {
+export default function createLoan({email, allUsersEmail, isbn, allBooksISBN}:CreateLoanProps) {
   const { t } = useTranslations();
   const paramsString = window.location.search;
     const searchParams = new URLSearchParams(paramsString);
@@ -38,10 +34,11 @@ export default function createLoan({usersEmail, booksISBN}:CreateLoanProps) {
                             <p className="text-gray-600">{t("ui.loans.createLoan.subtitle")}</p>
                         </header>
                          <LoanForm
-                         bookISBN = {bookISBN}
-                         usersEmail = {usersEmail}
-                         booksISBN = {booksISBN}
-
+                        email = {email}
+                        isbn = {isbn}
+                        allUsersEmail = {allUsersEmail}
+                        bookISBN = {bookISBN}
+                        allBooksISBN = {allBooksISBN}
                          />
         </div>
         </div>

@@ -1,4 +1,3 @@
-import { FloorLayout } from "@/layouts/floors/FloorLayout";
 import { useTranslations } from "@/hooks/use-translations";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,13 +7,14 @@ import { createTextColumn, createDateColumn, createActionsColumn } from "@/compo
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
 import { ColumnDef, createColumn, Row } from "@tanstack/react-table";
-import { DeleteDialog } from "@/components/stack-table/DeleteDialog";
 import { FiltersTable, FilterConfig } from "@/components/stack-table/FiltersTable";
 import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
 import { BookLayout } from "@/layouts/books/BookLayout";
 import { useBooks, Book, useDeleteBook } from "@/hooks/books/useBooks";
 import { PageProps } from "@/types";
+import { SearchBookLayout } from "@/layouts/books/searchBookLayout";
+import { useSearchBook } from "@/hooks/books/useSearchBook";
 
 interface IndexBookProps extends PageProps {
     floors:{
@@ -58,7 +58,7 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
         filters.bookshelfNumber ? filters.bookshelfNumber:'null',
     ]
 
-    const { data: books, isLoading, isError, refetch } = useBooks({
+    const { data: books, isLoading, isError, refetch } = useSearchBook({
         search: combinedSearch,
         page: currentPage,
         perPage: perPage,
@@ -68,6 +68,8 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
       };
+
+
       function handleCreateLoan(isbn: string){
         router.get(`loans/create`, {isbn})
       }
@@ -142,7 +144,7 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
                       header: t("ui.books.columns.actions") || "Actions",
                       renderActions: (book) => (
                           <>
-                              {book.available && (
+                              {book.available &&  (
                                 <Button
                                 variant="outline"
                                 size="icon"
@@ -164,6 +166,11 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
                                 <BookUp className="h-5 w-5 text-blue-500" />
                                 </Button>
                             )}
+                             <Link href={`/books/${book.id}/edit?page=${currentPage} &perPage=${perPage}`}>
+                                <Button variant="outline" size="icon" title={t("ui.books.buttons.edit") || "Edit Book"}>
+                                <PencilIcon className="h-4 w-4" />
+                                </Button>
+                            </Link>
 
                           </>
                         )
@@ -173,9 +180,8 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
         ] as ColumnDef<Book>[]), [t, handleDeleteBook]);
 
 
-
   return (
-     <BookLayout title={t('ui.searchBooks.title')}>
+     <SearchBookLayout title={t('ui.searchBooks.title')}>
               <div className="p-6">
                   <div className="space-y-6">
                       <div className="flex items-center justify-between">
@@ -288,6 +294,6 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
                       </div>
                   </div>
               </div>
-          </BookLayout>
+          </SearchBookLayout>
   );
 }

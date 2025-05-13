@@ -14,9 +14,20 @@ return [
             'searchBooks' => 'Search Books',
             'loans' => 'Loans',
             'reservations' => 'Reservations',
-            'graphics' => 'Charts'
-
+            'graphics' => 'Charts',
+            'description' => [
+                'users' => 'Manage the system users',
+                'floors' => 'Manage the system floors',
+                'zones' => 'Manage the system zones',
+                'bookshelves' => 'Manage the system bookshelves',
+                'books' => 'Manage the system books',
+                'searchBooks' => 'Locate the system books',
+                'loans' => 'Manage the system loans',
+                'reservations' => 'Manage the system reservations',
+                'charts' => 'View the system statistics',
+            ],
         ],
+
     ],
     'user_menu' => [
         'settings' => 'Settings',
@@ -125,6 +136,10 @@ return [
         'no_results' => 'No results',
         'results'=>'Total results found: ',
     ],
+
+
+
+
     'createUser' => [
         'pwd' => 'including characters and numbers',
         'Header' => [
@@ -181,10 +196,11 @@ return [
             ],
         ],
     ],
+
     'editUser' => [
         'Header' => [
             'editUser'=> 'Edit user',
-            'h2'=> 'Enter the information to create a new user in the system',
+            'h2'=> 'Enter the information to edit a user in the system',
         ],
     ],
 
@@ -752,6 +768,8 @@ return [
         'no_delay' => 'No Delay',
         'delay' => ' days late',
         'start_reservation' => 'Reserved on',
+        'deleted' => 'Reservation removed',
+        'deleted_at' => 'Reservation removed on',
         'filter' => [
             'all' => 'All',
             'reservation' => 'Reservations',
@@ -760,7 +778,7 @@ return [
     ],
 
     'charts' => [
-        'title' => 'Live charts',
+        'title' => 'Live statistics',
         'description' => 'Discover the most outstanding statistics: favorite books, the most active users and the areas with the most movement at a glance.',
         'navigation' => [
             'books' => 'Books',
@@ -768,17 +786,29 @@ return [
             'zones' => 'Zones',
         ],
         'book' => [
-            'title' => 'Books charts',
+            'title' => 'Favourites Books',
+            'total' => 'Total',
+            'loans' => 'Loans',
+            'reservations' => 'Reservations',
+            'isbn' => 'ISBN',
+            'topLoans' => 'Top 8 books with the most loans',
+            'topReservations' => 'Top 8 books with the most reservations',
+
         ],
         'user' => [
-            'title' => 'More active users',
+            'title' => 'Most active users',
             'loans' => 'Loans',
             'reservations' => 'Reservations',
             'total' => 'Total',
-            'topLoans' => 'Top 6 Users with Loans',
-            'topReservations' => 'Top 6 Users with Reservations'
+            'topLoans' => 'Top 8 users with the most loans',
+            'topReservations' => 'Top 8 users with the most reservations'
         ],
-
+    ],
+    'us' =>[
+        'timeline' =>[
+            'title' => 'Timeline',
+            'user' => 'User',
+        ]
 
     ],
 

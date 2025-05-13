@@ -41,8 +41,50 @@ class ChartBookController extends Controller
         ->take(10)
         ->values()
         ->toArray();
+
+        $bookswithLoans = Book::withTrashed()
+        ->with(['loans',])
+        ->get()
+        ->groupBy('isbn')
+        ->map(function ($books) {
+            $totalLoans = $books->sum(function ($book) {
+                return $book->loans->count();
+            });
+            $representativeBook = $books->first();
+            $result = clone $representativeBook;
+            $result->loans_count = $totalLoans;
+            $result->total = $totalLoans;
+            return $result;
+        })
+        ->sortByDesc('total')
+        ->take(8)
+        ->values()
+        ->toArray();
+
+        $bookswithReservations = Book::withTrashed()
+        ->with(['reservations' => function($query) {
+            $query->withTrashed();
+        }])
+        ->get()
+        ->groupBy('isbn')
+        ->map(function ($books) {
+            $totalReservations = $books->sum(function ($book) {
+                return $book->reservations->count();
+            });
+            $representativeBook = $books->first();
+            $result = clone $representativeBook;
+            $result->reservations_count = $totalReservations;
+            $result->total = $totalReservations;
+            return $result;
+        })
+        ->sortByDesc('total')
+        ->take(8)
+        ->values()
+        ->toArray();
         return Inertia::render('charts/books', [
             'bookswithLoansReservations' => $bookswithLoansReservations,
+            'bookswithLoans' => $bookswithLoans,
+            'bookswithReservations' => $bookswithReservations,
 
         ]);
     }

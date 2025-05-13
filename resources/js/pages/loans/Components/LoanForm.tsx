@@ -27,14 +27,8 @@ interface LoanFormProps {
     email:string;
     isbn:string;
     bookISBN: string|null;
-    usersEmail:{
-        id:string;
-        email:string;
-    }[];
-    booksISBN:{
-        id:string;
-        isbn:string;
-    }[];
+    allUsersEmail:any[];
+    allBooksISBN: any[];
 
 
 }
@@ -53,11 +47,11 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, usersEmail=[], booksISBN=[ ]}:LoanFormProps){
+export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, allUsersEmail, allBooksISBN}:LoanFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
     //console.log(initialData);
-    console.log(usersEmail);
+    //console.log(usersEmail);
     //console.log(isbn);
 
     const form = useForm({
@@ -124,7 +118,7 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, use
                                     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                                         return t("ui.validation.email", { attribute: t("ui.loans.fields.email").toLowerCase() })
                                     }
-                                    const emailExists = usersEmail.some(user => user.email === value);
+                                    const emailExists = allUsersEmail.some(user => user.email === value);
                                     if (!emailExists) {
                                         return t("ui.validation.emailLoan");
                                     }
@@ -177,7 +171,7 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, use
                                           attribute: t("ui.books.columns.isbn").toLowerCase(),
                                         });
                                       }
-                                    const isbnExists = booksISBN.some(book => book.isbn === value);
+                                    const isbnExists = allBooksISBN.some(book => book.isbn === value);
                                     if (!isbnExists) {
                                         return t("ui.validation.isbnLoan");
                                     }

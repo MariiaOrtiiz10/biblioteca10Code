@@ -11,6 +11,8 @@ class UserResource extends Data
         public readonly string $id,
         public readonly string $name,
         public readonly string $email,
+        public readonly bool $has_loans,
+        public readonly bool $has_reservations,
         public readonly string $created_at,
         public readonly string $updated_at,
     ) {
@@ -22,6 +24,8 @@ class UserResource extends Data
             id: $user->id,
             name: $user->name,
             email: $user->email,
+            has_loans: $user->loans()->exists(),
+            has_reservations: $user->reservations()->withTrashed()->exists(),
             created_at: $user->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
             updated_at: $user->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );

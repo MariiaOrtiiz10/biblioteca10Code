@@ -53,10 +53,9 @@ class UserController extends Controller
 
         return redirect()->route('users.index')
             ->with('success', __('messages.users.created'));
-
-
-
     }
+
+
 
     public function edit(Request $request, User $user)
     {
@@ -66,6 +65,9 @@ class UserController extends Controller
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
         ]);
+    }
+    public function show(Request $request, User $user){
+
     }
 
     public function update(Request $request, User $user, UserUpdateAction $action)

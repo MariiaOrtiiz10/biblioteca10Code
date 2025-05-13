@@ -32,16 +32,17 @@ class ChartUserController extends Controller
         ->withCount(['loans'])
         ->get()
         ->sortByDesc('loans_count')
-        ->take(6)
+        ->take(8)
         ->values()
         ->toArray();
+
         $usersWithReservations = User::withTrashed()
         ->withCount(['reservations' => function($query) {
             $query->withTrashed();
         }])
         ->get()
         ->sortByDesc('reservations_count')
-        ->take(6)
+        ->take(8)
         ->values()
         ->toArray();
 

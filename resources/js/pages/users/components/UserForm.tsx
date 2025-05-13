@@ -150,14 +150,6 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
 
     return (
         <div className="">
-            <div className="rounded-lg shadow-md shadow-gray-400 dark:bg-[#272726]">
-            <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
-            <div className="flex items-center gap-2">
-            <Icon iconNode={User} className="w-6 h-6 text-blue-500" />
-            <Label className="text-2xl font-black">{t("ui.createUser.Header.newUser")}</Label>
-            </div>
-            <p className="text-gray-600">{t("ui.createUser.Header.h2")}</p>
-            </header>
             <hr className="dark:border-black "></hr>
              <div className="py-1 bg-gray-100 dark:bg-[#272726]"></div>
             <form onSubmit={handleSubmit} className="space-y-1  bg-gray-100 dark:bg-[#272726] " noValidate>
@@ -633,6 +625,5 @@ export function UserForm({ initialData, page, perPage, arrayRolePermissions = []
             <div className="rounded-b-lg p-1 bg-gray-100 dark:bg-[#272726]"></div>
             </form>
         </div>
-    </div>
     );
 }

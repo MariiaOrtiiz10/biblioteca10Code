@@ -3,6 +3,7 @@
 namespace App\Users\Controllers;
 
 use App\Core\Controllers\Controller;
+use Domain\Loans\Models\Loan;
 use Domain\Users\Actions\UserDestroyAction;
 use Domain\Users\Actions\UserIndexAction;
 use Domain\Users\Actions\UserStoreAction;
@@ -19,13 +20,26 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('users/Index');
+        return Inertia::render('users/Index', [
+        ]);
+    }
+
+        public function show(User $user)
+    {
+        $loans = $user->loans()->with('book')->orderBy('start_date')->get();
+        $reservations = $user->reservations()->withTrashed()->with('book')->orderBy('created_at')->get();
+
+        return Inertia::render('users/Timeline', [
+            'user' => $user,
+            'loans' => $loans,
+            'reservations' => $reservations,
+        ]);
     }
 
     public function create()
     {
          $role = Role::all();
-         $arrayRolePermissions=[];
+        $arrayRolePermissions=[];
         foreach($role as $rol){
             foreach($rol->permissions as $perm){
                 array_push($arrayRolePermissions, [$rol->name, $perm->name]);

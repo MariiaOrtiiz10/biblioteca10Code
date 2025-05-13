@@ -15,6 +15,17 @@ return [
             'loans' => 'Préstamos',
             'reservations' => 'Reservas',
             'charts' => 'Gráficas',
+            'description' => [
+                'users' => 'Gestiona a los usuarios del sistema',
+                'floors' =>'Gestiona los pisos del sistema',
+                'zones' =>'Gestiona las zonas del sistema',
+                'bookshelves' =>'Gestiona las estanterias del sistema',
+                'books' =>'Gestiona los libros del sistema',
+                'searchBooks' =>'Localiza los libros del sistema',
+                'loans' =>'Gestiona los préstamos del sistema',
+                'reservations' =>'Gestiona las reservas del sistema',
+                'charts' =>'Visualiza las estadísticas del sistema',
+            ],
         ],
     ],
     'user_menu' => [
@@ -707,9 +718,17 @@ return [
         'no_delay' => 'Sin Retraso',
         'delay' => ' días de retraso',
         'start_reservation' => 'Reservado el',
+        'deleted' => 'Reserva eliminada',
+        'deleted_at' => 'Reserva elimina el',
+        'filter' => [
+            'all' => 'Todo',
+            'reservation' => 'Reservas',
+            'loans' => 'Préstamos',
+        ],
     ],
+
     'charts' => [
-        'title' => 'Graficos en vivo',
+        'title' => 'Estadísticas en vivo',
         'description' => 'Descubre las estádisticas mas destacadas: los libros favoritos, los lectores más activos y las zonas con más movimiento en un vistazo.',
         'navigation' => [
             'books' => 'Libros',
@@ -717,11 +736,31 @@ return [
             'zones' => 'Zonas',
         ],
         'book' => [
-            'title' => 'Estadísticas de libros',
+            'title' => 'Libros favoritos',
+            'total' => 'Total',
+            'loans' => 'Préstamos',
+            'reservations' => 'Reservas',
+            'isbn' => 'ISBN',
+            'topLoans' => 'Top 8 libros con más préstamos',
+            'topReservations' => 'Top 8 libros con más reservas'
+
         ],
         'user' => [
-            'title' => 'Estadísticas de usuarios',
+            'title' => 'Usuarios más activos',
+            'loans' => 'Préstamos',
+            'reservations' => 'Reservas',
+            'total' => 'Total',
+            'topLoans' => 'Top 8 usuarios con más préstamos',
+            'topReservations' => 'Top 8 usuarios con más reservas'
         ],
+
+    ],
+
+    'us' =>[
+        'timeline' =>[
+            'title' => 'Acciones del usuario',
+            'user' => 'Usuario',
+        ]
 
     ],
 

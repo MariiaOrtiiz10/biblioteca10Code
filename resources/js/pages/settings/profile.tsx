@@ -37,8 +37,6 @@ export default function Profile({loans, reservations}:EditProfileProps) {
         return item.type === filter;
     })
     .sort((a, b) => b.sortDate - a.sortDate);
-
-    console.log(reservations);
     const COLOR_PENDING = '#FFD54F';
     const COLOR_ON_TIME = '#81C784';
     const COLOR_LATE = '#FF8A65';

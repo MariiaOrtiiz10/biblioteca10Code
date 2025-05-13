@@ -6,6 +6,8 @@ export interface User {
   name: string;
   email: string;
   created_at: string;
+  has_loans: boolean;
+  has_reservations: boolean;
 }
 
 // Interface representing the actual API response structure

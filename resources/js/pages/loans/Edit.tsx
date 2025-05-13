@@ -13,6 +13,8 @@ interface EditLoanProps extends PageProps {
         isbn:string;
         loan_duration: number;
     }
+    allUsersEmail: any[];
+    allBooksISBN: any[];
     email:string;
     isbn:string;
     page?: string;
@@ -20,8 +22,11 @@ interface EditLoanProps extends PageProps {
 
 }
 
-export default function EditLoan({loan,email,isbn, page, perPage}: EditLoanProps) {
+export default function EditLoan({loan, email, allUsersEmail, allBooksISBN ,isbn, page, perPage}: EditLoanProps) {
   const { t } = useTranslations();
+  const paramsString = window.location.search;
+  const searchParams = new URLSearchParams(paramsString);
+  const bookISBN = searchParams.get("isbn");
 
   return (
     <LoanLayout title={t("ui.loans.edit")}>
@@ -39,8 +44,12 @@ export default function EditLoan({loan,email,isbn, page, perPage}: EditLoanProps
             initialData={loan}
             page={page}
             perPage={perPage}
+            bookISBN = {bookISBN}
             email = {email}
             isbn = {isbn}
+            allUsersEmail = {allUsersEmail}
+            allBooksISBN = {allBooksISBN}
+
           />
         </div>
       </div>

@@ -3,7 +3,7 @@ namespace Domain\Books\Actions;
 
 use Domain\Books\Data\Resources\BookResource;
 use Domain\Books\Models\Book;
-use PhpParser\Node\Stmt\ElseIf_;
+
 
 class BookIndexAction
 {
@@ -54,7 +54,7 @@ class BookIndexAction
                 });
             } elseif ($available === "false") {
                 $query->whereHas('loans', function($subQ) {
-                    $subQ->where('status', true); // Caso 2: Tiene préstamos con status = true. AVAIBLE = False.
+                    $subQ->where('status', true); //tiene préstamos con status = true. AVAIBLE = False.
                 });
             }
         })
@@ -67,6 +67,8 @@ class BookIndexAction
         ->when($bookshelfNumber != "null", function ($query) use ($bookshelfNumber){
             $query->where('bookshelves.bookshelfNumber', 'ILIKE', "%".$bookshelfNumber."%");
         })
+        ->distinct('books.isbn')
+        ->orderBy('books.isbn')
         ->latest()
         ->paginate($perPage);
 
