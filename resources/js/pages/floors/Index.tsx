@@ -48,6 +48,14 @@ export default function FloorIndex() {
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
       };
+        const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
+
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
 
       const handlePerPageChange = (newPerPage: number) => {
         setPerPage(newPerPage);
@@ -77,16 +85,34 @@ export default function FloorIndex() {
             header: t("ui.floors.columns.floorName") || "floorName",
             accessorKey: "floorName",
           }),
-          createTextColumn<Floor>({
-            id: "zonesCapacity",
-            header: t("ui.floors.columns.zonesCapacity") || "zonesCapacity",
-            accessorKey: "zonesCapacity",
-          }),
-          createTextColumn<Floor>({
-            id: "occupiedZones",
-            header: t("ui.floors.columns.occupiedZones") || "occupiedZones",
-            accessorKey: "occupiedZones",
-          }),
+        //   createTextColumn<Floor>({
+        //     id: "zonesCapacity",
+        //     header: t("ui.floors.columns.zonesCapacity") || "zonesCapacity",
+        //     accessorKey: "zonesCapacity",
+        //   }),
+        //   createTextColumn<Floor>({
+        //     id: "occupiedZones",
+        //     header: t("ui.floors.columns.occupiedZones") || "occupiedZones",
+        //     accessorKey: "occupiedZones",
+        //   }),
+         createActionsColumn<Floor>({
+            id: "avaibleZones",
+            header: t("ui.floors.columns.avaibleZones") || "Available / Total",
+            renderActions: (floor) => {
+                const isFull = floor.zonesCapacity === floor.occupiedZones;
+
+
+                const className = isFull
+                ? "font-bold text-red-600 dark:text-red-400 px-2 py-1 rounded"
+                : "font-bold text-green-600 dark:text-green-400 px-2 py-1 rounded";
+
+                return (
+                <span className={className}>
+                    {floor.occupiedZones} / {floor.zonesCapacity}
+                </span>
+                );
+            }
+            }),
           createDateColumn<Floor>({
             id: "created_at",
             header: t("ui.floors.columns.created_at") || "Created At",
@@ -171,7 +197,7 @@ export default function FloorIndex() {
                                       }
                                   ] as FilterConfig[]
                               }
-                              onFilterChange={setFilters}
+                              onFilterChange={handleFilterChange}
                               initialValues={filters}
                           />
                            <div className="text-right mt-2">

@@ -69,6 +69,15 @@ export default function BookIndex({genres}:IndexBookProps) {
         setCurrentPage(1); // Reset to first page when changing items per page
       };
 
+      const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
+
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
+
       const handleDeleteBook = async (id: string) => {
         try {
           await deleteBookMutation.mutateAsync(id);
@@ -110,53 +119,12 @@ export default function BookIndex({genres}:IndexBookProps) {
             id: "genres",
             header: t("ui.books.columns.genres") || "genres",
             accessorKey: "genres",
-          }),
+             format: (value) => {
+                if (!value) return "";
+                const genresArray = value.split(',').map(g => g.trim());
+                return genresArray.map(genres=> t(`ui.genres.${genres}`)).join(', ');
+            }
 
-          createActionsColumn<Book>({
-            id: "actions",
-            header: t("ui.books.columns.actions") || "Actions",
-            renderActions: (book) => (
-                <>
-                  {/* <Link href={`/books/${book.id}/edit?page=${currentPage} &perPage=${perPage}`}>
-                    <Button variant="outline" size="icon" title={t("ui.books.buttons.edit") || "Edit Book"}>
-                      <PencilIcon className="h-4 w-4" />
-                    </Button>
-                  </Link> */}
-
-                  {book.available ? (
-                    <DeleteDialog
-                      id={book.id}
-                      onDelete={handleDeleteBook}
-                      title={t("ui.books.delete.title") || "Delete Book"}
-                      description={
-                        t("ui.books.delete.description") ||
-                        "Are you sure you want to delete this book? This action cannot be undone."
-                      }
-                      trigger={
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="text-destructive hover:text-destructive"
-                          title={t("ui.books.buttons.delete") || "Delete Book"}
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </Button>
-                      }
-                    />
-                  ) : (
-                    <div title = {t("ui.books.buttons.noDelete") || ""} >
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="text-muted-foreground cursor-not-allowed"
-                        disabled
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  )}
-                </>
-              )
           }),
         ] as ColumnDef<Book>[]), [t, handleDeleteBook]);
 
@@ -215,13 +183,13 @@ export default function BookIndex({genres}:IndexBookProps) {
                         label: t('ui.books.filters.genres') || 'genres',
                         type: 'select',
                         options: genres.map(genre => ({
-                        label: genre.genre,
+                        label:t(`ui.genres.${genre.genre}`),
                         value: genre.genre,
                         })),
                         placeholder: t('ui.books.placeholders.genres') || 'genre...',
                     },
                     ] as FilterConfig[]}
-                    onFilterChange={setFilters}
+                    onFilterChange={handleFilterChange}
                     initialValues={filters}
                 />
                     <div className="text-right mt-2">

@@ -19,36 +19,11 @@ interface EditBookProps extends PageProps {
     pages: number;
     genres: string;
   };
-  genresData?: string[];
-
-genres?: {
-    id:string;
-    genre:string;
-}[];
-zonesData?:{
-    id:string;
-    zoneName:string;
-    floor_id:string;
-    bookshelvesCapacity:number;
-    occupiedBookshelves:number;
-    genre_id:string;
-    genre:string;
-}[];
-
-floorsData?:{
-    id:string;
-    floorNumber: number;
-    zonesCapacity:number;
-    occupiedZones:number;
-}[];
-
-bookshelvesData?:{
-    id:string;
-    zone_id:string;
-    bookshelfNumber:number;
-    booksCapacity:number;
-    occupiedBooks:number;
-}[];
+    genresData?: string[];
+    genres: any[];
+    zonesData:any[];
+    floorsData:any[];
+    bookshelvesData:any[];
   page?: string;
   perPage?: string;
 

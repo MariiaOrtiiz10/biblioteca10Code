@@ -57,6 +57,15 @@ export default function BookshelfIndex() {
         setCurrentPage(1); // Reset to first page when changing items per page
       };
 
+        const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
+
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
+
       const handleDeleteBookshelf = async (id: string) => {
         try {
           await deleteBookshelfMutation.mutateAsync(id);
@@ -185,7 +194,7 @@ export default function BookshelfIndex() {
 
                                   ] as FilterConfig[]
                               }
-                              onFilterChange={setFilters}
+                              onFilterChange={handleFilterChange}
                               initialValues={filters}
                           />
                           <div className="text-right mt-2">

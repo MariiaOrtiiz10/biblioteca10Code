@@ -9,12 +9,13 @@ import { LoanForm } from "./Components/LoanForm";
 interface CreateLoanProps extends PageProps {
     allUsersEmail:any[];
     allBooksISBN:any[];
+    usersData:any[];
     email:string;
     isbn:string;
 
 }
 
-export default function createLoan({email, allUsersEmail, isbn, allBooksISBN}:CreateLoanProps) {
+export default function createLoan({email, allUsersEmail, isbn, allBooksISBN, usersData}:CreateLoanProps) {
   const { t } = useTranslations();
   const paramsString = window.location.search;
     const searchParams = new URLSearchParams(paramsString);
@@ -36,9 +37,9 @@ export default function createLoan({email, allUsersEmail, isbn, allBooksISBN}:Cr
                          <LoanForm
                         email = {email}
                         isbn = {isbn}
-                        allUsersEmail = {allUsersEmail}
                         bookISBN = {bookISBN}
                         allBooksISBN = {allBooksISBN}
+                         usersData = {usersData}
                          />
         </div>
         </div>

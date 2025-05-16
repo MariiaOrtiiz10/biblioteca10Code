@@ -30,11 +30,11 @@ class LoanController extends Controller
 
     public function create()
     {
-        $allUsersEmail = User::orderBy('email')->get(['id', 'email'])->toArray();
         $allBooksISBN = Book::orderBy('isbn')->get(['id', 'isbn'])->toArray();
+        $usersData = User::get()->toArray();
         return Inertia::render('loans/Create',[
-            'allUsersEmail'=>$allUsersEmail,
             'allBooksISBN' => $allBooksISBN,
+            'usersData' => $usersData,
         ]);
     }
 
@@ -59,13 +59,13 @@ class LoanController extends Controller
 
     public function edit(Request $request, Loan $loan)
     {
-        $allUsersEmail = User::orderBy('email')->get(['id', 'email'])->toArray();
         $allBooksISBN = Book::orderBy('isbn')->get(['id', 'isbn'])->toArray();
+        $usersData = User::get()->toArray();
         return Inertia::render('loans/Edit', [
             'loan' => $loan,
             'email' => $loan->user->email,
             'isbn' => $loan->book->isbn,
-            'allUsersEmail'=>$allUsersEmail,
+            'usersData' => $usersData,
             'allBooksISBN' => $allBooksISBN,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),

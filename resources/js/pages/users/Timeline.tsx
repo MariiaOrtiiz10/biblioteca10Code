@@ -106,11 +106,11 @@ export default function TimelineUser({user, loans, reservations}:IndexTimelineUs
                                                     }}
                                                     icon={<BookUp />}
                                                     iconStyle={{
-                                                        background: isDeleted ? '#ef4444' : '#3b82f6', // Rojo para eliminadas, azul para normales
+                                                        background: isDeleted ? '#3b82f6' : '#3b82f6', // Rojo para eliminadas, azul para normales
                                                         color: '#fff',
                                                     }}
                                                     date={
-                                                        <span className={`m-2 font-bold hidden lg:inline ${isDeleted ? 'text-red-700' : 'text-blue-700'}`}>
+                                                        <span className={`m-2 font-bold hidden lg:inline ${isDeleted ? 'text-blue-700' : 'text-blue-700'}`}>
                                                         {dateOnly}
                                                         </span>
                                                     }

@@ -34,9 +34,9 @@ class      ReservationController extends Controller
      */
     public function create()
     {
-        $usersEmail = User::orderBy('email')->get(['id', 'email']);
+        $usersData = User::get()->toArray();
         return Inertia::render('reservations/Create',[
-            'usersEmail'=>$usersEmail,
+            'usersData'=>$usersData,
         ]);
     }
 
@@ -54,7 +54,7 @@ class      ReservationController extends Controller
         $action($validator->validated());
 
         return redirect()->route('reservations.index')
-            ->with('success', __('messages.resrvations.created'));
+            ->with('success', __('messages.reservations.created'));
     }
 
 

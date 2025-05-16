@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User, Mail, Lock, X, Eye, Save, Shield, Users,  Barcode, FileText, Signature, Book, UserRoundPen, Building2, Bookmark, SquareLibrary} from "lucide-react";
+import { User, Mail, Lock, X, Eye, Save, Shield, Users,  Barcode, FileText, Signature, UserRoundPen, Building2, Bookmark, SquareLibrary, Book as BookIcon} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -21,6 +21,8 @@ import { useForm } from "@tanstack/react-form";
 //tipo de datos para definir un campo en el form
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { useState } from "react";
+import { Book } from '@/hooks/books/useBooks';
+
 
 
 
@@ -37,34 +39,12 @@ interface BookFormProps {
         genres:string;
     };
     genresData?: string[];
+    genres: any[];
+    zonesData:any[];
+    floorsData:any[];
+    bookshelvesData:any[];
 
-    genres?: {
-        id:string;
-        genre:string;
-    }[];
-
-    zonesData?:{
-        id:string;
-        zoneName:string;
-        floor_id:string;
-        bookshelvesCapacity:number;
-        occupiedBookshelves:number;
-        genre_id:string;
-        genre:string;
-    }[];
-    floorsData?:{
-        id:string;
-        floorNumber: number;
-        zonesCapacity:number;
-        occupiedZones:number;
-    }[];
-    bookshelvesData?:{
-        id:string;
-        zone_id:string;
-        bookshelfNumber:number;
-        booksCapacity:number;
-        occupiedBooks:number;
-    }[];
+    booksData?:any[];
 
 
     //paginación
@@ -92,7 +72,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 
 
 
-export function BookForm({ initialData, page, perPage, genresData=[], genres=[], zonesData=[], floorsData=[], bookshelvesData=[]}: BookFormProps) {
+export function BookForm({ initialData, page, perPage, genresData, genres, zonesData, floorsData, bookshelvesData, booksData}: BookFormProps) {
     const { t } = useTranslations();
     const queryClient = useQueryClient();
     let floorNow = undefined;
@@ -109,6 +89,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
 
       const [selectedFloor, setSelectedFloor] = useState<string | undefined>(floorNow ?? undefined);
       const [selectedZone, setSelectedZone] = useState<string | undefined>(zoneNow ?? undefined);
+      const [sameISBN, setSameISBN] = useState(false);
 
       //Añadir al array el label
       const transformedGenres = genres.map((genre) => ({
@@ -135,8 +116,26 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
             }
         });
     };
-
     const initialGenres = genresData?.length ? genresData.join(",") : initialData?.genres ?? '';
+
+   function handleISBN(books: Book[], isbn: string) {
+        let book = books.filter((book) => book.isbn === isbn);
+        if (book.length > 0) {
+            console.log(book);
+                form.setFieldValue('title', book[0].title);
+                form.setFieldValue('author', book[0].author);
+                form.setFieldValue('editorial', book[0].editorial);
+                form.setFieldValue('pages', book[0].pages);
+                let genreNames = book[0].genres.split(', ');
+                let genreIds = genres
+                .filter((g) => genreNames.includes(g.genre))
+                .map((g) => g.id);
+                setSelectedGenres(genreIds);
+                setSameISBN(true);
+        }
+    }
+
+
 
  const form = useForm({
         defaultValues: {
@@ -189,6 +188,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
         }
         return check;
     }
+
 
     function checkZone() {
         let check;
@@ -267,7 +267,14 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                             id={field.name}
                                             name={field.name}
                                             value={field.state.value}
-                                            onChange={(e) => field.handleChange(e.target.value)}
+                                            onChange={(e) => {
+                                            field.handleChange(e.target.value);
+                                            const value = e.target.value;
+
+                                            if ((value.length === 13 || value.length === 10) && booksData) {
+                                                handleISBN(booksData, value);
+                                            }
+                                            }}
                                             onBlur={field.handleBlur}
                                             placeholder={t("ui.books.createBook.placeholders.isbn")}
                                             disabled={form.state.isSubmitting}
@@ -306,7 +313,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                 {(field) => (
                                     <div>
                                         <div className="flex items-center gap-2 mb-2">
-                                        <Icon iconNode={Book} className="w-5 h-5" />
+                                        <Icon iconNode={BookIcon} className="w-5 h-5" />
                                         <Label htmlFor={field.name}>{t("ui.books.fields.title")}</Label>
                                         </div>
                                         <Input
@@ -316,7 +323,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
                                             placeholder={t("ui.books.createBook.placeholders.title")}
-                                            disabled={form.state.isSubmitting}
+                                            disabled={form.state.isSubmitting || sameISBN}
                                             required={false}
                                             autoComplete="off"
                                         />
@@ -350,7 +357,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                         {(field) => (
                                             <div>
                                                 <div className="flex items-center gap-2 mb-2">
-                                                <Icon iconNode={Book} className="w-5 h-5" />
+                                                <Icon iconNode={BookIcon} className="w-5 h-5" />
                                                 <Label htmlFor={field.name}>{t("ui.books.fields.pages")}</Label>
                                                 </div>
                                                 <Input
@@ -361,7 +368,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                                     onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                                     onBlur={field.handleBlur}
                                                     placeholder={t("ui.books.createBook.placeholders.pages")}
-                                                    disabled={form.state.isSubmitting}
+                                                    disabled={form.state.isSubmitting|| sameISBN}
                                                     required={false}
                                                     autoComplete="off"
                                                 />
@@ -402,7 +409,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
                                             placeholder={t("ui.books.createBook.placeholders.author")}
-                                            disabled={form.state.isSubmitting}
+                                            disabled={form.state.isSubmitting || sameISBN}
                                             required={false}
                                             autoComplete="off"
                                         />
@@ -442,7 +449,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
                                             placeholder={t("ui.books.createBook.placeholders.editorial")}
-                                            disabled={form.state.isSubmitting}
+                                            disabled={form.state.isSubmitting || sameISBN}
                                             required={false}
                                             autoComplete="off"
                                         />
@@ -468,7 +475,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                     <div className="mb-4 ">
                                     <Label>{t("ui.books.fields.genres")}</Label>
                                     </div>
-                                    <div className="grid grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         {transformedGenres.map((genre) => {
                                         const isChecked = selectedGenres.includes(genre.id);
                                         const isDisabled = genre.id === zoneGenreId;
@@ -479,7 +486,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                                 type="checkbox"
                                                 id={genre.id}
                                                 checked={isChecked}
-                                                disabled={isDisabled}
+                                                disabled={isDisabled || sameISBN}
                                                 onChange={() => handleGenreChange(genre.id)}
                                                 className={`
                                                 w-4 h-4 rounded border-gray-300
@@ -494,7 +501,7 @@ export function BookForm({ initialData, page, perPage, genresData=[], genres=[],
                                                 isDisabled ? "text-gray-700 font-medium" : ""
                                                 }`}
                                             >
-                                                {genre.label}
+                                                {t(`ui.genres.${genre.label}`)}
                                                 {isDisabled && (
                                                 <span className="ml-1 text-xs text-gray-500">
                                                     ({t("ui.books.defaultGenre")})

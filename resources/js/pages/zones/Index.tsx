@@ -63,6 +63,16 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
         setCurrentPage(1);
       };
 
+            const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
+
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
+
+
       const handleDeleteZone = async (id: string) => {
         try {
           await deleteZoneMutation.mutateAsync(id);
@@ -89,6 +99,7 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
             id: "genre",
             header: t("ui.zones.columns.genre") || "genre",
             accessorKey: "genre",
+            format: (value) => t(`ui.genres.${value}`) || value
           }),
           createTextColumn<Zone>({
             id: "bookshelvesCapacity",
@@ -170,7 +181,7 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
                                         label: t('ui.zones.filters.genre') || 'genre',
                                         type: 'select',
                                         options:genres.map(genre => ({
-                                            label: genre.genre,
+                                            label:  t(`ui.genres.${genre.genre}`),
                                             value: genre.genre,
                                         })),
                                         placeholder: t('ui.zones.placeholders.genre') || 'genre...',
@@ -190,9 +201,10 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
                                     },
 
 
+
                                   ] as FilterConfig[]
                               }
-                              onFilterChange={setFilters}
+                              onFilterChange={handleFilterChange}
                               initialValues={filters}
                           />
                            <div className="text-right mt-2">

@@ -7,35 +7,14 @@ import { BookLayout } from "@/layouts/books/BookLayout";
 import { BookForm } from "./Components/BookForm";
 
 interface CreateBookProps extends PageProps {
-    genres?: {
-        id:string;
-        genre:string;
-    }[];
-    zonesData?:{
-        id:string;
-        zoneName:string;
-        floor_id:string;
-        bookshelvesCapacity:number;
-        occupiedBookshelves:number;
-        genre_id:string;
-        genre:string;
-    }[];
-    floorsData?:{
-        id:string;
-        floorNumber: number;
-        zonesCapacity:number;
-        occupiedZones:number;
-    }[];
-    bookshelvesData?:{
-        id:string;
-        zone_id:string;
-        bookshelfNumber:number;
-        booksCapacity:number;
-        occupiedBooks:number;
-    }[];
+    genres: any[];
+    zonesData:any[];
+    floorsData:any[];
+    bookshelvesData:any[];
+    booksData?:any[];
 }
 
-export default function createBook({genres, zonesData, floorsData, bookshelvesData}:CreateBookProps) {
+export default function createBook({genres, zonesData, floorsData, bookshelvesData, booksData}:CreateBookProps) {
   const { t } = useTranslations();
 
 
@@ -56,6 +35,7 @@ export default function createBook({genres, zonesData, floorsData, bookshelvesDa
                          zonesData= {zonesData}
                          floorsData={floorsData}
                          bookshelvesData={bookshelvesData}
+                         booksData={booksData}
                          />
         </div>
         </div>

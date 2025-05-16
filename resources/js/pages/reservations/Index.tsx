@@ -51,7 +51,14 @@ export default function ReservationIndex() {
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
       };
+  const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
 
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
 
 
       const handlePerPageChange = (newPerPage: number) => {
@@ -164,7 +171,7 @@ export default function ReservationIndex() {
                                       },
                                   ] as FilterConfig[]
                               }
-                              onFilterChange={setFilters}
+                              onFilterChange={handleFilterChange}
                               initialValues={filters}
                           />
                           <div className="text-right mt-2">

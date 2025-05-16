@@ -15,6 +15,7 @@ import { useBooks, Book, useDeleteBook } from "@/hooks/books/useBooks";
 import { PageProps } from "@/types";
 import { SearchBookLayout } from "@/layouts/books/searchBookLayout";
 import { useSearchBook } from "@/hooks/books/useSearchBook";
+import { DeleteDialog } from "@/components/stack-table";
 
 interface IndexBookProps extends PageProps {
     floors:{
@@ -68,6 +69,15 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
       };
+  const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
+
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
+
 
 
       function handleCreateLoan(isbn: string){
@@ -77,9 +87,6 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
       function handleCreateReservation(isbn: string){
         router.get(`reservations/create`, {isbn})
       }
-
-
-
 
       const handlePerPageChange = (newPerPage: number) => {
         setPerPage(newPerPage);
@@ -132,8 +139,6 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
             id: "availableBookIsbn",
             header: t("ui.books.columns.availableBookIsbn") || "Available / Total",
             accessorKey: "availableBookIsbn",
-
-
           }),
 
 
@@ -171,6 +176,39 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
                                 <PencilIcon className="h-4 w-4" />
                                 </Button>
                             </Link>
+
+                             {book.available ? (
+                                <DeleteDialog
+                                    id={book.id}
+                                    onDelete={handleDeleteBook}
+                                    title={t("ui.books.delete.title") || "Delete Book"}
+                                    description={
+                                    t("ui.books.delete.description") ||
+                                    "Are you sure you want to delete this book? This action cannot be undone."
+                                    }
+                                    trigger={
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        className="text-destructive hover:text-destructive"
+                                        title={t("ui.books.buttons.delete") || "Delete Book"}
+                                    >
+                                        <TrashIcon className="h-4 w-4" />
+                                    </Button>
+                                    }
+                                />
+                                ) : (
+                                <div title = {t("ui.books.buttons.noDelete") || ""} >
+                                    <Button
+                                    variant="outline"
+                                    size="icon"
+                                    className="text-muted-foreground cursor-not-allowed"
+                                    disabled
+                                    >
+                                    <TrashIcon className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                                )}
 
                           </>
                         )
@@ -248,7 +286,7 @@ export default function SearchBookIndex({floors, zones, bookshelves}:IndexBookPr
 
                                   ] as FilterConfig[]
                               }
-                              onFilterChange={setFilters}
+                              onFilterChange={handleFilterChange}
                               initialValues={filters}
                           />
                           <div className="text-right mt-2">

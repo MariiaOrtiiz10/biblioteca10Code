@@ -58,6 +58,14 @@ export default function LoanIndex() {
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
       };
+        const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
+
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
 
 
 
@@ -306,7 +314,7 @@ export default function LoanIndex() {
 
                                   ] as FilterConfig[]
                               }
-                              onFilterChange={setFilters}
+                              onFilterChange={handleFilterChange}
                               initialValues={filters}
                           />
                           <div className="text-right mt-2">

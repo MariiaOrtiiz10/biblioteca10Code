@@ -36,7 +36,6 @@ class ZoneController extends Controller
     {
         $floorsData = Floor::select(['id','floorNumber','floorName','zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
-        //$zoneNameByFloorsNumber = Zone::select(['zones.zoneName', 'floors.floorNumber', 'zones.floor_id'])->join('floors', 'floors.id', '=', 'zones.floor_id')->orderBy("floorNumber","asc")->get()->toArray();
         $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();
 
         return Inertia::render('zones/Create',[

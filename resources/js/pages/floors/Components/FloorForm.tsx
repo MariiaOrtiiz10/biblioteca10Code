@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {X, Save, Building2} from "lucide-react";
+import {X, Save, Building2, Binary, ChevronUp} from "lucide-react";
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 //Para invalidar y actualizar datos en caché después de un cambio
@@ -189,7 +189,7 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                 {(field) => (
                                     <div>
                                         <div className="flex items-center gap-2 mb-2">
-                                        <Icon iconNode={Building2} className="w-5 h-5" />
+                                        <Icon iconNode={Binary} className="w-5 h-5" />
                                         <Label htmlFor={field.name}>{t("ui.floors.fields.floorNumber")}</Label>
                                         </div>
                                         <Input
@@ -245,7 +245,7 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                 {(field) => (
                                     <div>
                                         <div className="flex items-center gap-2 mb-2">
-                                        <Icon iconNode={Building2} className="w-5 h-5" />
+                                        <Icon iconNode={ChevronUp} className="w-5 h-5" />
                                         <Label htmlFor={field.name}>{t("ui.floors.fields.zonesCapacity")}</Label>
                                         </div>
                                         <Input

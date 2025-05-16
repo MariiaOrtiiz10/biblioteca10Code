@@ -4,7 +4,7 @@ import { ZoneLayout } from "@/layouts/zones/ZoneLayout";
 import { ZoneForm } from "./Components/ZoneForm";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import {X, Save, Building2} from "lucide-react";
+import {X, Save, Building2, Bookmark} from "lucide-react";
 
 interface EditZoneProps extends PageProps {
   zone: {
@@ -14,29 +14,9 @@ interface EditZoneProps extends PageProps {
     genre_id:string;
     bookshelvesCapacity:number;
   };
-  floorsData?: {
-    id:string;
-    floorNumber:number;
-    floorName: string;
-    zonesCapacity: number;
-    occupiedZones: number;
-}[];
-genresData?:{
-    id:string;
-    genre:string;
-}[];
-zoneNameByFloorsNumber?: {
-    floorNumber:number;
-    zoneName: string;
-    floor_id: string;
-}[];
-zonesData?:{
-    id: string;
-    zoneName: string;
-    floor_id:string;
-    occupiedBookshelves: number;
-}[];
-
+  floorsData?:any[];
+  genresData?:any[];
+  zonesData?:any[];
   page?: string;
   perPage?: string;
 
@@ -54,7 +34,7 @@ export default function EditZone({ zone, page, perPage, floorsData, genresData, 
          <div className="rounded-lg shadow-md shadow-gray-400 dark:bg-[#272726]">
                                  <header className="rounded-t-lg bg-gray-100 px-5 py-4 dark:bg-[#272726]">
                                      <div className="flex items-center gap-2">
-                                         <Icon iconNode={Building2} className="w-6 h-6 text-blue-500" />
+                                         <Icon iconNode={Bookmark} className="w-6 h-6 text-blue-500" />
                                          <Label className="text-2xl font-black">{t("ui.zones.editZone.title")}</Label>
                                      </div>
                                      <p className="text-gray-600">{t("ui.zones.editZone.subtitle")}</p>

@@ -39,11 +39,13 @@ class BookController extends Controller
         $zonesData = Zone::select(['zones.id','zones.zoneName','zones.floor_id','zones.bookshelvesCapacity','occupiedBookshelves','zones.genre_id', 'genres.genre'])->join('genres', 'genres.id', '=', 'zones.genre_id')->get()->toArray();
         $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
+        $booksData = Book::get()->toArray();
         return Inertia::render('books/Create', [
             'genres' => $genres,
             'zonesData' => $zonesData,
             'floorsData' => $floorsData,
             'bookshelvesData' => $bookshelvesData,
+            'booksData' => $booksData,
         ]);
     }
 

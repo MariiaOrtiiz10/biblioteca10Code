@@ -28,6 +28,7 @@ return [
             ],
         ],
     ],
+
     'permissions' => [
         'users.view' => 'Ver usuarios',
         'users.create' => 'Crear usuarios',
@@ -46,6 +47,7 @@ return [
         'settings.access' => 'Acceder a configuración',
         'settings.modify' => 'Modificar configuración',
     ],
+
     'user_menu' => [
         'settings' => 'Configuración',
         'logout' => 'Cerrar sesión',
@@ -296,6 +298,7 @@ return [
             'floorName' => 'Nombre del piso',
             'zonesCapacity' => 'Capacidad de Zonas',
             'occupiedZones' => 'Zonas Ocupadas',
+            'avaibleZones' => 'Zonas Ocupadas / Capacidad de Zonas',
             'created_at' => 'Creado el',
             'actions' => 'Acciones',
         ],
@@ -388,6 +391,7 @@ return [
                 'selectFloor' => 'Selecciona un número de piso existente',
                 'zoneName' => 'Introduce un nombre de zona',
                 'selectGenre' => 'Selecciona un género existente',
+                'searchGenre' => 'Busca el género de la zona',
                 'bookshelvesCapacity' => 'Introduce el número de estanterías que caben en la zona'
             ],
         ],
@@ -407,6 +411,8 @@ return [
         'edit' => 'Editar Estantería',
         'floor' => 'Piso',
         'floorName' => 'Nombre',
+        'zone' => 'Zone',
+        'genre' => 'Género',
         'occupied' => 'Completo',
         'currentFloor' => 'Piso actual',
         'currentZone' => 'Zona actual',
@@ -449,7 +455,7 @@ return [
             'bookshelfNumber' => 'Número de Estantería',
             'floor' => 'Piso',
             'zone' => 'Zona',
-            'booksCapacity' => 'Capacidad de Libros',
+            'bookshelvesCapacity' => 'Capacidad de Libros',
             'genre' => 'Género',
         ],
         'createBookshelf' =>[
@@ -462,7 +468,7 @@ return [
                 'zoneName' => 'Introduce un nombre de zona',
                 'bookshelfNumber' => 'Introduce un número de estantería',
                 'selectZone' => 'Selecciona una zona existente',
-                'booksCapacity' => 'Introduce el número de libros que caben en la estantería'
+                'bookshelvesCapacity' => 'Introduce el número de libros que caben en la estantería'
             ],
         ],
         'editBookshelf' => [
@@ -644,6 +650,7 @@ return [
                 'email' => 'Introduce un correo electrónico de usuario existente',
                 'isbn' => 'Introduce un ISBN de libro existente',
                 'loanDuration' => 'Introduce la duración del préstamo',
+                'searchEmail' => 'Busca el correo del usuario'
             ],
         ],
         'editLoan' => [
@@ -727,7 +734,9 @@ return [
         'delay' => ' días de retraso',
         'start_reservation' => 'Reservado el',
         'deleted' => 'Reserva eliminada',
-        'deleted_at' => 'Reserva elimina el',
+        'deleted_at' => 'Reserva eliminada el',
+        'ongoing' => 'En curso',
+        'returned2' => 'Devuelto',
         'filter' => [
             'all' => 'Todo',
             'reservation' => 'Reservas',
@@ -761,6 +770,14 @@ return [
             'topLoans' => 'Top 8 usuarios con más préstamos',
             'topReservations' => 'Top 8 usuarios con más reservas'
         ],
+       'zone' => [
+            'title' => 'Zonas con más movimientos',
+            'loans' => 'Préstamos',
+            'reservations' => 'Reservas',
+            'total' => 'Total',
+            'topLoans' => 'Top 8 zonas con más préstamos',
+            'topReservations' => 'Top 8 zonas con más reservas'
+        ]
 
     ],
 
@@ -770,6 +787,21 @@ return [
             'user' => 'Usuario',
         ]
 
+    ],
+
+    'genres' => [
+    'Science Fiction' => 'Ciencia ficción',
+    'Fantasy' => 'Fantasía',
+    'Historical' => 'Histórico',
+    'Mystery' => 'Misterio',
+    'Horror' => 'Terror',
+    'Crime' => 'Policíaco',
+    'Autobiography' => 'Autobiografía',
+    'Self-help' => 'Autoayuda',
+    'Romance' => 'Romance',
+    'Cooking' => 'Cocina',
+    'Childrens literature' => 'Literatura infantil',
+    'Youth literature' => 'Literatura juvenil',
     ],
 
 ];

@@ -333,7 +333,7 @@ export function UserForm({ initialData, page, perPage, permissionNames, roles = 
                                 <Icon iconNode={Shield} className="w-5 h-5 text-blue-500" />
                                 <Label className="font-black capitalize">{t("ui.createUser.Rol.permission.title")}</Label>
                             </div>
-                            <div className="mb-4 grid grid-cols-2 grid-rows-2 gap-4 ">
+                            <div className="mb-4 grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-4">
                             {Object.entries(permissions).map(([groupKey, groupPermissions]) => (
                                 <div key={groupKey} className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
                                 <div className="flex items-center gap-2 mb-1.5">

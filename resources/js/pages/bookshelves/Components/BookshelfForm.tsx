@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import {X, Save, Building2} from "lucide-react";
+import {X, Save, Building2, Binary, Book, Bookmark, ChevronUp} from "lucide-react";
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 //Para invalidar y actualizar datos en caché después de un cambio
@@ -28,19 +28,8 @@ interface BookshelfFormProps {
         zone_id: string;
         booksCapacity: number;
     };
-    floorsData?: {
-        id:string;
-        floorNumber:number;
-        zonesCapacity: number;
-        occupiedZones: number;
-    }[];
-    zonesData?:{
-        id: string;
-        zoneName: string;
-        floor_id:string;
-        bookshelvesCapacity:number;
-        occupiedBookshelves:number;
-    }[];
+    floorsData?: any[];
+    zonesData?:any[];
     //paginación
     page?: string;
     perPage?: string;
@@ -161,7 +150,7 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                             {(field) => (
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
-                                    <Icon iconNode={Building2} className="w-5 h-5" />
+                                    <Icon iconNode={Binary} className="w-5 h-5" />
                                     <Label htmlFor={field.name}>{t("ui.bookshelves.fields.bookshelfNumber")}</Label>
                                     </div>
                                     <Input
@@ -189,7 +178,6 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                         </div>
 
                         {/* select de floor */}
-
                         <Select
                         required={true}
                         value={selectedFloor}
@@ -221,7 +209,7 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                                 >
                                     <div className="flex items-center justify-between w-full">
                                     <span>
-                                        {t("ui.bookshelves.floor")}: {floor.floorNumber}
+                                        {t("ui.bookshelves.floor")}: {floor.floorNumber} /  {t("ui.bookshelves.floorName")}: {floor.floorName}
                                     </span>
                                     {isCurrent ? (
                                         <span className="ml-2 text-sm text-blue-600">
@@ -267,7 +255,7 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                         {(field) => (
                             <div>
                             <div className="flex items-center gap-2 mb-2">
-                                <Icon iconNode={Building2} className="w-5 h-5" />
+                                <Icon iconNode={Bookmark} className="w-5 h-5" />
                                 <Label htmlFor={field.name}>{t("ui.bookshelves.fields.zone")}</Label>
                             </div>
                             <Select
@@ -298,7 +286,7 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                                             className={!isCurrent && isFull ? "opacity-75 cursor-not-allowed" : ""}
                                             >
                                             <div className="flex items-center justify-between w-full">
-                                                <span>{zone.zoneName}</span>
+                                                <span>{t("ui.bookshelves.zone")}: {zone.zoneName}  /  {t("ui.bookshelves.genre")}: {t(`ui.genres.${zone.genre.genre}`)}</span>
                                                 {isCurrent ? (
                                                 <span className="ml-2 text-sm text-green-600">
                                                     {t("ui.bookshelves.currentZone")}
@@ -348,8 +336,8 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                             {(field) => (
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
-                                    <Icon iconNode={Building2} className="w-5 h-5" />
-                                    <Label htmlFor={field.name}>{t("ui.bookshelves.fields.booksCapacity")}</Label>
+                                    <Icon iconNode={ChevronUp} className="w-5 h-5" />
+                                    <Label htmlFor={field.name}>{t("ui.bookshelves.fields.bookshelvesCapacity")}</Label>
                                     </div>
                                     <Input
                                         id={field.name}
@@ -358,7 +346,7 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                                         value={field.state.value}
                                         onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                         onBlur={field.handleBlur}
-                                        placeholder={t("ui.bookshelves.createBookshelf.placeholders.booksCapacity")}
+                                        placeholder={t("ui.bookshelves.createBookshelf.placeholders.bookshelvesCapacity")}
                                         disabled={form.state.isSubmitting}
                                         required={false}
                                         autoComplete="off"

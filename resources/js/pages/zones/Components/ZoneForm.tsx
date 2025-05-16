@@ -3,9 +3,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import {X, Save, Building2} from "lucide-react";
+import {X, Save, Building2, CaseUpper, Tag, ChevronUp, ChevronsUpDown, Check} from "lucide-react";
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 //Para invalidar y actualizar datos en caché después de un cambio
 import { useQueryClient } from "@tanstack/react-query";
 //Para la navegación y envío de formularios sin recargar la página
@@ -19,6 +32,7 @@ import { useForm } from "@tanstack/react-form";
 //tipo de datos para definir un campo en el form
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { useState } from "react";
+import { cn } from "@/lib/utils"
 
 
 interface ZoneFormProps {
@@ -30,25 +44,9 @@ interface ZoneFormProps {
         bookshelvesCapacity: number;
     };
 
-    floorsData?:{
-        id: string;
-        floorNumber: number;
-        floorName: string;
-        zonesCapacity: number;
-        occupiedZones: number;
-    }[];
-
-    genresData?:{
-        id: string;
-        genre: string;
-    }[];
-
-    zonesData?:{
-        id: string;
-        zoneName: string;
-        floor_id:string;
-        occupiedBookshelves: number;
-    }[];
+    floorsData?:any[];
+    genresData?:any[];
+    zonesData?:any[];
     //paginación
     page?: string;
     perPage?: string;
@@ -72,6 +70,8 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
     const { t } = useTranslations();
     const queryClient = useQueryClient();
     const initialFloorId = initialData?.floor_id;
+     const [open, setOpen] = useState(false)
+    const [value, setValue] = useState("")
 
 
 
@@ -161,7 +161,7 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                             {(field) => (
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
-                                    <Icon iconNode={Building2} className="w-5 h-5" />
+                                    <Icon iconNode={CaseUpper} className="w-5 h-5" />
                                     <Label htmlFor={field.name}>{t("ui.zones.fields.zoneName")}</Label>
                                     </div>
                                     <Input
@@ -274,30 +274,77 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                 {(field) => (
                                     <div>
                                         <div className="flex items-center gap-2 mb-2">
-                                            <Icon iconNode={Building2} className="w-5 h-5" />
+                                            <Icon iconNode={Tag} className="w-5 h-5" />
                                             <Label htmlFor={field.name}>{t("ui.zones.fields.genre")}</Label>
                                         </div>
-                                        <Select
-                                            required={true}
-                                            value={field.state.value?.toString()}
-                                            onValueChange={(value) => field.handleChange(value)}
+                                        <Popover open={open} onOpenChange={setOpen}>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                variant="outline"
+                                                role="combobox"
+                                                aria-expanded={open}
+                                                className="w-full justify-between"
+                                                >
+                                                {
+                                                   field.state.value ? (
+                                                    t(`ui.genres.${genresData?.find((genre) => genre.id === field.state.value)?.genre}`)
+                                                    ) : (
+                                                    <span className="text-muted-foreground">
+                                                        {t("ui.zones.createZone.placeholders.selectGenre")}
+                                                    </span>
+                                                    )
+                                                }
+                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                </Button>
+                                            </PopoverTrigger>
 
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder={t("ui.zones.createZone.placeholders.selectGenre")} />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                            {genresData?.map((genre) => (
-                                                <SelectItem key={genre.id} value={genre.id}>
-                                                    {t("ui.zones.createZone.genre")} : {genre.genre}
-                                                </SelectItem>
-                                            ))}
-                                            </SelectContent>
-                                        </Select>
+                                            <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+                                                <Command
+                                                filter={(value, search) => {
+                                                    const genreName = genresData.find((g) => g.id === value)?.genre || "";
+                                                    const translated = t(`ui.genres.${genreName}`);
+                                                    return translated.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+                                                }}
+                                                >
+                                                <CommandInput
+                                                    placeholder={t("ui.zones.createZone.placeholders.searchGenre")}
+                                                    className="h-9"
+                                                />
+                                                <CommandList>
+                                                    <CommandEmpty className="px-4 py-2 text-sm text-muted-foreground">{t("ui.common.no_results")}</CommandEmpty>
+                                                    <CommandGroup>
+                                                    {genresData?.map((genre) => (
+                                                        <CommandItem
+                                                        key={genre.id}
+                                                        value={genre.id}
+                                                        onSelect={(currentValue) => {
+                                                            field.handleChange(currentValue);
+                                                            setOpen(false);
+                                                        }}
+                                                        >
+                                                        {t(`ui.genres.${genre.genre}`)}
+                                                        <Check
+                                                            className={cn(
+                                                            "ml-auto h-4 w-4",
+                                                            field.state.value === genre.id ? "opacity-100" : "opacity-0"
+                                                            )}
+                                                        />
+                                                        </CommandItem>
+                                                    ))}
+                                                    </CommandGroup>
+                                                </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                            </Popover>
+
+
+
                                         <FieldInfo field={field} />
                                     </div>
                                 )}
                             </form.Field>
+                            </div>
+                            <div>
                             </div>
 
                             <div className="mb-5">
@@ -317,9 +364,7 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                             });
 
                                         }
-
                                         //validación
-
                                         const currentZone = zonesData.find(zone => zone.id === initialData?.id);
                                         if (currentZone && value < currentZone.occupiedBookshelves) {
                                             return t("ui.validation.capacity.zone", {
@@ -335,7 +380,7 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                 {(field) => (
                                     <div>
                                         <div className="flex items-center gap-2 mb-2">
-                                        <Icon iconNode={Building2} className="w-5 h-5" />
+                                        <Icon iconNode={ChevronUp} className="w-5 h-5" />
                                         <Label htmlFor={field.name}>{t("ui.zones.fields.bookshelvesCapacity")}</Label>
                                         </div>
                                         <Input

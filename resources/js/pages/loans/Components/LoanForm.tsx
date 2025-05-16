@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
-import {X, Save, Building2, Mail, Barcode, Clock } from "lucide-react";
+import {X, Save, Building2, Mail, Barcode, Clock, ChevronsUpDown, Check } from "lucide-react";
 import { Card } from "@/components/ui/card"
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "@inertiajs/react";
@@ -11,6 +11,20 @@ import { useTranslations } from "@/hooks/use-translations";
 import { useForm } from "@tanstack/react-form";
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { useState } from "react";
+import { cn } from "@/lib/utils"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 
 
@@ -27,8 +41,8 @@ interface LoanFormProps {
     email:string;
     isbn:string;
     bookISBN: string|null;
-    allUsersEmail:any[];
     allBooksISBN: any[];
+    usersData: any[];
 
 
 }
@@ -47,10 +61,12 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, allUsersEmail, allBooksISBN}:LoanFormProps){
+export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, allBooksISBN, usersData}:LoanFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
-    //console.log(initialData);
+    //console.log(usersData);
+       const [open, setOpen] = useState(false)
+        const [value, setValue] = useState("")
     //console.log(usersEmail);
     //console.log(isbn);
 
@@ -118,7 +134,7 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, all
                                     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                                         return t("ui.validation.email", { attribute: t("ui.loans.fields.email").toLowerCase() })
                                     }
-                                    const emailExists = allUsersEmail.some(user => user.email === value);
+                                    const emailExists = usersData?.some(user => user.email === value);
                                     if (!emailExists) {
                                         return t("ui.validation.emailLoan");
                                     }
@@ -133,7 +149,65 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, all
                                 <Icon iconNode={Mail} className="w-5 h-5" />
                                 <Label htmlFor={field.name}>{t("ui.loans.fields.email")}</Label>
                                 </div>
-                                <Input
+                                   <Popover open={open} onOpenChange={setOpen}>
+                                        <PopoverTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            role="combobox"
+                                            aria-expanded={open}
+                                            className="w-full justify-between"
+                                            disabled={form.state.isSubmitting || email != null}
+                                        >
+                                            {field.state.value ? (
+                                            usersData?.find((user) => user.email === field.state.value)?.email
+                                            ) : (
+                                            <span className="text-muted-foreground">
+                                                {t("ui.loans.createLoan.placeholders.email")}
+                                            </span>
+                                            )}
+                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                        </PopoverTrigger>
+
+                                        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+                                        <Command
+                                            filter={(value, search) => {
+                                            const user = usersData?.find((u) => u.email === value);
+                                            return user?.email.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+                                            }}
+                                        >
+                                            <CommandInput
+                                            placeholder={t("ui.loans.createLoan.placeholders.searchEmail")}
+                                            className="h-9"
+                                            />
+                                            <CommandList>
+                                            <CommandEmpty>{t("ui.common.no_results")}</CommandEmpty>
+                                            <CommandGroup>
+                                                {usersData?.map((user) => (
+                                                <CommandItem
+                                                    key={user.email}
+                                                    value={user.email}
+                                                    onSelect={(currentValue) => {
+                                                    field.handleChange(currentValue);
+                                                    setOpen(false);
+
+                                                    }}
+                                                >
+                                                    {user.email}
+                                                    <Check
+                                                    className={cn(
+                                                        "ml-auto h-4 w-4",
+                                                        field.state.value === user.email ? "opacity-100" : "opacity-0"
+                                                    )}
+                                                    />
+                                                </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                {/* <Input
                                     id={field.name}
                                     name={field.name}
                                     value={field.state.value}
@@ -143,7 +217,7 @@ export function LoanForm({initialData, page, perPage, bookISBN, email, isbn, all
                                     disabled={form.state.isSubmitting || email!=null}
                                     required={false}
                                     autoComplete="off"
-                                />
+                                /> */}
                                 <FieldInfo field={field} />
                             </div>
                         )}

@@ -29,6 +29,7 @@ return [
         ],
 
     ],
+
     'permissions' => [
         'users.view' => 'View users',
         'users.create' => 'Create users',
@@ -47,6 +48,7 @@ return [
         'settings.access' => 'Access settings',
         'settings.modify' => 'Modify settings',
     ],
+
 
 
     'user_menu' => [
@@ -156,9 +158,6 @@ return [
         'no_results' => 'No results',
         'results'=>'Total results found: ',
     ],
-
-
-
 
     'createUser' => [
         'pwd' => 'including characters and numbers',
@@ -274,7 +273,6 @@ return [
         'genre' => 'Genre'
 
     ],
-
     'floors' =>[
         'title' => 'Floors',
         'title2' => 'Floor',
@@ -309,6 +307,7 @@ return [
             'zonesCapacity' => 'Zones Capacity',
             'occupiedZones' => 'Occupied Zones',
             'created_at' => 'Created at',
+            'avaibleZones' => 'Occupied Zones / Zones Capacity',
             'actions' => 'Actions',
         ],
         'filters' => [
@@ -406,6 +405,7 @@ return [
                 'selectFloor' => 'Select an existing floor number',
                 'zoneName' => 'Enter a zone name',
                 'selectGenre' => 'Select an existing genre',
+                'searchGenre' => 'Search the genre of the zone',
                 'bookshelvesCapacity' => 'Enter the number of bookshelves that fit on the zone'
             ],
         ],
@@ -429,6 +429,8 @@ return [
         'edit' => 'Edit Bookshelf',
         'floor' => 'Floor',
         'floorName' => 'Name',
+        'zone' => 'Zone',
+        'genre' => 'Genre',
         'occupied' => 'Complete',
         'currentFloor' => 'Current floor',
         'currentZone' => 'Current zone',
@@ -473,7 +475,7 @@ return [
             'bookshelfNumber' => 'Bookshelf Number',
             'floor' => 'Floor',
             'zone' => 'Zone',
-            'booksCapacity' => 'Books Capacity',
+            'bookshelvesCapacity' => 'Books Capacity',
             'genre' => 'Genre',
         ],
         'createBookshelf' =>[
@@ -486,7 +488,7 @@ return [
                 'zoneName' => 'Enter a zone name',
                 'bookshelfNumber' => 'Enter a bookshelf number',
                 'selectZone' => 'Select an existing zone',
-                'booksCapacity' => 'Enter the number of books that fit on the bookshelf'
+                'bookshelvesCapacity' => 'Enter the number of books that fit on the bookshelf'
             ],
         ],
         'editBookshelf' => [
@@ -681,6 +683,7 @@ return [
                 'email' => 'Enter an existing user email',
                 'isbn' => 'Enter an existing isbn book',
                 'loanDuration' => 'Enter the loan duration',
+                'searchGenre' => 'Search the email of the user',
             ],
         ],
         'editLoan' => [
@@ -809,6 +812,16 @@ return [
             'topLoans' => 'Top 8 users with the most loans',
             'topReservations' => 'Top 8 users with the most reservations'
         ],
+        'zone' => [
+            'title' => 'Zones with the most activity',
+            'loans' => 'Loans',
+            'reservations' => 'Reservations',
+            'total' => 'Total',
+            'topLoans' => 'Top 8 zones with the most loans',
+            'topReservations' => 'Top 8 zones with the most reservations'
+        ]
+
+
     ],
     'us' =>[
         'timeline' =>[
@@ -816,6 +829,21 @@ return [
             'user' => 'User',
         ]
 
+    ],
+
+    'genres' => [
+        'Science Fiction' => 'Science Fiction',
+        'Fantasy' => 'Fantasy',
+        'Historical' => 'Historical',
+        'Mystery' => 'Mystery',
+        'Horror' => 'Horror',
+        'Crime' => 'Crime',
+        'Autobiography' => 'Autobiography',
+        'Self-help' => 'Self-help',
+        'Romance' => 'Romance',
+        'Cooking' => 'Cooking',
+        'Childrens literature' => 'Childrens literature',
+        'Youth literature' => 'Youth literature',
     ],
 
 

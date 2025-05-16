@@ -70,6 +70,14 @@ export default function UsersIndex({userWithLoansansReservations}:IndexUserProps
       console.error("Error deleting user:", error);
     }
   };
+      const handleFilterChange = (newFilters: Record<string, any>) => {
+        const filtersChanged = newFilters !== filters;
+
+        if (filtersChanged) {
+            setCurrentPage(1);
+        }
+        setFilters(newFilters);
+    };
 
   const handleViewTimeLine = async (id: string) => {
     router.get(`users/timeline`);
@@ -171,7 +179,7 @@ export default function UsersIndex({userWithLoansansReservations}:IndexUserProps
                                 format: 'YYYY-MM-DD',
                             },
                         ] as FilterConfig[]}
-                        onFilterChange={setFilters}
+                        onFilterChange={handleFilterChange}
                         initialValues={filters}
                     />
             <div className="text-right mt-2">

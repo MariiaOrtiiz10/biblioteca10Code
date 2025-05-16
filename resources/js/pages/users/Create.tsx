@@ -33,7 +33,6 @@ export default function CreateUser({roles, permissions}:CreateUserProps) {
                  roles={roles}
                  permissions = {permissions}
                  />
-
             </div>
         </div>
       </div>

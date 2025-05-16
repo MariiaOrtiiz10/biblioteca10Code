@@ -31,14 +31,14 @@ class BookshelfController extends Controller
      */
     public function create()
     {
-        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
-        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'bookshelvesCapacity', 'occupiedBookshelves'])->get()->toArray();
+        $floorsData = Floor::get()->toArray();
+        $zonesData = Zone::with(['genre'])->get()->toArray();
+        //dd($zonesData);
          return Inertia::render('bookshelves/Create',[
             'floorsData' => $floorsData,
             'zonesData' => $zonesData,
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -66,8 +66,8 @@ class BookshelfController extends Controller
      */
     public function edit(Request $request, Bookshelf $bookshelf)
     {
-        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
-        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'bookshelvesCapacity', 'occupiedBookshelves'])->get()->toArray();;
+       $floorsData = Floor::get()->toArray();
+        $zonesData = Zone::with(['genre'])->get()->toArray();
          return Inertia::render('bookshelves/Edit',[
             'bookshelf' => $bookshelf,
             'page' => $request->query('page'),
