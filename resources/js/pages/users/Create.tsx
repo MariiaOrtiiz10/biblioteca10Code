@@ -9,10 +9,11 @@ import { User } from "lucide-react";
 interface CreateUserProps extends PageProps {
   roles?: any[];
   permissions?: any[];
+  usersData : any[];
 }
 
 
-export default function CreateUser({roles, permissions}:CreateUserProps) {
+export default function CreateUser({roles, permissions, usersData}:CreateUserProps) {
 
   const { t } = useTranslations();
 
@@ -32,6 +33,7 @@ export default function CreateUser({roles, permissions}:CreateUserProps) {
                 <UserForm
                  roles={roles}
                  permissions = {permissions}
+                 usersData = {usersData}
                  />
             </div>
         </div>

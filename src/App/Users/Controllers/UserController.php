@@ -51,10 +51,12 @@ class UserController extends Controller
         $permissions = Permission::all()->groupBy(function ($permission) {
             return explode('.', $permission->name)[0];
         });
+        $usersData = User::get()->toArray();
 
         return Inertia::render('users/Create', [
             'roles' => $roles,
-            'permissions' => $permissions
+            'permissions' => $permissions,
+            'usersData'=>$usersData,
         ]);
     }
 
@@ -98,13 +100,15 @@ class UserController extends Controller
         $permissions = Permission::all()->groupBy(function ($permission) {
             return explode('.', $permission->name)[0];
         });
+        $usersData = User::get()->toArray();
         return Inertia::render('users/Edit', [
             'user' => $user,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
             'permissionNames' => $permissionNames,
             'roles' => $roles,
-            'permissions' => $permissions
+            'permissions' => $permissions,
+            'usersData'=>$usersData,
         ]);
     }
 

@@ -36,12 +36,11 @@ class ZoneController extends Controller
     {
         $floorsData = Floor::select(['id','floorNumber','floorName','zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
-        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();
-
+        $zoneswithfloors = Zone::with(['floor'])->get()->toArray();
         return Inertia::render('zones/Create',[
             'floorsData' => $floorsData,
             'genresData' => $genresData,
-            'zonesData' => $zonesData,
+            'zoneswithfloors' => $zoneswithfloors,
         ]);
     }
 
@@ -80,14 +79,14 @@ class ZoneController extends Controller
     {
         $floorsData = Floor::select(['id','floorNumber','floorName', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
-        $zonesData = Zone::select(['id', 'zoneName', 'floor_id', 'occupiedBookshelves'])->get()->toArray();
+        $zoneswithfloors = Zone::with(['floor'])->get()->toArray();
         return Inertia::render('zones/Edit', [
             'zone' => $zone,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
             'floorsData' => $floorsData,
             'genresData' => $genresData,
-            'zonesData' => $zonesData,
+            'zoneswithfloors' => $zoneswithfloors,
         ]);
 
     }

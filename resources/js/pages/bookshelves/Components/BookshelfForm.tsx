@@ -28,8 +28,9 @@ interface BookshelfFormProps {
         zone_id: string;
         booksCapacity: number;
     };
-    floorsData?: any[];
-    zonesData?:any[];
+    floorsData: any[];
+    zonesData:any[];
+    bookshelvesData:any[];
     //paginación
     page?: string;
     perPage?: string;
@@ -49,7 +50,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function BookshelfForm({initialData, page, perPage, floorsData=[],  zonesData=[]}:BookshelfFormProps){
+export function BookshelfForm({initialData, page, perPage, floorsData,  zonesData, bookshelvesData}:BookshelfFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
 
@@ -328,6 +329,14 @@ export function BookshelfForm({initialData, page, perPage, floorsData=[],  zones
                                             attribute: t("ui.bookshelves.columns.bookshelvesCapacity").toLowerCase()
                                         });
                                     }
+
+                                    const currentBookshelf = bookshelvesData.find(bookshelf => bookshelf.id === initialData?.id);
+                                    if (currentBookshelf && value < currentBookshelf.occupiedBooks) {
+                                            return t("ui.validation.capacity.bookshelf", {
+                                                attribute: t("ui.bookshelves.columns.booksCapacity").toLowerCase(),
+                                                occupiedBooks: currentBookshelf.occupiedBooks.toString(),
+                                            });
+                                        }
                                     return undefined;
 
                                 },

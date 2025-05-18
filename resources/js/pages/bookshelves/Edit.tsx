@@ -14,8 +14,9 @@ interface EditBookshelfProps extends PageProps {
     zone_id: string;
     booksCapacity: number;
   };
-    floorsData?: any[];
-    zonesData?:any[];
+    floorsData: any[];
+    zonesData:any[];
+    bookshelvesData:any[];
   page?: string;
   perPage?: string;
 
@@ -23,7 +24,7 @@ interface EditBookshelfProps extends PageProps {
 }
 
 
-export default function EditBookshelf({ bookshelf, page, perPage, floorsData ,zonesData}: EditBookshelfProps) {
+export default function EditBookshelf({ bookshelf, page, perPage, floorsData ,zonesData, bookshelvesData}: EditBookshelfProps) {
   const { t } = useTranslations();
 
   return (
@@ -44,6 +45,7 @@ export default function EditBookshelf({ bookshelf, page, perPage, floorsData ,zo
             perPage={perPage}
             floorsData = {floorsData}
             zonesData = {zonesData}
+            bookshelvesData = {bookshelvesData}
           />
         </div>
       </div>

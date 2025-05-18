@@ -7,13 +7,13 @@ import { Icon } from "@/components/ui/icon";
 import {X, Save, Building2, Bookmark} from "lucide-react";
 
 interface CreateZoneProps extends PageProps {
-    floorsData?:any[];
-    genresData?:any[];
-    zonesData?:any[];
+    floorsData:any[];
+    genresData:any[];
+    zoneswithfloors:any[];
 }
 
 
-export default function CreateZone({floorsData, genresData ,zonesData}:CreateZoneProps) {
+export default function CreateZone({floorsData, genresData,zoneswithfloors }:CreateZoneProps) {
   const { t } = useTranslations();
 
 
@@ -32,7 +32,7 @@ export default function CreateZone({floorsData, genresData ,zonesData}:CreateZon
             <ZoneForm
             floorsData = {floorsData}
             genresData = {genresData}
-            zonesData = {zonesData}
+            zoneswithfloors = {zoneswithfloors}
             />
         </div>
       </div>

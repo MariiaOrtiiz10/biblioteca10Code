@@ -43,10 +43,10 @@ interface ZoneFormProps {
         genre_id:string;
         bookshelvesCapacity: number;
     };
+    floorsData:any[];
+    genresData:any[];
+    zoneswithfloors:any[];
 
-    floorsData?:any[];
-    genresData?:any[];
-    zonesData?:any[];
     //paginación
     page?: string;
     perPage?: string;
@@ -66,23 +66,13 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=[], zonesData = []}:ZoneFormProps){
+export function ZoneForm({initialData, page, perPage, floorsData, genresData, zoneswithfloors}:ZoneFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
     const initialFloorId = initialData?.floor_id;
      const [open, setOpen] = useState(false)
-    const [value, setValue] = useState("")
+    console.log(zoneswithfloors);
 
-
-
-    console.log("floorsData:" ,floorsData);
-    console.log("zonesData", zonesData); // Verifica si el id está ahí
-    console.log("initialData", initialData);
-
-
-    // console.log("genresData:" ,genresData);
-    // console.log("zoneNameByFloorsNumber:" ,zoneNameByFloorsNumber);
-    // console.log("zoneNameByFloorsNumber:" ,zonesData);
 
     const form = useForm({
         defaultValues: {
@@ -151,8 +141,19 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                                 min:"3",
                                             });
                                         }
-                                        //ME FALTA EL VALIDADOR EN FRONT(en back si está) QUE UN MISMO PISO NO PUEDE HABER DOS ZONAS CON MISMO NOMBRE.
-
+                                        const selectedFloor = form.getFieldValue("floor_id");
+                                       if (
+                                        zoneswithfloors
+                                            .filter(zone => zone.floor_id === selectedFloor)
+                                            .some(zone =>
+                                            zone.zoneName.trim().toLowerCase() === value.trim().toLowerCase() &&
+                                            zone.id !== initialData?.id
+                                            )
+                                        ) {
+                                        return t("ui.validation.unique", {
+                                            attribute: t("ui.zones.fields.zoneName").toLowerCase(),
+                                        });
+                                        }
 
                                         return undefined;
                                     },
@@ -364,14 +365,15 @@ export function ZoneForm({initialData, page, perPage, floorsData=[], genresData=
                                             });
 
                                         }
-                                        //validación
-                                        const currentZone = zonesData.find(zone => zone.id === initialData?.id);
+
+                                        const currentZone = zoneswithfloors.find(zone => zone.id === initialData?.id);
                                         if (currentZone && value < currentZone.occupiedBookshelves) {
                                             return t("ui.validation.capacity.zone", {
                                                 attribute: t("ui.zones.columns.occupiedBookshelves").toLowerCase(),
                                                 occupiedBookshelves: currentZone.occupiedBookshelves.toString(),
                                             });
                                         }
+
                                         return undefined;
 
                                     },

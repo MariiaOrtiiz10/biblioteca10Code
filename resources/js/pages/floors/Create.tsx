@@ -7,18 +7,11 @@ import { Icon } from "@/components/ui/icon";
 import {X, Save, Building2} from "lucide-react";
 
 interface CreateFloorProps extends PageProps {
-    floorNumber?: number[];
-    floorName?: string[];
-    floorsData:{
-        id: string;
-        floorNumber: number;
-        zonesCapacity: number;
-        occupiedZones: number;
-      }[];
+    floorsData:any[];
 
 }
 
-export default function CreateFloor({floorNumber, floorName, floorsData}:CreateFloorProps) {
+export default function CreateFloor({floorsData}:CreateFloorProps) {
   const { t } = useTranslations();
 
 
@@ -35,9 +28,7 @@ export default function CreateFloor({floorNumber, floorName, floorsData}:CreateF
                 <p className="text-gray-600">{t("ui.floors.createFloor.subtitle")}</p>
             </header>
             <FloorForm
-              floorNumber={floorNumber}
-             floorName={floorName}
-             floorsData={floorsData}
+            floorsData={floorsData}
              />
              </div>
         </div>

@@ -14,9 +14,11 @@ interface EditZoneProps extends PageProps {
     genre_id:string;
     bookshelvesCapacity:number;
   };
-  floorsData?:any[];
-  genresData?:any[];
-  zonesData?:any[];
+
+  floorsData:any[];
+  genresData:any[];
+  zoneswithfloors:any[];
+  //zonesData?:any[];
   page?: string;
   perPage?: string;
 
@@ -24,7 +26,7 @@ interface EditZoneProps extends PageProps {
 }
 
 
-export default function EditZone({ zone, page, perPage, floorsData, genresData, zonesData}: EditZoneProps) {
+export default function EditZone({ zone, page, perPage, floorsData, genresData, zoneswithfloors}: EditZoneProps) {
   const { t } = useTranslations();
 
   return (
@@ -43,7 +45,7 @@ export default function EditZone({ zone, page, perPage, floorsData, genresData, 
             initialData={zone}
             floorsData = {floorsData}
             genresData = {genresData}
-            zonesData={zonesData}
+            zoneswithfloors = {zoneswithfloors}
             page={page}
             perPage={perPage}
           />

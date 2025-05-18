@@ -101,16 +101,24 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
             accessorKey: "genre",
             format: (value) => t(`ui.genres.${value}`) || value
           }),
-          createTextColumn<Zone>({
-            id: "bookshelvesCapacity",
-            header: t("ui.zones.columns.bookshelvesCapacity") || "bookshelvesCapacity",
-            accessorKey: "bookshelvesCapacity",
-          }),
-          createTextColumn<Zone>({
-            id: "occupiedBookshelves",
-            header: t("ui.zones.columns.occupiedBookshelves") || "bookshelvesCapacity",
-            accessorKey: "occupiedBookshelves",
-          }),
+            createActionsColumn<Zone>({
+                      id: "avaibleBookshelves",
+                      header: t("ui.zones.columns.avaibleBookshelves") || "Available / Total",
+                      renderActions: (zone) => {
+                          const isFull = zone.bookshelvesCapacity === zone.occupiedBookshelves;
+
+                          const className = isFull
+                          ? "font-bold text-red-600 dark:text-red-400 px-2 py-1 rounded"
+                          : "font-bold text-green-600 dark:text-green-400 px-2 py-1 rounded";
+
+                          return (
+                          <span className={className}>
+                              {zone.occupiedBookshelves} / {zone.bookshelvesCapacity}
+                          </span>
+                          );
+                      }
+                      }),
+
           createDateColumn<Zone>({
             id: "created_at",
             header: t("ui.zones.columns.created_at") || "Created At",

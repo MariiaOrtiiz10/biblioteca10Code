@@ -30,18 +30,11 @@ interface FloorFormProps {
         floorName: string;
         zonesCapacity: number;
     };
-    floorsData:{
-        id: string;
-        floorNumber: number;
-        zonesCapacity: number;
-        occupiedZones: number;
-      }[];
+    floorsData:any[];
 
     //paginación
     page?: string;
     perPage?: string;
-    floorNumber?: number[];
-    floorName?: string[];
 
 }
 function FieldInfo({ field }: { field: AnyFieldApi }) {
@@ -59,9 +52,10 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     );
 }
 
-export function FloorForm({initialData, page, perPage, floorNumber = [], floorName = [], floorsData=[]}:FloorFormProps){
+export function FloorForm({initialData, page, perPage, floorsData}:FloorFormProps){
     const { t } = useTranslations();
     const queryClient = useQueryClient();
+    console.log(floorsData)
     const form = useForm({
         defaultValues: {
          floorNumber: initialData?.floorNumber ?? undefined,
@@ -130,11 +124,10 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                             });
                                         }
 
-                                        if(floorName.includes(value) && (value!=initialData?.floorName)){
+                                        if (floorsData.some((floor) => floor.floorName === value) && value !== initialData?.floorName) {
                                             return t("ui.validation.unique", {
                                                 attribute: t("ui.floors.fields.floorName").toLowerCase(),
                                             });
-
                                         }
 
                                         return undefined;
@@ -174,15 +167,12 @@ export function FloorForm({initialData, page, perPage, floorNumber = [], floorNa
                                                 attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
                                             });
                                         }
-                                        if(floorNumber.includes(value) && (value!=initialData?.floorNumber)){
+                                         if (floorsData.some((floor) => floor.floorNumber === value) && value !== initialData?.floorNumber) {
                                             return t("ui.validation.unique", {
                                                 attribute: t("ui.floors.fields.floorNumber").toLowerCase(),
                                             });
-
                                         }
-
                                         return undefined;
-
                                     },
                                 }}
                             >

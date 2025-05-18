@@ -12,7 +12,7 @@ class FloorResource extends Data
         public readonly int $floorNumber,
         public readonly string $floorName,
         public readonly int $zonesCapacity,
-        public readonly int $occupiedZones,
+        public readonly ?int $occupiedZones,
         public readonly string $avaibleZones,
         public readonly string $created_at,
         public readonly string $updated_at,

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User, Mail, Lock, X, Eye, Save, Shield, Users,  PackageOpen, FileText, Settings} from "lucide-react";
+import { User, Mail, Lock, X, Eye, Save, Shield, Users,  PackageOpen, FileText, Settings, EyeClosed} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -38,6 +38,7 @@ interface UserFormProps {
     permissionNames?: any[];
     roles?: any[];
     permissions?: any[];
+    usersData: any[];
 
 }
 
@@ -61,11 +62,11 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 
 
 
-export function UserForm({ initialData, page, perPage, permissionNames, roles = [], permissions=[]}: UserFormProps) {
+export function UserForm({ initialData, page, perPage, permissionNames, roles = [], permissions=[], usersData}: UserFormProps) {
     const { t } = useTranslations();
     const queryClient = useQueryClient();
 
-
+    const [showPassword, setShowPassword] = useState(false);
     //Rol seleccionado
     const [selectedRole, setSelectedRole] = useState<string | undefined>(undefined);
     //array de permisos
@@ -203,11 +204,23 @@ export function UserForm({ initialData, page, perPage, permissionNames, roles = 
                                         validators={{
                                             onChangeAsync: async ({ value }) => {
                                                 await new Promise((resolve) => setTimeout(resolve, 500));
-                                                return !value
-                                                    ? t("ui.validation.required", { attribute: t("ui.users.fields.email").toLowerCase() })
-                                                    : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-                                                        ? t("ui.validation.email", { attribute: t("ui.users.fields.email").toLowerCase() })
-                                                        : undefined;
+                                                if( !value){
+                                                    return  t("ui.validation.required",
+                                                        { attribute: t("ui.users.fields.email").toLowerCase(),
+
+                                                        });
+                                                }
+                                                  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                                                    return t("ui.validation.email", { attribute: t("ui.users.fields.email").toLowerCase() })
+                                                }
+
+                                                if(usersData.some((user) => user.email === value) && value !== initialData?.email){
+                                                    return t("ui.validation.unique", {
+                                                     attribute: t("ui.users.fields.email").toLowerCase(),
+                                                });
+                                                }
+                                                return undefined;
+
                                             },
                                         }}
                                     >
@@ -266,7 +279,7 @@ export function UserForm({ initialData, page, perPage, permissionNames, roles = 
                                                 <Input
                                                     id={field.name}
                                                     name={field.name}
-                                                    type="password"
+                                                    type={showPassword ? 'text' : 'password'}
                                                     value={field.state.value}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     onBlur={field.handleBlur}
@@ -276,7 +289,10 @@ export function UserForm({ initialData, page, perPage, permissionNames, roles = 
                                                     required={false}
                                                 />
                                                 <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-                                                    <Icon iconNode={Eye} className="w-5 h-5" />
+                                                    <button type='button' className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700" onClick={() => setShowPassword(!showPassword)}>
+                                                    { !showPassword ? <EyeClosed className='flex'/> : <Eye/> }
+                                                </button>
+
                                                 </div>
                                                 </div>
                                                 <FieldInfo field={field} />

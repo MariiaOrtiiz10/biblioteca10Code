@@ -7,13 +7,14 @@ import { BookshelfForm } from "./Components/BookshelfForm";
 import { PageProps } from "@/types";
 
 interface CreateBookshelfProps extends PageProps {
-    floorsData?: any[];
-    zonesData?:any[];
+    floorsData: any[];
+    zonesData:any[];
+    bookshelvesData:any[];
 
 
 }
 
-export default function createBookshelf({floorsData ,zonesData}:CreateBookshelfProps) {
+export default function createBookshelf({floorsData ,zonesData, bookshelvesData}:CreateBookshelfProps) {
   const { t } = useTranslations();
 
 
@@ -32,6 +33,7 @@ export default function createBookshelf({floorsData ,zonesData}:CreateBookshelfP
                          <BookshelfForm
                           floorsData = {floorsData}
                           zonesData = {zonesData}
+                          bookshelvesData = {bookshelvesData}
                          />
         </div>
         </div>

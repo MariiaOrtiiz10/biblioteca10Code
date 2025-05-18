@@ -17,7 +17,8 @@ class ZoneResource extends Data
         public readonly string $genre_id,
         public readonly string $genre,
         public readonly int $bookshelvesCapacity,
-        public readonly int $occupiedBookshelves,
+        public readonly ?int $occupiedBookshelves,
+        public readonly string $avaibleBookshelves,
         public readonly string $created_at,
         public readonly string $updated_at,
     ) {
@@ -34,7 +35,8 @@ class ZoneResource extends Data
             genre_id: $zone->genre_id,
             genre:$zone->genre->genre,
             bookshelvesCapacity:$zone->bookshelvesCapacity,
-            occupiedBookshelves:$zone -> bookshelves()-> count(),
+            occupiedBookshelves:$zone -> occupiedBookshelves,
+            avaibleBookshelves: "$zone->occupiedBookshelves / $zone->bookshelvesCapacity",
             created_at: $zone->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
             updated_at: $zone->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );

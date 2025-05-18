@@ -14,20 +14,14 @@ interface EditFloorProps extends PageProps {
     floorName: string;
     zonesCapacity: number;
   };
-  floorsData:{
-    id: string;
-    floorNumber: number;
-    zonesCapacity: number;
-    occupiedZones: number;
-  }[];
+  floorsData:any[];
   page?: string;
   perPage?: string;
-  floorNumber?: number[];
-  floorName?: string[];
+
 
 }
 
-export default function EditFloor({ floor, page, perPage, floorNumber, floorName, floorsData}: EditFloorProps) {
+export default function EditFloor({ floor, page, perPage, floorsData}: EditFloorProps) {
   const { t } = useTranslations();
   console.log("floorsData:" ,floorsData);
 
@@ -47,8 +41,6 @@ export default function EditFloor({ floor, page, perPage, floorNumber, floorName
             initialData={floor}
             page={page}
             perPage={perPage}
-            floorNumber={floorNumber}
-            floorName={floorName}
             floorsData = {floorsData}
           />
         </div>

@@ -12,6 +12,7 @@ export interface Bookshelf{
     bookshelfNumber:number;
     booksCapacity  :number;
     occupiedBooks: number;
+    avaibleBooks:string;
     created_at: string;
   }
 

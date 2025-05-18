@@ -30,11 +30,9 @@ class FloorController extends Controller
      */
     public function create()
     {
-        $floorNumber = Floor::pluck('floorNumber')->toArray();
-        $floorName = Floor::pluck('floorName')->toArray();
+        $floorsData = Floor::get()->toArray();
         return Inertia::render('floors/Create', [
-            'floorNumber' => $floorNumber,
-            'floorName' => $floorName,
+            'floorsData' => $floorsData,
         ]);
 
     }
@@ -74,15 +72,11 @@ class FloorController extends Controller
      */
     public function edit(Request $request, Floor $floor)
     {
-        $floorNumber = Floor::pluck('floorNumber')->toArray();
-        $floorName = Floor::pluck('floorName')->toArray();
-        $floorsData =  Floor::select(['id', 'floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
+        $floorsData =  Floor::get()->toArray();
         return Inertia::render('floors/Edit', [
             'floor' => $floor,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
-            'floorNumber' => $floorNumber,
-            'floorName' => $floorName,
             'floorsData' => $floorsData,
         ]);
 

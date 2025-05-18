@@ -33,10 +33,11 @@ class BookshelfController extends Controller
     {
         $floorsData = Floor::get()->toArray();
         $zonesData = Zone::with(['genre'])->get()->toArray();
-        //dd($zonesData);
+        $bookshelvesData = Bookshelf::get()->toArray();
          return Inertia::render('bookshelves/Create',[
             'floorsData' => $floorsData,
             'zonesData' => $zonesData,
+            'bookshelvesData' => $bookshelvesData,
         ]);
     }
     /**
@@ -66,14 +67,16 @@ class BookshelfController extends Controller
      */
     public function edit(Request $request, Bookshelf $bookshelf)
     {
-       $floorsData = Floor::get()->toArray();
-        $zonesData = Zone::with(['genre'])->get()->toArray();
+        $floorsData = Floor::get()->toArray();
+        $zonesData = Zone::with(['genre','bookshelves'])->get()->toArray();
+        $bookshelvesData = Bookshelf::get()->toArray();
          return Inertia::render('bookshelves/Edit',[
             'bookshelf' => $bookshelf,
             'page' => $request->query('page'),
             'perPage' => $request->query('perPage'),
             'floorsData' => $floorsData,
             'zonesData' => $zonesData,
+            'bookshelvesData' => $bookshelvesData,
         ]);
     }
 

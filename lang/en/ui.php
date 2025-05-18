@@ -127,6 +127,7 @@ return [
             'capacity' =>[
                 'floor' => 'The :attribute field cannot be less than the occupied zones, that is :occupiedZones',
                 'zone' => 'The :attribute field cannot be less than the occupied bookshelves, that is :occupiedBookshelves',
+                'zone' => 'The :attribute field cannot be less than the occupied books, that is :occupiedBooks',
 
             ],
             'unique' => 'The :attribute has already been taken.',
@@ -307,7 +308,7 @@ return [
             'zonesCapacity' => 'Zones Capacity',
             'occupiedZones' => 'Occupied Zones',
             'created_at' => 'Created at',
-            'avaibleZones' => 'Occupied Zones / Zones Capacity',
+            'avaibleZones' => 'Occupied / Zones Capacity',
             'actions' => 'Actions',
         ],
         'filters' => [
@@ -373,6 +374,8 @@ return [
             'occupiedBookshelves' => 'Occupied Bookshelves',
             'created_at' => 'Created at',
             'actions' => 'Actions',
+            'avaibleBookshelves' => 'Occupied / Bookshelves Capacity',
+
         ],
         'fields' => [
             'zoneName' => 'Zone Name',
@@ -454,6 +457,7 @@ return [
             'occupiedBooks' => 'Occupied Books',
             'created_at' => 'Created at',
             'actions' => 'Actions',
+            'avaibleBooks' => 'Occupied / Books Capacity',
         ],
         'placeholders' =>[
             'bookshelfNumber' => 'Number...',
@@ -678,12 +682,11 @@ return [
         'createLoan' =>[
             'title' => 'Create Loan',
             'subtitle' => 'Enter the information to create a new loan in the system',
-
             'placeholders' => [
                 'email' => 'Enter an existing user email',
                 'isbn' => 'Enter an existing isbn book',
                 'loanDuration' => 'Enter the loan duration',
-                'searchGenre' => 'Search the email of the user',
+                'searchEmail' => 'Search the email of the user',
             ],
         ],
         'editLoan' => [

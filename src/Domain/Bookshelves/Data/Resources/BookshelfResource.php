@@ -17,7 +17,8 @@ class BookshelfResource extends Data
         public readonly string $genre,
         public readonly int $bookshelfNumber,
         public readonly int $booksCapacity,
-        public readonly int $occupiedBooks,
+        public readonly ?int $occupiedBooks,
+        public readonly string $avaibleBooks,
         public readonly string $created_at,
         public readonly string $updated_at,
     ) {
@@ -36,7 +37,9 @@ class BookshelfResource extends Data
             genre: $bookshelf->zone->genre->genre,
             bookshelfNumber: $bookshelf->bookshelfNumber,
             booksCapacity: $bookshelf->booksCapacity,
-            occupiedBooks: $bookshelf->books()-> count(),
+            //occupiedBooks: $bookshelf->books()-> count(),
+            occupiedBooks: $bookshelf->occupiedBooks,
+            avaibleBooks: "$bookshelf->occupiedBooks / $bookshelf->booksCapacity",
             created_at: $bookshelf->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
             updated_at: $bookshelf->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );

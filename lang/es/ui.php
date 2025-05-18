@@ -124,6 +124,7 @@ return [
         'capacity' =>[
             'floor' => 'El campo :attribute no puede ser menor que las zonas ocupadas, que es :occupiedZones',
             'zone' => 'El campo :attribute no puede ser menor que las estanterías ocupadas, que es :occupiedBookshelves',
+            'bookshelf' => 'El campo :attribute no puede ser menor que los libros ocupados, que es :occupiedBooks',
         ],
         'unique' => 'El :attribute ya está en uso.',
         'confirmed' => 'La confirmación de :attribute no coincide.',
@@ -298,7 +299,7 @@ return [
             'floorName' => 'Nombre del piso',
             'zonesCapacity' => 'Capacidad de Zonas',
             'occupiedZones' => 'Zonas Ocupadas',
-            'avaibleZones' => 'Zonas Ocupadas / Capacidad de Zonas',
+            'avaibleZones' => 'Ocupadas / Capacidad de Zonas',
             'created_at' => 'Creado el',
             'actions' => 'Acciones',
         ],
@@ -360,6 +361,7 @@ return [
             'occupiedBookshelves' => 'Estanterías Ocupadas',
             'created_at' => 'Creado el',
             'actions' => 'Acciones',
+            'avaibleBookshelves' => 'Ocupadas / Capacidad de Estanterías',
         ],
         'fields' => [
             'zoneName' => 'Nombre de Zona',
@@ -405,6 +407,7 @@ return [
         ],
         'no_results' => 'Sin resultados.',
     ],
+
     'bookshelves' => [
         'title' => 'Estanterías',
         'create' => 'Crear Estantería',
@@ -436,7 +439,9 @@ return [
             'occupiedBooks' => 'Libros Ocupados',
             'created_at' => 'Creado el',
             'actions' => 'Acciones',
+            'avaibleBooks' => 'Ocupados / Capacidad de Libros',
         ],
+
         'placeholders' =>[
             'bookshelfNumber' => 'Número...',
             'floorNumber' => 'Número...',
