@@ -36,8 +36,8 @@ class BookController extends Controller
     public function create()
     {
         $genres = Genre::select(['id','genre'])->get()->toArray();
-        $zonesData = Zone::select(['zones.id','zones.zoneName','zones.floor_id','zones.bookshelvesCapacity','occupiedBookshelves','zones.genre_id', 'genres.genre'])->join('genres', 'genres.id', '=', 'zones.genre_id')->get()->toArray();
-        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
+        $zonesData = Zone::with(['genre'])->get()->toArray();
+        $floorsData = Floor::get()->toArray();
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
         $booksData = Book::get()->toArray();
         return Inertia::render('books/Create', [
@@ -92,9 +92,8 @@ class BookController extends Controller
     {
         $genres = Genre::select(['id','genre'])->get()->toArray();
         $genresData = $book->genres()->pluck('id')->toArray();
-        $zonesData = Zone::select(['zones.id','zones.zoneName','zones.floor_id','zones.bookshelvesCapacity','occupiedBookshelves','zones.genre_id', 'genres.genre'])->join('genres', 'genres.id', '=', 'zones.genre_id')->get()->toArray();
-        $floorsData = Floor::select(['id','floorNumber', 'zonesCapacity', 'occupiedZones'])->get()->toArray();
-
+         $zonesData = Zone::with(['genre'])->get()->toArray();
+        $floorsData = Floor::get()->toArray();
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
         return Inertia::render('books/Edit', [
             'book' => $book,

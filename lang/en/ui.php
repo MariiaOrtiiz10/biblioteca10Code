@@ -14,7 +14,7 @@ return [
             'searchBooks' => 'Search Books',
             'loans' => 'Loans',
             'reservations' => 'Reservations',
-            'Charts' => 'Statistics',
+            'charts' => 'Statistics',
             'description' => [
                 'users' => 'Manage the system users',
                 'floors' => 'Manage the system floors',
@@ -730,7 +730,7 @@ return [
             'email' => 'mail@example.com',
             'isbn' => 'Book ISBN...',
             'title' =>'Book title...',
-            'created_at' => 'date...'
+            'created_at' => 'date...',
         ],
 
         'filters' => [

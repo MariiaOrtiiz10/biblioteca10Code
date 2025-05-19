@@ -43,7 +43,6 @@ interface BookFormProps {
     zonesData:any[];
     floorsData:any[];
     bookshelvesData:any[];
-
     booksData?:any[];
 
 
@@ -270,7 +269,6 @@ export function BookForm({ initialData, page, perPage, genresData, genres, zones
                                             onChange={(e) => {
                                             field.handleChange(e.target.value);
                                             const value = e.target.value;
-
                                             if ((value.length === 13 || value.length === 10) && booksData) {
                                                 handleISBN(booksData, value);
                                             }
@@ -565,7 +563,7 @@ export function BookForm({ initialData, page, perPage, genresData, genres, zones
                                         >
                                             <div className="flex items-center justify-between w-full">
                                             <span>
-                                                {t("ui.books.floor")}: {floor.floorNumber} {/* /  {t("ui.zones.createZone.floorName")}: {floor.floorName} */}
+                                                {t("ui.books.floor")}: {floor.floorNumber} / {t("ui.bookshelves.floorName")}: {floor.floorName}
                                             </span>
                                             {isCurrent ? (
                                                 <span className="ml-2 text-sm text-blue-600">
@@ -621,7 +619,7 @@ export function BookForm({ initialData, page, perPage, genresData, genres, zones
                                             className={!isCurrent && isFull ? "opacity-75 cursor-not-allowed" : ""}
                                         >
                                             <div className="flex items-center justify-between w-full">
-                                            <span>{zone.zoneName}</span>
+                                            <span>{t("ui.bookshelves.zone")}: {zone.zoneName}  /  {t("ui.bookshelves.genre")}: {t(`ui.genres.${zone.genre.genre}`)}</span>
                                             {isCurrent ? (
                                                 <span className="ml-2 text-sm text-green-600">
                                                 {t("ui.books.currentZone")}

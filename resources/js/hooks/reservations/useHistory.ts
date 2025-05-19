@@ -46,13 +46,13 @@ export interface PaginatedResponse<T> {
     };
   }
 
-  interface UseHistoryParams {
+  interface UseReservationParams {
     search?: any[];
     page?: number;
     perPage?: number;
   }
 
-export function useHistory({ search, page = 1, perPage = 10 }: UseHistoryParams = {}) {
+export function useReservations({ search, page = 1, perPage = 10 }: UseReservationParams = {}) {
   return useQuery({
     queryKey: ["reservations", { search, page, perPage }],
     queryFn: async () => {

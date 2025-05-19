@@ -14,7 +14,7 @@ return [
             'searchBooks' => 'Buscar Libros',
             'loans' => 'Préstamos',
             'reservations' => 'Reservas',
-            'Charts' => 'Estadísticas',
+            'charts' => 'Estadísticas',
             'description' => [
                 'users' => 'Gestiona a los usuarios del sistema',
                 'floors' =>'Gestiona los pisos del sistema',
@@ -689,7 +689,8 @@ return [
             'isbn' => 'ISBN',
             'title' => 'Título del Libro',
             'actions' => 'Eliminar',
-            'created_at' => 'Fecha de Reserva'
+            'created_at' => 'Fecha de Reserva',
+            'deleted_at' => 'Eliminada el',
         ],
         'placeholders' =>[
             'email' => 'correo@ejemplo.com',

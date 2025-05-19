@@ -14,7 +14,7 @@ import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
 import axios from "../../lib/axios";
 import { ReservationLayout } from "@/layouts/reservations/ReservationLayout";
-import { useHistory, Reservation } from "@/hooks/reservations/useHistory";
+import { useReservations, Reservation } from "@/hooks/reservations/useHistory";
 
 
 export default function HistoryIndex() {
@@ -33,12 +33,12 @@ export default function HistoryIndex() {
 
     // Combine name and email filters into a single search string if they exist
     const combinedSearch = [
-        // filters.isbn ? filters.isbn:"null",
-        // filters.email ? filters.email:"null",
-        // filters.title ? filters.title:"null",
+         filters.email ? filters.email:"null",
+        filters.isbn ? filters.isbn:"null",
+        filters.title ? filters.title:"null",
     ]
 
-    const { data: reservations , isLoading, isError, refetch } = useHistory({
+    const { data: reservations , isLoading, isError, refetch } = useReservations({
         search: combinedSearch,
         page: currentPage,
         perPage: perPage,
@@ -102,24 +102,24 @@ export default function HistoryIndex() {
                           <FiltersTable
                               filters={
                                   [
-                                    // {
-                                    //     id: 'email',
-                                    //     label: t('ui.reservations.filters.email') || 'email',
-                                    //     type: 'text',
-                                    //     placeholder: t('ui.reservations.placeholders.email') || 'email...',
-                                    // },
-                                    // {
-                                    //     id: 'isbn',
-                                    //     label: t('ui.reservations.filters.isbn') || 'isbn',
-                                    //     type: 'text',
-                                    //     placeholder: t('ui.reservations.placeholders.isbn') || 'isbn...',
-                                    // },
-                                    // {
-                                    //     id: 'title',
-                                    //     label: t('ui.reservations.filters.title') || 'title',
-                                    //     type: 'text',
-                                    //     placeholder: t('ui.reservations.placeholders.title') || 'title...',
-                                    // },
+                                    {
+                                        id: 'email',
+                                        label: t('ui.reservations.filters.email') || 'email',
+                                        type: 'text',
+                                        placeholder: t('ui.reservations.placeholders.email') || 'email...',
+                                    },
+                                    {
+                                        id: 'isbn',
+                                        label: t('ui.reservations.filters.isbn') || 'isbn',
+                                        type: 'text',
+                                        placeholder: t('ui.reservations.placeholders.isbn') || 'isbn...',
+                                    },
+                                    {
+                                        id: 'title',
+                                        label: t('ui.reservations.filters.title') || 'title',
+                                        type: 'text',
+                                        placeholder: t('ui.reservations.placeholders.title') || 'title...',
+                                    },
                                   ] as FilterConfig[]
                               }
                               onFilterChange={setFilters}

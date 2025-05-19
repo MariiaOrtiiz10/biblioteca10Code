@@ -63,7 +63,7 @@ export default function ChartsLayout({ children,title }: ChartLayout) {
           href: "/dashboard",
         },
         {
-            title: t("ui.navigation.items.Charts"),
+            title: t("ui.navigation.items.charts"),
           href: "/booksCharts",
         },
       ];

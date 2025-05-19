@@ -13,6 +13,7 @@ class ReservationApiController extends Controller{
     {
         return response()->json($action($request->search, $request->integer('per_page', 10)));
     }
+
     public function history(Request $request, ReservationHistoryAction $action)
     {
         return response()->json($action($request->search, $request->integer('per_page', 10)));

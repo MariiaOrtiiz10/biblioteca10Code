@@ -1,5 +1,5 @@
 import { DashboardCard } from '@/components/dashboard/DashboardCard';
-import { Users, User, Building2, Bookmark, SquareLibrary, Book, Search, ArrowUpDown, BookUp} from 'lucide-react';
+import { Users, User, Building2, Bookmark, SquareLibrary, Book, Search, ArrowUpDown, BookUp, ChartLine} from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -70,6 +70,12 @@ export default function Dashboard() {
                     description={t('ui.navigation.items.description.reservations')}
                     href="/reservations"
                     icon={BookUp}
+                />
+                <DashboardCard
+                    title={t('ui.navigation.items.charts')}
+                    description={t('ui.navigation.items.description.charts')}
+                    href="/booksCharts"
+                    icon={ChartLine}
                 />
 
                     {/* <CardFlip
