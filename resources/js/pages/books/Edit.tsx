@@ -24,13 +24,14 @@ interface EditBookProps extends PageProps {
     zonesData:any[];
     floorsData:any[];
     bookshelvesData:any[];
-  page?: string;
-  perPage?: string;
+    image_path:string,
+    page?: string;
+    perPage?: string;
 
 }
 
 
-export default function EditBookshelf({ book, page, perPage,genresData, genres, zonesData, floorsData, bookshelvesData}: EditBookProps) {
+export default function EditBookshelf({ book, page, perPage,genresData, genres, zonesData, floorsData, bookshelvesData, image_path}: EditBookProps) {
   const { t } = useTranslations();
 
   return (
@@ -54,6 +55,7 @@ export default function EditBookshelf({ book, page, perPage,genresData, genres, 
             zonesData= {zonesData}
             floorsData={floorsData}
             bookshelvesData={bookshelvesData}
+            image_path = {image_path}
           />
         </div>
       </div>

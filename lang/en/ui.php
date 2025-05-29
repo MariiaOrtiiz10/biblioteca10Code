@@ -15,6 +15,7 @@ return [
             'loans' => 'Loans',
             'reservations' => 'Reservations',
             'charts' => 'Statistics',
+            'graphics' => 'Statistics',
             'description' => [
                 'users' => 'Manage the system users',
                 'floors' => 'Manage the system floors',
@@ -36,19 +37,46 @@ return [
         'users.edit' => 'Edit users',
         'users.delete' => 'Delete users',
 
-        'products.view' => 'View products',
-        'products.create' => 'Create products',
-        'products.edit' => 'Edit products',
-        'products.delete' => 'Delete products',
+        'floors.view' => 'View floors',
+        'floors.create' => 'Create floors',
+        'floors.edit' => 'Edit floors',
+        'floors.delete' => 'Delete floors',
 
-        'reports.view' => 'View reports',
-        'reports.export' => 'Export reports',
-        'reports.print' => 'Print reports',
+        'zones.view' => 'View zones',
+        'zones.create' => 'Create zones',
+        'zones.edit' => 'Edit zones',
+        'zones.delete' => 'Delete zones',
+
+        'bookshelves.view' => 'View bookshelves',
+        'bookshelves.create' => 'Create bookshelves',
+        'bookshelves.edit' => 'Edit bookshelves',
+        'bookshelves.delete' => 'Delete bookshelves',
+
+        'books.view' => 'View books',
+        'books.searchBooks' => 'View search books',
+        'books.create' => 'Create books',
+        'books.edit' => 'Edit books',
+        'books.delete' => 'Delete books',
+
+        'loans.view' => 'View loans',
+        'loans.create' => 'Create loans',
+        'loans.edit' => 'Edit loans',
+        'loans.delete' => 'Delete loans',
+        'loans.return' => 'Return loans',
+
+        'reservations.view' => 'View reservaions',
+        'reservations.create' => 'Create reservations',
+        'reservations.record' => 'View loans record',
+
+        'statistics.books' => 'View books statistics',
+        'statistics.users' => 'View users statistics',
+        'statistics.zones' => 'View zones statistics',
+
+        'view.users' => 'View user interface',
 
         'settings.access' => 'Access settings',
         'settings.modify' => 'Modify settings',
     ],
-
 
 
     'user_menu' => [
@@ -110,30 +138,30 @@ return [
         ],
     ],
     'validation' => [
-           'required' => 'The :attribute field is required.',
-            'email' => 'The :attribute field must be a valid email address.',
-            'min' => [
-                'numeric' => 'The :attribute field  cannot be a negative number.',
-                'string' => 'The :attribute field must be at least :min characters',
-            ],
-            'max' => [
-                'string' => 'The :attribute field must not be greater than :max characters',
-            ],
-            'numeric'=> 'The :attribute field must contain only numbers.',
+        'required' => 'The :attribute field is required.',
+        'email' => 'The :attribute field must be a valid email address.',
+        'min' => [
+            'numeric' => 'The :attribute field  cannot be a negative number.',
+            'string' => 'The :attribute field must be at least :min characters',
+        ],
+        'max' => [
+            'string' => 'The :attribute field must not be greater than :max characters',
+        ],
+        'numeric' => 'The :attribute field must contain only numbers.',
 
-            "length"=> [
-                'isbn' => 'The :attribute field must be exactly 10 or 13 characters long',
-            ],
-            'capacity' =>[
-                'floor' => 'The :attribute field cannot be less than the occupied zones, that is :occupiedZones',
-                'zone' => 'The :attribute field cannot be less than the occupied bookshelves, that is :occupiedBookshelves',
-                'zone' => 'The :attribute field cannot be less than the occupied books, that is :occupiedBooks',
+        "length" => [
+            'isbn' => 'The :attribute field must be exactly 10 or 13 characters long',
+        ],
+        'capacity' => [
+            'floor' => 'The :attribute field cannot be less than the occupied zones, that is :occupiedZones',
+            'zone' => 'The :attribute field cannot be less than the occupied bookshelves, that is :occupiedBookshelves',
+            'zone' => 'The :attribute field cannot be less than the occupied books, that is :occupiedBooks',
 
-            ],
-            'unique' => 'The :attribute has already been taken.',
-            'confirmed' => 'The :attribute confirmation does not match.',
-            'emailLoan' => 'This email does not exist on our system',
-            'isbnLoan' => 'The book isbn does not exist in our system',
+        ],
+        'unique' => 'The :attribute has already been taken.',
+        'confirmed' => 'The :attribute confirmation does not match.',
+        'emailLoan' => 'This email does not exist on our system',
+        'isbnLoan' => 'The book isbn does not exist in our system',
     ],
     'common' => [
         'buttons' => [
@@ -141,7 +169,7 @@ return [
             'delete' => 'Delete',
             'close' => 'Close',
         ],
-        'filters'=> [
+        'filters' => [
             'title' => 'Filters',
             'clear' => 'Clear',
         ],
@@ -157,14 +185,14 @@ return [
         ],
         'per_page' => 'Per page',
         'no_results' => 'No results',
-        'results'=>'Total results found: ',
+        'results' => 'Total results found: ',
     ],
 
     'createUser' => [
         'pwd' => 'including characters and numbers',
         'Header' => [
-            'newUser'=> 'Create New User',
-            'h2'=> 'Enter the information to create a new user in the system',
+            'newUser' => 'Create New User',
+            'h2' => 'Enter the information to create a new user in the system',
         ],
         'Tab' => [
             'basicInformation' => [
@@ -175,29 +203,47 @@ return [
                 'title' => 'Roles and Permissions',
             ],
         ],
-        'Rol' =>[
+        'Rol' => [
             'create' => 'Main role',
             'select' => [
                 'default' => 'Select a role',
                 'op1' => 'Admin',
-                'op2' =>'Employer',
+                'op2' => 'Employer',
                 'op3' => 'Editor',
                 'op4' => 'Reader',
                 'msg' => 'The role determines the level of general access of the user',
             ],
-            'permission'=>[
+            'permission' => [
                 'title' => 'Specific permission',
-                'users' =>[
+                'users' => [
                     'title' => 'Users',
                 ],
-                'products' => [
-                    'title' => 'Products',
+                'floors' => [
+                    'title' => 'Floors',
                 ],
-                'reports'=>[
-                    'title' => 'Reports',
+                'zones' => [
+                    'title' => 'Zones',
+                ],
+                'bookshelves' => [
+                    'title' => 'Bookshelves',
+                ],
+                'books' => [
+                    'title' => 'Books',
+                ],
+                'loans' => [
+                    'title' => 'Loans',
+                ],
+                'reservations' => [
+                    'title' => 'Reservations',
+                ],
+                'statistics' => [
+                    'title' => 'Statistics',
+                ],
+                'view' => [
+                    'title' => 'User interface',
                 ],
                 'settings' => [
-                    'title'=> 'Settings',
+                    'title' => 'Settings',
                 ],
             ],
         ],
@@ -205,8 +251,8 @@ return [
 
     'editUser' => [
         'Header' => [
-            'editUser'=> 'Edit user',
-            'h2'=> 'Enter the information to edit a user in the system',
+            'editUser' => 'Edit user',
+            'h2' => 'Enter the information to edit a user in the system',
         ],
     ],
 
@@ -270,11 +316,11 @@ return [
         ],
     ],
 
-    'genres' =>[
+    'genres' => [
         'genre' => 'Genre'
 
     ],
-    'floors' =>[
+    'floors' => [
         'title' => 'Floors',
         'title2' => 'Floor',
         'create' => 'Create Floor',
@@ -287,20 +333,20 @@ return [
             'floorName' => 'Floor Name',
             'zonesCapacity' => 'Zones Capacity',
         ],
-        'index'=>[
+        'index' => [
             'floor' => 'Floor',
             'capacity' => 'Capacity',
         ],
         'buttons' => [
-        'new' => 'New Floor',
-        'edit' => 'Edit',
-        'save' => 'Save',
-        'update' => 'Update',
-        'cancel' => 'Cancel',
-        'delete' => 'Delete',
-        'deleting' => 'Deleting...',
-        'saving' => 'Saving...',
-        'retry' => 'Retry',
+            'new' => 'New Floor',
+            'edit' => 'Edit',
+            'save' => 'Save',
+            'update' => 'Update',
+            'cancel' => 'Cancel',
+            'delete' => 'Delete',
+            'deleting' => 'Deleting...',
+            'saving' => 'Saving...',
+            'retry' => 'Retry',
         ],
         'columns' => [
             'floorNumber' => 'Floor number',
@@ -383,11 +429,11 @@ return [
             'bookshelvesCapacity' => 'Bookshelves Capacity',
             'genre' => 'Genre',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'zoneName' => 'Name...',
             'floorNumber' => 'Number...',
             'genre' => 'select...',
-            'bookshelvesCapacity'=> 'Max bookshelves...',
+            'bookshelvesCapacity' => 'Max bookshelves...',
             'createdAt' => 'Date...',
 
         ],
@@ -395,10 +441,10 @@ return [
             'zoneName' => 'Zone',
             'floorNumber' => 'Floor',
             'genre' => 'Genre',
-            'bookshelvesCapacity'=> 'Bookshelves Capacity',
+            'bookshelvesCapacity' => 'Bookshelves Capacity',
             'createdAt' => 'Created At',
         ],
-        'createZone' =>[
+        'createZone' => [
             'title' => 'Create Zone',
             'subtitle' => 'Enter the information to create a new zone in the system',
             'floor' => 'Floor',
@@ -416,10 +462,10 @@ return [
             'title' => 'Are you sure?',
             'description' => 'This action cannot be undone. The zone will be permanently deleted from the system.',
         ],
-        'editZone' =>[
-                'title' => 'Edit Zone',
-                'subtitle' => 'Enter the information to edit a zone in the system',
-            ],
+        'editZone' => [
+            'title' => 'Edit Zone',
+            'subtitle' => 'Enter the information to edit a zone in the system',
+        ],
 
         'no_results' => 'No results.',
 
@@ -459,11 +505,11 @@ return [
             'actions' => 'Actions',
             'avaibleBooks' => 'Occupied / Books Capacity',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'bookshelfNumber' => 'Number...',
             'floorNumber' => 'Number...',
             'zoneName' => 'Name...',
-            'booksCapacity'=> 'Max books...',
+            'booksCapacity' => 'Max books...',
             'createdAt' => 'Date...',
 
         ],
@@ -471,7 +517,7 @@ return [
             'bookshelfNumber' => 'Bookshelf',
             'zoneName' => 'Zone',
             'floorNumber' => 'Floor',
-            'booksCapacity'=> 'Books Capacity',
+            'booksCapacity' => 'Books Capacity',
             'createdAt' => 'Created at',
 
         ],
@@ -482,7 +528,7 @@ return [
             'bookshelvesCapacity' => 'Books Capacity',
             'genre' => 'Genre',
         ],
-        'createBookshelf' =>[
+        'createBookshelf' => [
             'title' => 'Create Bookshelf',
             'subtitle' => 'Enter the information to create a new bookshelf in the system',
             'floor' => 'Floor',
@@ -518,6 +564,8 @@ return [
         'currentFloor' => 'Current floor',
         'currentZone' => 'Current zone',
         'currentBookshelf' => 'Current Bookshelf',
+        'changeImage' => 'Change Image',
+        'selectImage' => 'Select Image',
         'delete_dialog' => [
             'success' => 'Book deleted successfully',
         ],
@@ -537,7 +585,7 @@ return [
             'title' => 'Title',
             'author' => 'Author',
             'editorial' => 'Editorial',
-            'genres'=> 'Genres',
+            'genres' => 'Genres',
             'pages' => 'Pages',
             'floorNumber' => 'Floor',
             'zoneName' => 'Zone',
@@ -547,7 +595,7 @@ return [
             'actions' => 'Actions',
             'availableBookIsbn' => 'Available / Total',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'isbn' => 'Book identifier...',
             'title' => 'title...',
             'author' => 'author...',
@@ -555,7 +603,7 @@ return [
             'pages' => 'number...',
             'available' => 'select availability...',
             'genres' => 'Genres...',
-            'floors' =>'select floor...',
+            'floors' => 'select floor...',
             'zones' => 'select zone...',
             'bookshelves' => 'select bookshelf...',
         ],
@@ -567,7 +615,7 @@ return [
             'pages' => 'Pages',
             'genres' => 'Genres',
             'available' => 'Availability',
-            'floors' =>'Floors',
+            'floors' => 'Floors',
             'zones' => 'Zones',
             'bookshelves' => 'Bookshelves',
 
@@ -578,14 +626,15 @@ return [
             'title' => 'Title',
             'pages' => 'Pages',
             'author' => 'Author',
-            'editorial'=>'Editorial',
-            'floor' => 'Floor',
+            'editorial' => 'Editorial',
+            'floor' => 'Fsloor',
             'zone' => 'Zone',
-            'bookshelf'=>'Bookshelf',
+            'bookshelf' => 'Bookshelf',
             'genres' => 'Genres',
+            'image' => 'Image',
         ],
 
-        'createBook' =>[
+        'createBook' => [
             'title' => 'Create Book',
             'subtitle' => 'Enter the information to create a new book in the system',
             'floor' => 'Floor',
@@ -597,7 +646,7 @@ return [
                 'title' => 'Enter a book title',
                 'pages' => 'Enter the number of pages in the book',
                 'author' => 'Enter the author of the book ',
-                'editorial'=>'Enter the book editorial',
+                'editorial' => 'Enter the book editorial',
                 'selectFloor' => 'Select an existing floor',
                 'selectZone' => 'Select an existing zone',
                 'selectBookshelf' => 'Select an existing bookshelf',
@@ -625,7 +674,7 @@ return [
         'create' => 'Create Loan',
         'edit' => 'Edit Loan',
         'active' => 'Active',
-        'return'=> 'Returned',
+        'return' => 'Returned',
         'confirmReturn' => 'Are you sure to return the book?',
         'returnEarly' => 'No Delay',
         'delete_dialog' => [
@@ -649,12 +698,12 @@ return [
             'actions' => 'Actions',
             'start_date' => 'Loan Start Date',
             'end_date' => 'Due Date',
-            'loan_duration'=>'Loan Period',
+            'loan_duration' => 'Loan Period',
             'status' => 'Status',
             'delayed_days' => 'Delay Days',
             'returned_at' => 'Returned At',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'loan_duration' => 'Days...',
             'email' => 'mail@example.com',
             'isbn' => 'ISBN...',
@@ -679,7 +728,7 @@ return [
             'loanDuration' => 'Loan Duration',
 
         ],
-        'createLoan' =>[
+        'createLoan' => [
             'title' => 'Create Loan',
             'subtitle' => 'Enter the information to create a new loan in the system',
             'placeholders' => [
@@ -726,10 +775,10 @@ return [
             'created_at' => 'Reservation Date',
             'deleted_at' => 'Deleted at'
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'email' => 'mail@example.com',
             'isbn' => 'Book ISBN...',
-            'title' =>'Book title...',
+            'title' => 'Book title...',
             'created_at' => 'date...',
         ],
 
@@ -737,7 +786,7 @@ return [
             'loan_duration' => 'Loan Period',
             'email' => 'User Email',
             'isbn' => 'ISBN',
-            'title'=> 'Title',
+            'title' => 'Title',
             'created_at' => 'Reservation Date',
 
 
@@ -748,7 +797,7 @@ return [
             'loanDuration' => 'Loan Duration',
 
         ],
-        'createReservation' =>[
+        'createReservation' => [
             'title' => 'Create Reservation',
             'subtitle' => 'Enter the information to create a new reservation in the system',
 
@@ -826,8 +875,8 @@ return [
 
 
     ],
-    'us' =>[
-        'timeline' =>[
+    'us' => [
+        'timeline' => [
             'title' => 'Timeline',
             'user' => 'User',
         ]
@@ -854,4 +903,4 @@ return [
 
 
 
-    ];
+];

@@ -10,13 +10,19 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Domain\Genres\Models\Genre;
 use Domain\Loans\Models\Loan;
 use Domain\Reservations\Models\Reservation;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Book extends Model
+class Book extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use HasFactory,HasUuids;
     use SoftDeletes;
+
 
 
 
@@ -60,6 +66,14 @@ class Book extends Model
         });
     }
 
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
+    }
+
 
     public function bookshelf()
     {
@@ -85,6 +99,7 @@ class Book extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
 
 
 }

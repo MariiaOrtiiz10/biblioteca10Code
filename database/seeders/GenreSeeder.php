@@ -22,7 +22,7 @@ class GenreSeeder extends Seeder
             'Crime',
             'Autobiography',
             'Self-help',
-            'Travel',
+            'Romance',
             'Cooking',
             'Childrens literature',
             'Youth literature',

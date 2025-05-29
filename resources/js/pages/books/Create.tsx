@@ -16,8 +16,6 @@ interface CreateBookProps extends PageProps {
 
 export default function createBook({genres, zonesData, floorsData, bookshelvesData, booksData}:CreateBookProps) {
   const { t } = useTranslations();
-
-
   return (
     <BookLayout title={t("ui.books.create")}>
       <div className="flex justify-center items-start py-1 px-6">

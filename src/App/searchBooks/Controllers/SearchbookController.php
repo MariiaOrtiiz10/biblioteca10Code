@@ -77,7 +77,7 @@ class SearchbookController extends Controller
         }
 
         $action($book, $validator->validated());
-        $redirectUrl = route('books.index');
+        $redirectUrl = route('searchBooks.index');
 
         if ($request->has('page')) {
             $redirectUrl .= "?page=" . $request->query('page');

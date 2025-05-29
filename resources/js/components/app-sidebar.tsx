@@ -64,16 +64,16 @@ const mainNavItems = (t: (key: string) => string): NavItem[] => [
 ];
 
 const footerNavItems = (t: (key: string) => string): NavItem[] => [
-    {
-        title: t('ui.navigation.items.repository'),
-        url: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: t('ui.navigation.items.documentation'),
-        url: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
-    },
+    // {
+    //     title: t('ui.navigation.items.repository'),
+    //     url: 'https://github.com/laravel/react-starter-kit',
+    //     icon: Folder,
+    // },
+    // {
+    //     title: t('ui.navigation.items.documentation'),
+    //     url: 'https://laravel.com/docs/starter-kits',
+    //     icon: BookOpen,
+    // },
 ];
 
 export function AppSidebar() {

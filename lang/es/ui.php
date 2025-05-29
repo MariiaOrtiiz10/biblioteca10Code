@@ -15,16 +15,17 @@ return [
             'loans' => 'Préstamos',
             'reservations' => 'Reservas',
             'charts' => 'Estadísticas',
+            'graphics' => 'Estadísticas',
             'description' => [
                 'users' => 'Gestiona a los usuarios del sistema',
-                'floors' =>'Gestiona los pisos del sistema',
-                'zones' =>'Gestiona las zonas del sistema',
-                'bookshelves' =>'Gestiona las estanterias del sistema',
-                'books' =>'Gestiona los libros del sistema',
-                'searchBooks' =>'Localiza los libros del sistema',
-                'loans' =>'Gestiona los préstamos del sistema',
-                'reservations' =>'Gestiona las reservas del sistema',
-                'charts' =>'Visualiza las estadísticas del sistema',
+                'floors' => 'Gestiona los pisos del sistema',
+                'zones' => 'Gestiona las zonas del sistema',
+                'bookshelves' => 'Gestiona las estanterias del sistema',
+                'books' => 'Gestiona los libros del sistema',
+                'searchBooks' => 'Localiza los libros del sistema',
+                'loans' => 'Gestiona los préstamos del sistema',
+                'reservations' => 'Gestiona las reservas del sistema',
+                'charts' => 'Visualiza las estadísticas del sistema',
             ],
         ],
     ],
@@ -34,15 +35,42 @@ return [
         'users.create' => 'Crear usuarios',
         'users.edit' => 'Editar usuarios',
         'users.delete' => 'Eliminar usuarios',
+        'floors.view' => 'Ver pisos',
+        'floors.create' => 'Crear pisos',
+        'floors.edit' => 'Editar pisos',
+        'floors.delete' => 'Eliminar pisos',
 
-        'products.view' => 'Ver productos',
-        'products.create' => 'Crear productos',
-        'products.edit' => 'Editar productos',
-        'products.delete' => 'Eliminar productos',
+        'zones.view' => 'Ver zonas',
+        'zones.create' => 'Crear zonas',
+        'zones.edit' => 'Editar zonas',
+        'zones.delete' => 'Eliminar zonas',
 
-        'reports.view' => 'Ver reportes',
-        'reports.export' => 'Exportar reportes',
-        'reports.print' => 'Imprimir reportes',
+        'bookshelves.view' => 'Ver estanterías',
+        'bookshelves.create' => 'Crear estanterías',
+        'bookshelves.edit' => 'Editar estanterías',
+        'bookshelves.delete' => 'Eliminar estanterías',
+
+        'books.view' => 'Ver libros',
+        'books.searchBooks' => 'Ver buscador de libros',
+        'books.create' => 'Crear libros',
+        'books.edit' => 'Editar libros',
+        'books.delete' => 'Eliminar libros',
+
+        'loans.view' => 'Ver préstamos',
+        'loans.create' => 'Crear préstamos',
+        'loans.edit' => 'Editar préstamos',
+        'loans.delete' => 'Eliminar préstamos',
+        'loans.return' => 'Devolver préstamos',
+
+        'reservations.view' => 'Ver reservas',
+        'reservations.create' => 'Crear reservas',
+        'reservations.record' => 'Ver historial de préstamos',
+
+        'statistics.books' => 'Ver estadísticas de libros',
+        'statistics.users' => 'Ver estadísticas de usuarios',
+        'statistics.zones' => 'Ver estadísticas de zonas',
+
+        'view.users' => 'Ver interfaz de usuarios',
 
         'settings.access' => 'Acceder a configuración',
         'settings.modify' => 'Modificar configuración',
@@ -117,11 +145,11 @@ return [
         'max' => [
             'string' => 'El campo :attribute no debe tener más de :max caracteres',
         ],
-        'numeric'=> 'El campo :attribute solo debe contener números.',
-        "length"=> [
+        'numeric' => 'El campo :attribute solo debe contener números.',
+        "length" => [
             'isbn' => 'El campo :attribute debe tener exactamente 10 o 13 caracteres',
         ],
-        'capacity' =>[
+        'capacity' => [
             'floor' => 'El campo :attribute no puede ser menor que las zonas ocupadas, que es :occupiedZones',
             'zone' => 'El campo :attribute no puede ser menor que las estanterías ocupadas, que es :occupiedBookshelves',
             'bookshelf' => 'El campo :attribute no puede ser menor que los libros ocupados, que es :occupiedBooks',
@@ -137,7 +165,7 @@ return [
             'delete' => 'Eliminar',
             'close' => 'Cerrar',
         ],
-        'filters'=> [
+        'filters' => [
             'title' => 'Filtros',
             'clear' => 'Limpiar',
         ],
@@ -153,14 +181,14 @@ return [
         ],
         'per_page' => 'Por página',
         'no_results' => 'Sin resultados',
-        'results'=>'Total de resultados encontrados: ',
+        'results' => 'Total de resultados encontrados: ',
     ],
 
     'createUser' => [
         'pwd' => 'incluyendo caracteres y números',
         'Header' => [
-            'newUser'=> 'Crear Nuevo Usuario',
-            'h2'=> 'Introduce la información para crear un nuevo usuario en el sistema',
+            'newUser' => 'Crear Nuevo Usuario',
+            'h2' => 'Introduce la información para crear un nuevo usuario en el sistema',
         ],
         'Tab' => [
             'basicInformation' => [
@@ -170,29 +198,47 @@ return [
                 'title' => 'Roles y Permisos',
             ],
         ],
-        'Rol' =>[
+        'Rol' => [
             'create' => 'Rol principal',
             'select' => [
                 'default' => 'Selecciona un rol',
                 'op1' => 'Administrador',
-                'op2' =>'Empleado',
+                'op2' => 'Empleado',
                 'op3' => 'Editor',
                 'op4' => 'Lector',
                 'msg' => 'El rol determina el nivel de acceso general del usuario',
             ],
-            'permission'=>[
+            'permission' => [
                 'title' => 'Permisos específicos',
-                'users' =>[
+                'users' => [
                     'title' => 'Usuarios',
                 ],
-                'products' => [
-                    'title' => 'Productos',
+                'floors' => [
+                    'title' => 'Pisos',
                 ],
-                'reports'=>[
-                    'title' => 'Informes',
+                'zones' => [
+                    'title' => 'Zonas',
+                ],
+                'bookshelves' => [
+                    'title' => 'Estanterías',
+                ],
+                'books' => [
+                    'title' => 'Libros',
+                ],
+                'loans' => [
+                    'title' => 'Prestámos',
+                ],
+                'reservations' => [
+                    'title' => 'Reservas',
+                ],
+                'statistics' => [
+                    'title' => 'Estadísticas',
+                ],
+                'view' => [
+                    'title' => 'Interfaz de usuario',
                 ],
                 'settings' => [
-                    'title'=> 'Configuración',
+                    'title' => 'Ajustes',
                 ],
             ],
         ],
@@ -200,8 +246,8 @@ return [
 
     'editUser' => [
         'Header' => [
-            'editUser'=> 'Editar usuario',
-            'h2'=> 'Introduce la información para crear un nuevo usuario en el sistema',
+            'editUser' => 'Editar usuario',
+            'h2' => 'Introduce la información para crear un nuevo usuario en el sistema',
         ],
     ],
     'users' => [
@@ -263,10 +309,10 @@ return [
             'next' => 'Siguiente',
         ],
     ],
-    'genres' =>[
+    'genres' => [
         'genre' => 'Género'
     ],
-    'floors' =>[
+    'floors' => [
         'title' => 'Pisos',
         'title2' => 'Piso',
         'create' => 'Crear Piso',
@@ -279,7 +325,7 @@ return [
             'floorName' => 'Nombre del Piso',
             'zonesCapacity' => 'Capacidad de Zonas',
         ],
-        'index'=>[
+        'index' => [
             'floor' => 'Piso',
             'capacity' => 'Capacidad',
         ],
@@ -369,21 +415,21 @@ return [
             'bookshelvesCapacity' => 'Capacidad de Estanterías',
             'genre' => 'Género',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'zoneName' => 'Nombre...',
             'floorNumber' => 'Número...',
             'genre' => 'seleccionar...',
-            'bookshelvesCapacity'=> 'Máx. estanterías...',
+            'bookshelvesCapacity' => 'Máx. estanterías...',
             'createdAt' => 'Fecha...',
         ],
         'filters' => [
             'zoneName' => 'Zona',
             'floorNumber' => 'Piso',
             'genre' => 'Género',
-            'bookshelvesCapacity'=> 'Capacidad de Estanterías',
+            'bookshelvesCapacity' => 'Capacidad de Estanterías',
             'createdAt' => 'Creado el',
         ],
-        'createZone' =>[
+        'createZone' => [
             'title' => 'Crear Zona',
             'subtitle' => 'Introduce la información para crear una nueva zona en el sistema',
             'floor' => 'Piso',
@@ -401,7 +447,7 @@ return [
             'title' => '¿Estás seguro?',
             'description' => 'Esta acción no se puede deshacer. La zona será eliminada permanentemente del sistema.',
         ],
-        'editZone' =>[
+        'editZone' => [
             'title' => 'Editar Zona',
             'subtitle' => 'Introduce la información para editar una zona en el sistema',
         ],
@@ -442,18 +488,18 @@ return [
             'avaibleBooks' => 'Ocupados / Capacidad de Libros',
         ],
 
-        'placeholders' =>[
+        'placeholders' => [
             'bookshelfNumber' => 'Número...',
             'floorNumber' => 'Número...',
             'zoneName' => 'Nombre...',
-            'booksCapacity'=> 'Máx. libros...',
+            'booksCapacity' => 'Máx. libros...',
             'createdAt' => 'Fecha...',
         ],
         'filters' => [
             'bookshelfNumber' => 'Estantería',
             'zoneName' => 'Zona',
             'floorNumber' => 'Piso',
-            'booksCapacity'=> 'Capacidad de Libros',
+            'booksCapacity' => 'Capacidad de Libros',
             'createdAt' => 'Creado el',
         ],
         'fields' => [
@@ -463,7 +509,7 @@ return [
             'bookshelvesCapacity' => 'Capacidad de Libros',
             'genre' => 'Género',
         ],
-        'createBookshelf' =>[
+        'createBookshelf' => [
             'title' => 'Crear Estantería',
             'subtitle' => 'Introduce la información para crear una nueva estantería en el sistema',
             'floor' => 'Piso',
@@ -498,6 +544,8 @@ return [
         'currentFloor' => 'Piso actual',
         'currentZone' => 'Zona actual',
         'currentBookshelf' => 'Estantería actual',
+        'changeImage' => 'Cambiar Imagen',
+        'selectImage' => 'Seleccionar Imagen',
         'delete_dialog' => [
             'success' => 'Libro eliminado correctamente',
         ],
@@ -517,7 +565,7 @@ return [
             'title' => 'Título',
             'author' => 'Autor',
             'editorial' => 'Editorial',
-            'genres'=> 'Géneros',
+            'genres' => 'Géneros',
             'pages' => 'Páginas',
             'floorNumber' => 'Piso',
             'zoneName' => 'Zona',
@@ -527,7 +575,7 @@ return [
             'actions' => 'Acciones',
             'availableBookIsbn' => 'Disponible / Total',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'isbn' => 'Identificador del libro...',
             'title' => 'título...',
             'author' => 'autor...',
@@ -535,7 +583,7 @@ return [
             'pages' => 'número...',
             'available' => 'seleccionar disponibilidad...',
             'genres' => 'Géneros...',
-            'floors' =>'seleccionar piso...',
+            'floors' => 'seleccionar piso...',
             'zones' => 'seleccionar zona...',
             'bookshelves' => 'seleccionar estantería...',
         ],
@@ -547,7 +595,7 @@ return [
             'pages' => 'Páginas',
             'genres' => 'Géneros',
             'available' => 'Disponibilidad',
-            'floors' =>'Pisos',
+            'floors' => 'Pisos',
             'zones' => 'Zonas',
             'bookshelves' => 'Estanterías',
         ],
@@ -556,13 +604,14 @@ return [
             'title' => 'Título',
             'pages' => 'Páginas',
             'author' => 'Autor',
-            'editorial'=>'Editorial',
+            'editorial' => 'Editorial',
             'floor' => 'Piso',
             'zone' => 'Zona',
-            'bookshelf'=>'Estantería',
+            'bookshelf' => 'Estantería',
             'genres' => 'Géneros',
+            'image' => 'Imagen',
         ],
-        'createBook' =>[
+        'createBook' => [
             'title' => 'Crear Libro',
             'subtitle' => 'Introduce la información para crear un nuevo libro en el sistema',
             'floor' => 'Piso',
@@ -574,7 +623,7 @@ return [
                 'title' => 'Introduce un título de libro',
                 'pages' => 'Introduce el número de páginas del libro',
                 'author' => 'Introduce el autor del libro',
-                'editorial'=>'Introduce la editorial del libro',
+                'editorial' => 'Introduce la editorial del libro',
                 'selectFloor' => 'Selecciona un piso existente',
                 'selectZone' => 'Selecciona una zona existente',
                 'selectBookshelf' => 'Selecciona una estantería existente',
@@ -598,7 +647,7 @@ return [
         'create' => 'Crear Préstamo',
         'edit' => 'Editar Préstamo',
         'active' => 'Activo',
-        'return'=> 'Devuelto',
+        'return' => 'Devuelto',
         'confirmReturn' => '¿Estás seguro de devolver el libro?',
         'returnEarly' => 'Sin Retraso',
         'delete_dialog' => [
@@ -620,12 +669,12 @@ return [
             'actions' => 'Acciones',
             'start_date' => 'Fecha de Inicio del Préstamo',
             'end_date' => 'Fecha de Vencimiento',
-            'loan_duration'=>'Período de Préstamo',
+            'loan_duration' => 'Período de Préstamo',
             'status' => 'Estado',
             'delayed_days' => 'Días de Retraso',
             'returned_at' => 'Devuelto el',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'loan_duration' => 'Días...',
             'email' => 'correo@ejemplo.com',
             'isbn' => 'ISBN...',
@@ -648,7 +697,7 @@ return [
             'isbn' => 'ISBN',
             'loanDuration' => 'Duración del Préstamo',
         ],
-        'createLoan' =>[
+        'createLoan' => [
             'title' => 'Crear Préstamo',
             'subtitle' => 'Introduce la información para crear un nuevo préstamo en el sistema',
             'placeholders' => [
@@ -692,17 +741,17 @@ return [
             'created_at' => 'Fecha de Reserva',
             'deleted_at' => 'Eliminada el',
         ],
-        'placeholders' =>[
+        'placeholders' => [
             'email' => 'correo@ejemplo.com',
             'isbn' => 'ISBN del Libro...',
-            'title'=> 'Titulo del Libro...',
-            'created_at'=> 'Fecha ...',
+            'title' => 'Titulo del Libro...',
+            'created_at' => 'Fecha ...',
         ],
         'filters' => [
             'loan_duration' => 'Período de Préstamo',
             'email' => 'Correo',
             'isbn' => 'ISBN',
-            'title'=> 'Titulo',
+            'title' => 'Titulo',
             'created_at' => 'Fechas de reserva',
         ],
         'fields' => [
@@ -710,7 +759,7 @@ return [
             'isbn' => 'ISBN',
             'loanDuration' => 'Duración del Préstamo',
         ],
-        'createReservation' =>[
+        'createReservation' => [
             'title' => 'Crear Reserva',
             'subtitle' => 'Introduce la información para crear una nueva reserva en el sistema',
             'placeholders' => [
@@ -776,7 +825,7 @@ return [
             'topLoans' => 'Top 8 usuarios con más préstamos',
             'topReservations' => 'Top 8 usuarios con más reservas'
         ],
-       'zone' => [
+        'zone' => [
             'title' => 'Zonas con más movimientos',
             'loans' => 'Préstamos',
             'reservations' => 'Reservas',
@@ -787,8 +836,8 @@ return [
 
     ],
 
-    'us' =>[
-        'timeline' =>[
+    'us' => [
+        'timeline' => [
             'title' => 'Acciones del usuario',
             'user' => 'Usuario',
         ]
@@ -796,18 +845,18 @@ return [
     ],
 
     'genres' => [
-    'Science Fiction' => 'Ciencia ficción',
-    'Fantasy' => 'Fantasía',
-    'Historical' => 'Histórico',
-    'Mystery' => 'Misterio',
-    'Horror' => 'Terror',
-    'Crime' => 'Policíaco',
-    'Autobiography' => 'Autobiografía',
-    'Self-help' => 'Autoayuda',
-    'Romance' => 'Romance',
-    'Cooking' => 'Cocina',
-    'Childrens literature' => 'Literatura infantil',
-    'Youth literature' => 'Literatura juvenil',
+        'Science Fiction' => 'Ciencia ficción',
+        'Fantasy' => 'Fantasía',
+        'Historical' => 'Histórico',
+        'Mystery' => 'Misterio',
+        'Horror' => 'Terror',
+        'Crime' => 'Policíaco',
+        'Autobiography' => 'Autobiografía',
+        'Self-help' => 'Autoayuda',
+        'Romance' => 'Romance',
+        'Cooking' => 'Cocina',
+        'Childrens literature' => 'Literatura infantil',
+        'Youth literature' => 'Literatura juvenil',
     ],
 
 ];

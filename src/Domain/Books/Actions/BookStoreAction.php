@@ -5,10 +5,11 @@ namespace Domain\Books\Actions;
 use Domain\Books\Data\Resources\BookResource;
 use Domain\Books\Models\Book;
 use Domain\Genres\Models\Genre;
+use Symfony\Component\HttpFoundation\FileBag;
 
 class BookStoreAction
 {
-    public function __invoke(array $data): BookResource
+    public function __invoke(array $data, FileBag $files): BookResource
     {
         $book = Book::create([
             'isbn' => $data['isbn'],
@@ -22,6 +23,10 @@ class BookStoreAction
         $genreNames = explode(', ', $data['genres'] ?? '');
         $genreIds = Genre::whereIn('genre', $genreNames)->pluck('id')->toArray();
         $book->genres()->sync($genreIds);
+
+        foreach($files as $file){
+            $book->addMedia($file)->toMediaCollection('images', 'images');
+        };
 
         return BookResource::fromModel($book);
     }

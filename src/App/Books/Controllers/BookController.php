@@ -60,19 +60,18 @@ class BookController extends Controller
             'author' => ['required'],
             'editorial' => ['required'],
             'pages' =>  ['required', 'integer','min:0'],
-            'genres' =>  [''],
+            'genres' =>  ['required'],
             'bookshelf_id' => ['required'],
-
-
         ]);
+
 
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
-        $action($validator->validated());
+        $action($validator->validated(), $request->files);
 
-        return redirect()->route('books.index')
+        return redirect()->route('searchBooks.index')
             ->with('success', __('messages.books.created'));
 
     }
@@ -95,6 +94,7 @@ class BookController extends Controller
          $zonesData = Zone::with(['genre'])->get()->toArray();
         $floorsData = Floor::get()->toArray();
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
+        $image_path = $book->getFirstMediaUrl('images');
         return Inertia::render('books/Edit', [
             'book' => $book,
             'page' => $request->query('page'),
@@ -104,6 +104,7 @@ class BookController extends Controller
             'floorsData' => $floorsData,
             'bookshelvesData' => $bookshelvesData,
             'genresData' => $genresData,
+            'image_path' => $image_path,
         ]);
     }
 
@@ -126,8 +127,9 @@ class BookController extends Controller
             return back()->withErrors($validator);
         }
 
-        $action($book, $validator->validated());
-        $redirectUrl = route('books.index');
+        $action($book, $validator->validated(), $request->files);
+
+        $redirectUrl = route('searchBooks.index');
 
         if ($request->has('page')) {
             $redirectUrl .= "?page=" . $request->query('page');
@@ -151,11 +153,11 @@ class BookController extends Controller
             $success = $action($book);
 
         if (!$success) {
-            return redirect()->route('books.index')
+            return redirect()->route('searchBooks.index')
                 ->with('error', __('messages.books.noDeleted'));
         }
 
-        return redirect()->route('books.index')
+        return redirect()->route('searchBooks.index')
             ->with('success', __('messages.books.deleted'));
     }
 }

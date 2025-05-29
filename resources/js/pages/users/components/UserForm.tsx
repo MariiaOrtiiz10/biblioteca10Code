@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User, Mail, Lock, X, Eye, Save, Shield, Users,  PackageOpen, FileText, Settings, EyeClosed} from "lucide-react";
+import { User, Mail, Lock, X, Eye, Save, Shield, Users, Settings, EyeClosed, ChartLine, ArrowUpDown, BookUp, Building2, Bookmark, SquareLibrary, Book, BookImage} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import{ Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -313,7 +313,6 @@ export function UserForm({ initialData, page, perPage, permissionNames, roles = 
                         <div className="">
                         <Select
                             value={selectedRole}
-
                             onValueChange={handleRoleChange}
                         >
                             <SelectTrigger className="mt-3 border-2 w-full py-2 px-1 rounded-md dark:bg-[#272726]">
@@ -354,8 +353,14 @@ export function UserForm({ initialData, page, perPage, permissionNames, roles = 
                                 <div key={groupKey} className="border p-4 rounded-lg bg-gray-100 dark:bg-[#272726]">
                                 <div className="flex items-center gap-2 mb-1.5">
                                     {groupKey === 'users' && <Icon iconNode={Users} className="w-4 h-4 text-blue-500" />}
-                                    {groupKey === 'products' && <Icon iconNode={PackageOpen} className="w-4 h-4 text-blue-500" />}
-                                    {groupKey === 'reports' && <Icon iconNode={FileText} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'floors' && <Icon iconNode={Building2} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'zones' && <Icon iconNode={Bookmark} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'reservations' && <Icon iconNode={Bookmark} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'books' && <Icon iconNode={Book} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'loans' && <Icon iconNode={ArrowUpDown} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'bookshelves' && <Icon iconNode={Bookmark} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'statistics' && <Icon iconNode={ChartLine} className="w-4 h-4 text-blue-500" />}
+                                    {groupKey === 'view' && <Icon iconNode={BookImage} className="w-4 h-4 text-blue-500" />}
                                     {groupKey === 'settings' && <Icon iconNode={Settings} className="w-4 h-4 text-blue-500" />}
                                     <Label className="text-sm font-black">
                                     {t(`ui.createUser.Rol.permission.${groupKey}.title`)}
