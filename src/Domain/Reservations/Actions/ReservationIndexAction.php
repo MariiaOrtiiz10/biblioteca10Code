@@ -10,10 +10,10 @@ class ReservationIndexAction
     public function __invoke(?array $search = null, int $perPage = 10)
     {
 
-        $isbn = $search[0];
-        $email = $search[1];
-        $title = $search[2];
-        $created_at = $search[3];
+        $isbn = $search[0] ?? "null";
+        $email = $search[1] ?? "null";
+        $title = $search[2] ?? "null";
+        $created_at = $search[3] ?? "null";
 
         $reservations = Reservation::query()
         ->join('users', 'reservations.user_id', '=', 'users.id')

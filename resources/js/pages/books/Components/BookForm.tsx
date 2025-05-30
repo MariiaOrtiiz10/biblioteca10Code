@@ -136,6 +136,7 @@ export function BookForm({
             let genreIds = genres.filter((g) => genreNames.includes(g.genre)).map((g) => g.id);
             setSelectedGenres(genreIds);
 
+
             setSameISBN(true);
 
         }

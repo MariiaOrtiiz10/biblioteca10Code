@@ -73,6 +73,7 @@ export default function FloorIndex() {
           console.error("Error deleting Floor:", error);
         }
       };
+
       const columns = useMemo(() => ([
         //ID
           createTextColumn<Floor>({

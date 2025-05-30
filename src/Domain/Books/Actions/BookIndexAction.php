@@ -9,16 +9,16 @@ class BookIndexAction
 {
     public function __invoke(?array $search = null, int $perPage = 10)
     {
-        $isbn = $search[0];
-        $title= $search[1];
-        $author= $search[2];
-        $editorial= $search[3];
-        $pages= $search[4];
-        $genres= $search[5];
-        $available = $search[6];
-        $floorNumber = $search[7];
-        $zoneName = $search[8];
-        $bookshelfNumber = $search[9];
+        $isbn = $search[0] ?? "null";
+        $title= $search[1] ?? "null";
+        $author= $search[2] ?? "null";
+        $editorial= $search[3] ?? "null";
+        $pages= $search[4] ?? "null";
+        $genres= $search[5] ?? "null";
+        $available = $search[6] ?? "null";
+        $floorNumber = $search[7] ?? "null";
+        $zoneName = $search[8] ?? "null";
+        $bookshelfNumber = $search[9] ?? "null";
 
         $books = Book::query()
         ->with(['loans'])

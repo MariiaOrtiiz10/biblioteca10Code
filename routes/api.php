@@ -22,7 +22,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/floors', [FloorApiController::class, 'index']);
         Route::post('/floors', [FloorApiController::class, 'store']);
         Route::delete('/floors/{floor}', [FloorApiController::class, 'destroy']);
-        Route::put('/floors/{floor}', [UserApiController::class, 'update']);
+        Route::put('/floors/{floor}', [FloorApiController::class, 'update']);
  });
 
  Route::middleware(['web', 'auth'])->group(function () {
