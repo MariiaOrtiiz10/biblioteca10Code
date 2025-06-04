@@ -18,6 +18,7 @@ interface EditBookProps extends PageProps {
     editorial: string;
     pages: number;
     genres: string;
+    image?: string;
   };
     genresData?: string[];
     genres: any[];
@@ -31,7 +32,7 @@ interface EditBookProps extends PageProps {
 }
 
 
-export default function EditBookshelf({ book, page, perPage,genresData, genres, zonesData, floorsData, bookshelvesData, image_path}: EditBookProps) {
+export default function EditBook({ book, page, perPage,genresData, genres, zonesData, floorsData, bookshelvesData, image_path}: EditBookProps) {
   const { t } = useTranslations();
 
   return (

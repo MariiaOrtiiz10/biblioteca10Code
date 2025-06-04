@@ -25,7 +25,6 @@ class BookResource extends Data
         public readonly string $genres,
         public readonly bool $available,
         public readonly string $availableBookIsbn,
-        public readonly string $image_path,
         public readonly string $created_at,
         public readonly string $updated_at,
     ) {
@@ -59,7 +58,6 @@ class BookResource extends Data
             genres: $book->genres,
             available: !$book->loans()->where('status', true)->exists(),
             availableBookIsbn: "$availableBook / $totalBookIsbn",
-            image_path: $book->getFirstMediaUrl('images'),
             created_at: $book->created_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
             updated_at: $book->updated_at->setTimezone('Europe/Madrid')->format('Y-m-d H:i:s'),
         );

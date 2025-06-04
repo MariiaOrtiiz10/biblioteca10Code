@@ -39,7 +39,20 @@ class BookController extends Controller
         $zonesData = Zone::with(['genre'])->get()->toArray();
         $floorsData = Floor::get()->toArray();
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
-        $booksData = Book::get()->toArray();
+        $booksData = Book::get()->map(function ($book) {
+                return [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'author' => $book->author,
+                    'isbn' => $book->isbn,
+                    'genres' => $book->genres,
+                    'pages' => $book->pages,
+                    'editorial' => $book->editorial,
+                    'bookshelf_id' => $book->bookshelf_id,
+                    'image_path' => $book->getFirstMediaUrl('images'),
+                ];
+            })->toArray();
+
         return Inertia::render('books/Create', [
             'genres' => $genres,
             'zonesData' => $zonesData,
@@ -91,7 +104,7 @@ class BookController extends Controller
     {
         $genres = Genre::select(['id','genre'])->get()->toArray();
         $genresData = $book->genres()->pluck('id')->toArray();
-         $zonesData = Zone::with(['genre'])->get()->toArray();
+        $zonesData = Zone::with(['genre'])->get()->toArray();
         $floorsData = Floor::get()->toArray();
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
         $image_path = $book->getFirstMediaUrl('images');

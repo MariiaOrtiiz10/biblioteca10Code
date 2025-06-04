@@ -20,6 +20,7 @@ export interface Book{
     available:boolean;
     totalBookIsbn: number;
     availableBookIsbn: number;
+    image: string;
     image_path: string;
     created_at: string;
   }

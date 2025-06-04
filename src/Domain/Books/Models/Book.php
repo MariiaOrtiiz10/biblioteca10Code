@@ -99,6 +99,10 @@ class Book extends Model implements HasMedia
     {
         return $this->hasMany(Reservation::class);
     }
+    public function getImageAttribute()
+{
+    return $this->getFirstMediaUrl('images');
+}
 
 
 

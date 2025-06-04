@@ -18,7 +18,6 @@ import { useTranslations } from '@/hooks/use-translations';
 //logica form
 import { useForm } from '@tanstack/react-form';
 //tipo de datos para definir un campo en el form
-import { Book } from '@/hooks/books/useBooks';
 import type { AnyFieldApi } from '@tanstack/react-form';
 import { useState } from 'react';
 
@@ -33,7 +32,6 @@ interface BookFormProps {
         editorial: string;
         pages: number;
         genres: string;
-        media?: any[];
     };
     genresData?: string[];
     genres: any[];
@@ -87,11 +85,10 @@ export function BookForm({
 
     const [selectedFloor, setSelectedFloor] = useState<string | undefined>(floorNow ?? undefined);
     const [selectedZone, setSelectedZone] = useState<string | undefined>(zoneNow ?? undefined);
+
+    const [imagePath, setImagePath] = useState<string | undefined>(undefined);
     const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
-
-
     const [sameISBN, setSameISBN] = useState(false);
-    const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
 
     //Añadir al array el label
     const transformedGenres = genres.map((genre) => ({
@@ -115,32 +112,14 @@ export function BookForm({
         });
     };
     const initialGenres = genresData?.length
-    ? genresData
-    : (initialData?.genres
-        ?.split(', ')
-        .map(name => {
-            const genre = genres.find(g => g.genre === name.trim());
-            return genre?.id;
-        })
-        .filter(Boolean) ?? []);
-
-    function handleISBN(books: Book[], isbn: string) {
-        let book = books.filter((book) => book.isbn === isbn);
-        if (book.length > 0) {
-            console.log('book', book);
-            form.setFieldValue('title', book[0].title);
-            form.setFieldValue('author', book[0].author);
-            form.setFieldValue('editorial', book[0].editorial);
-            form.setFieldValue('pages', book[0].pages);
-            let genreNames = book[0].genres.split(', ');
-            let genreIds = genres.filter((g) => genreNames.includes(g.genre)).map((g) => g.id);
-            setSelectedGenres(genreIds);
-
-
-            setSameISBN(true);
-
-        }
-    }
+        ? genresData
+        : (initialData?.genres
+              ?.split(', ')
+              .map((name) => {
+                  const genre = genres.find((g) => g.genre === name.trim());
+                  return genre?.id;
+              })
+              .filter(Boolean) ?? []);
 
     const form = useForm({
         defaultValues: {
@@ -159,14 +138,12 @@ export function BookForm({
             formData.append('isbn', value.isbn);
             formData.append('author', value.author);
             formData.append('editorial', value.editorial);
-             formData.append('pages', String(value.pages));
+            formData.append('pages', String(value.pages));
             formData.append('bookshelf_id', value.bookshelf_id);
             if (selectedImage) {
                 formData.append('files', selectedImage);
             }
-            const selectedGenreNames = genres
-            .filter(g => selectedGenres.includes(g.id))
-            .map(g => g.genre);
+            const selectedGenreNames = genres.filter((g) => selectedGenres.includes(g.id)).map((g) => g.genre);
 
             formData.append('genres', selectedGenreNames.join(', '));
             formData.append('_method', 'PUT');
@@ -206,6 +183,35 @@ export function BookForm({
             check = false;
         }
         return check;
+    }
+
+    function handleISBN(books: BookFormProps['booksData'], isbn: string) {
+        const matchedBook = books?.find((book) => book.isbn === isbn);
+        if (matchedBook) {
+            console.log(matchedBook);
+            form.setFieldValue('title', matchedBook.title);
+            form.setFieldValue('author', matchedBook.author);
+            form.setFieldValue('editorial', matchedBook.editorial);
+            form.setFieldValue('pages', matchedBook.pages);
+            let genreNames = matchedBook.genres.split(', ');
+            let genreIds = genres.filter((g) => genreNames.includes(g.genre)).map((g) => g.id);
+            setSelectedGenres(genreIds);
+            const imageNew = matchedBook.image_path;
+            setImagePath(imageNew);
+            form.setFieldValue('image', matchedBook.image_path);
+        }
+
+        // if (book.length > 0) {
+        //     console.log('book', book[0]);
+        //     form.setFieldValue('title', book[0].title);
+        //     form.setFieldValue('author', book[0].author);
+        //     form.setFieldValue('editorial', book[0].editorial);
+        //     form.setFieldValue('pages', book[0].pages);
+        //     let genreNames = book[0].genres.split(', ');
+        //     let genreIds = genres.filter((g) => genreNames.includes(g.genre)).map((g) => g.id);
+        //     setSelectedGenres(genreIds);
+        //     setSameISBN(true);
+        // }
     }
 
     function checkZone() {
@@ -339,7 +345,7 @@ export function BookForm({
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         onBlur={field.handleBlur}
                                                         placeholder={t('ui.books.createBook.placeholders.title')}
-                                                        disabled={form.state.isSubmitting || sameISBN}
+                                                        disabled={form.state.isSubmitting}
                                                         required={false}
                                                         autoComplete="off"
                                                     />
@@ -382,7 +388,7 @@ export function BookForm({
                                                         onChange={(e) => field.handleChange(parseInt(e.target.value))}
                                                         onBlur={field.handleBlur}
                                                         placeholder={t('ui.books.createBook.placeholders.pages')}
-                                                        disabled={form.state.isSubmitting || sameISBN}
+                                                        disabled={form.state.isSubmitting}
                                                         required={false}
                                                         autoComplete="off"
                                                     />
@@ -423,7 +429,7 @@ export function BookForm({
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         onBlur={field.handleBlur}
                                                         placeholder={t('ui.books.createBook.placeholders.author')}
-                                                        disabled={form.state.isSubmitting || sameISBN}
+                                                        disabled={form.state.isSubmitting}
                                                         required={false}
                                                         autoComplete="off"
                                                     />
@@ -462,7 +468,7 @@ export function BookForm({
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         onBlur={field.handleBlur}
                                                         placeholder={t('ui.books.createBook.placeholders.editorial')}
-                                                        disabled={form.state.isSubmitting || sameISBN}
+                                                        disabled={form.state.isSubmitting}
                                                         required={false}
                                                         autoComplete="off"
                                                     />
@@ -536,29 +542,32 @@ export function BookForm({
                                         }}
                                     >
                                         {(field) => (
-                                            <div className="">
-                                                <div className="mb-3 flex items-center gap-2">
-                                                <Icon iconNode={Image} className="h-5 w-5" />
-                                                <Label htmlFor={field.name}>{t('ui.books.fields.image')}</Label>
+                                            <div className="space-y-3">
+                                                <div className="flex items-center gap-2">
+                                                    <Image className="h-5 w-5 text-gray-600" />
+                                                    <Label htmlFor={field.name} className="text-sm font-medium text-gray-700">
+                                                        {t('ui.books.fields.image')}
+                                                    </Label>
                                                 </div>
+
                                                 <div className="flex items-center gap-3">
                                                     <label
                                                         htmlFor={field.name}
-                                                        className="relative cursor-pointer rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors hover:bg-gray-50"
+                                                        className="relative cursor-pointer rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
                                                     >
-                                                        <span className="font-medium text-gray-700">
-                                                            {selectedImage
-                                                                ? selectedImage.name
-                                                                : image_path
-                                                                  ? t("ui.books.changeImage")
-                                                                  : t("ui.books.selectImage")}
-                                                        </span>
+                                                        {selectedImage
+                                                            ? selectedImage.name
+                                                            : image_path || imagePath
+                                                              ? t('ui.books.changeImage')
+                                                              : t('ui.books.selectImage')}
+
                                                         <Input
                                                             id={field.name}
                                                             type="file"
                                                             name={field.name}
                                                             className="sr-only"
-
+                                                            accept="image/*"
+                                                            autoComplete="off"
                                                             onChange={(e) => {
                                                                 const file = e.target.files?.[0];
                                                                 if (file) {
@@ -567,20 +576,22 @@ export function BookForm({
                                                                 }
                                                             }}
                                                             onBlur={field.handleBlur}
-                                                            disabled={form.state.isSubmitting || sameISBN}
-                                                            accept="image/*"
+                                                            disabled={form.state.isSubmitting}
                                                         />
                                                     </label>
                                                 </div>
+
                                                 <div className="mt-2">
                                                     {selectedImage ? (
                                                         <img
                                                             src={URL.createObjectURL(selectedImage)}
-                                                            alt="Nueva imagen"
-                                                            className="h-40 rounded border object-contain"
+                                                            alt="Vista previa"
+                                                            className="ml-1 h-50 rounded border object-contain"
                                                         />
                                                     ) : image_path ? (
-                                                        <img src={image_path} alt="Imagen actual" className="h-40 rounded border object-contain" />
+                                                        <img src={image_path} alt="Imagen actual" className="ml-1 h-50 rounded border object-contain" />
+                                                    ) : imagePath ? (
+                                                        <img src={imagePath} alt="Imagen actual" className="ml-1 h-50 rounded border object-contain" />
                                                     ) : null}
                                                 </div>
 

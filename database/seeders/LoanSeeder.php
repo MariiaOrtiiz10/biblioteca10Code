@@ -15,48 +15,24 @@ class LoanSeeder extends Seeder
      */
     public function run(): void
     {
-        $user1 = User::where('email', 'mortiz@example.com')->first();
-        $user2 = User::where('email', 'mortiz@example.com')->first();
-        $book1 = Book::where('isbn', '9788469808454')->first();
-        $book3 = Book::where('isbn', '9780307947306')->first();
-        $book2 = Book::where('isbn', '9788498672220')->first();
-        $book4 = Book::where('isbn', '9781982137274')->first();
-        Loan::create([
-            'user_id' => $user1->id,
-            'book_id' => $book1->id,
-            'start_date' => '2025-04-14',
-            'loan_duration' => 15,
-            'end_date' => '2025-04-29',
-            'status' => true,
-        ]);
-        Loan::create([
-            'user_id' => $user2->id,
-            'book_id' => $book3->id,
-            'start_date' => '2025-04-16',
-            'loan_duration' => 10,
-            'end_date' => '2025-04-26',
-            'status' => true,
-        ]);
-        Loan::create([
-            'user_id' => $user1->id,
-            'book_id' => $book1->id,
-            'start_date' => '2025-05-10',
-            'loan_duration' => 5,
-            'end_date' => '2025-05-25',
-            'status' => false,
-            'returned_at' => '2025-05-29',
-            'delayed_days' => 4
-        ]);
-        Loan::create([
-            'user_id' => $user2->id,
-            'book_id' => $book4->id,
-            'start_date' => '2025-04-15',
-            'loan_duration' => 10,
-            'end_date' => '2025-04-25',
-            'status' => false,
-            'returned_at' => '2025-04-25',
-            'delayed_days' => 0
-        ]);
+        $user1 = User::where('email', 'mortiz10@gmail.com')->first();
+        $user2 = User::where('email', 'jmerino@gmail.com')->first();
+        $user3 = User::where('email', 'andresdia@gmail.com')->first();
+        $user4 = User::where('email', 'cales2@gmail.com')->first();
+        $user5 = User::where('email', 'mirimar24@gmail.com')->first();
+        $user6 = User::where('email', 'pmerino@gmail.com')->first();
+        $user7 = User::where('email', 'jfernandez@gmail.com')->first();
+        $user8 = User::where('email', 'ddmejias@gmail.com')->first();
+        $user9 = User::where('email', 'reyes.castro18@gmail.com')->first();
+        $user10 = User::where('email', 'lucia.gil9@gmail.com')->first();
+        $user11 = User::where('email', 'isco22@gmail.com')->first();
+        $user12 = User::where('email', 'mcampos@gmail.com')->first();
+
+
+
+
+
+
         //Loan::factory(30)->create();
     }
 }

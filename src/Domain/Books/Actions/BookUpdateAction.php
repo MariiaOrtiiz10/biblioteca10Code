@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\FileBag;
 
 class BookUpdateAction
 {
-    public function __invoke(Book $book, array $data, FileBag $files): BookResource
+    public function __invoke(Book $book, array $data, FileBag $image): BookResource
     {
         $updateData = [
             'isbn' => $data['isbn'],
@@ -26,9 +26,9 @@ class BookUpdateAction
 
         $book->update($updateData);
 
-        foreach ($files as $file) {
+        foreach ($image as $img) {
             $book->getMedia('images')[0]->delete();
-            $book->addMedia($file)->toMediaCollection('images', 'images');
+            $book->addMedia($img)->toMediaCollection('images', 'images');
         }
 
         return BookResource::fromModel($book->fresh());
