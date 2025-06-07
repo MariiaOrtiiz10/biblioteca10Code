@@ -16,11 +16,14 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Domain\Roles\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
     public function index()
     {
+        Gate::authorize('users.view');
         return Inertia::render('users/Index', [
 
         ]);
@@ -28,6 +31,7 @@ class UserController extends Controller
 
         public function show(User $user)
     {
+        Gate::authorize('users.timeline');
         $loans = $user->loans()->with('book')->orderBy('start_date')->get();
         $reservations = $user->reservations()->withTrashed()->with('book')->orderBy('created_at')->get();
         return Inertia::render('users/Timeline', [
@@ -39,6 +43,7 @@ class UserController extends Controller
 
     public function create()
     {
+        Gate::authorize('users.create');
         $roles = Role::with('permissions')->get()->map(function ($role) {
             return [
                 'id' => $role->id,
@@ -76,17 +81,13 @@ class UserController extends Controller
         }
 
         $action($validator->validated());
-
-
         return redirect()->route('users.index')
             ->with('success', __('messages.users.created'));
-
-
-
     }
 
     public function edit(Request $request, User $user)
     {
+        Gate::authorize('users.edit');
         $permissionNames = $user->getPermissionNames();
         $roles = Role::with('permissions')->get()->map(function ($role) {
             return [
@@ -153,6 +154,7 @@ class UserController extends Controller
 
     public function destroy(User $user, UserDestroyAction $action)
     {
+        Gate::authorize('users.delete');
         $action($user);
         return redirect()->route('users.index')
             ->with('success', __('messages.users.deleted'));

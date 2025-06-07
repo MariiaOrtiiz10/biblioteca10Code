@@ -20,6 +20,7 @@ import { ReservationLayout } from "@/layouts/reservations/ReservationLayout";
 export default function ReservationIndex() {
   const { t } = useTranslations();
   const { url } = usePage();
+  const { auth } = usePage().props;
 
     // Obtener los parámetros de la URL actual
     const urlParams = new URLSearchParams(url.split('?')[1] || '');
@@ -107,6 +108,7 @@ export default function ReservationIndex() {
             renderActions: (reservation) => (
               <>
 
+            {auth.permissions.reservations.delete && (
                 <DeleteDialog
                   id={reservation.id}
                   onDelete={handleDeleteReservation}
@@ -118,6 +120,7 @@ export default function ReservationIndex() {
                     </Button>
                   }
                 />
+            )}
               </>
             ),
           }),
@@ -131,12 +134,14 @@ export default function ReservationIndex() {
                   <div className="space-y-6">
                       <div className="flex items-center justify-between">
                           <h1 className="text-3xl font-bold">{t('ui.reservations.title')}</h1>
+                          {auth.permissions.reservations.record && (
                           <Link href="/reservations/history">
                                     <Button>
                                          <History className="h-4 w-4" />
                                         {t('ui.reservations.buttons.history')}
                                     </Button>
                             </Link>
+                          )}
                       </div>
                       <div></div>
 

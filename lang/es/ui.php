@@ -35,6 +35,8 @@ return [
         'users.create' => 'Crear usuarios',
         'users.edit' => 'Editar usuarios',
         'users.delete' => 'Eliminar usuarios',
+        'users.timeline' => 'Ver timeline de usuarios',
+
         'floors.view' => 'Ver pisos',
         'floors.create' => 'Crear pisos',
         'floors.edit' => 'Editar pisos',
@@ -64,11 +66,9 @@ return [
 
         'reservations.view' => 'Ver reservas',
         'reservations.create' => 'Crear reservas',
-        'reservations.record' => 'Ver historial de préstamos',
+        'reservations.record' => 'Ver historial de reservas',
 
-        'statistics.books' => 'Ver estadísticas de libros',
-        'statistics.users' => 'Ver estadísticas de usuarios',
-        'statistics.zones' => 'Ver estadísticas de zonas',
+        'statistics.view' => 'Ver estadísticas',
 
         'view.users' => 'Ver interfaz de usuarios',
 
@@ -858,5 +858,12 @@ return [
         'Childrens literature' => 'Literatura infantil',
         'Youth literature' => 'Literatura juvenil',
     ],
+
+    'roles' => [
+        'Administrador' => 'Administrador',
+        'Editor' => 'Editor',
+        'Reader' => 'Lector',
+        'User' => 'Usuario',
+    ]
 
 ];

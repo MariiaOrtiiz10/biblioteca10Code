@@ -35,6 +35,7 @@ interface EditBookProps extends PageProps {
 export default function EditBook({ book, page, perPage,genresData, genres, zonesData, floorsData, bookshelvesData, image_path}: EditBookProps) {
   const { t } = useTranslations();
 
+
   return (
     <BookLayout title={t("ui.books.edit")}>
       <div className="flex justify-center items-start py-1 px-6">

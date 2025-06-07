@@ -15,6 +15,7 @@ use Inertia\Inertia;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Response;
+use Illuminate\Support\Facades\Gate;
 
 class BookshelfController extends Controller
 {
@@ -23,6 +24,7 @@ class BookshelfController extends Controller
      */
     public function index()
     {
+        Gate::authorize('bookshelves.view');
         return Inertia::render('bookshelves/Index');
     }
 
@@ -31,6 +33,7 @@ class BookshelfController extends Controller
      */
     public function create()
     {
+        Gate::authorize('bookshelves.create');
         $floorsData = Floor::get()->toArray();
         $zonesData = Zone::with(['genre'])->get()->toArray();
         $bookshelvesData = Bookshelf::get()->toArray();
@@ -45,7 +48,6 @@ class BookshelfController extends Controller
      */
     public function store(Request $request, BookshelfStoreAction $action)
     {
-
         $validator = Validator::make($request->all(), [
             'bookshelfNumber' => ['required', 'integer', 'min:0', 'unique:bookshelves,bookshelfNumber'],
             'zone_id' => ['required'],
@@ -67,6 +69,7 @@ class BookshelfController extends Controller
      */
     public function edit(Request $request, Bookshelf $bookshelf)
     {
+        Gate::authorize('bookshelves.edit');
         $floorsData = Floor::get()->toArray();
         $zonesData = Zone::with(['genre','bookshelves'])->get()->toArray();
         $bookshelvesData = Bookshelf::get()->toArray();
@@ -119,6 +122,7 @@ class BookshelfController extends Controller
      */
     public function destroy(Bookshelf $bookshelf, BookshelfDestroyAction $action)
     {
+        Gate::authorize('bookshelves.delete');
         $action($bookshelf);
         return redirect()->route('bookshelves.index')
             ->with('success', __('messages.bookshelves.deleted'));

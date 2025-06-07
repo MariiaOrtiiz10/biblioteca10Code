@@ -13,7 +13,7 @@ import { FiltersTable, FilterConfig } from "@/components/stack-table/FiltersTabl
 import { TableSkeleton } from "@/components/stack-table/TableSkeleton";
 import { Table } from "@/components/stack-table/Table";
 import { BookLayout } from "@/layouts/books/BookLayout";
-import { useBooks, Book, useDeleteBook } from "@/hooks/books/useBooks";
+import { useBooks, Book } from "@/hooks/books/useBooks";
 import { PageProps } from "@/types";
 
 
@@ -28,6 +28,7 @@ interface IndexBookProps extends PageProps {
 export default function BookIndex({genres}:IndexBookProps) {
   const { t } = useTranslations();
   const { url } = usePage();
+  const { auth } = usePage().props;
 
     // Obtener los parámetros de la URL actual
     const urlParams = new URLSearchParams(url.split('?')[1] || '');
@@ -58,7 +59,7 @@ export default function BookIndex({genres}:IndexBookProps) {
         page: currentPage,
         perPage: perPage,
       });
-      const deleteBookMutation = useDeleteBook();
+      //const deleteBookMutation = useDeleteBook();
 
       const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -78,16 +79,16 @@ export default function BookIndex({genres}:IndexBookProps) {
         setFilters(newFilters);
     };
 
-      const handleDeleteBook = async (id: string) => {
-        try {
-          await deleteBookMutation.mutateAsync(id);
-          refetch();
-          toast.success(t('ui.books.delete_dialog.success') || 'Zone deleted successfully');
-        } catch (error) {
-          toast.error(t("ui.Book.deleted_error") || "Error deleting Book");
-          console.error("Error deleting Book:", error);
-        }
-      };
+    //   const handleDeleteBook = async (id: string) => {
+    //     try {
+    //       await deleteBookMutation.mutateAsync(id);
+    //       refetch();
+    //       toast.success(t('ui.books.delete_dialog.success') || 'Zone deleted successfully');
+    //     } catch (error) {
+    //       toast.error(t("ui.Book.deleted_error") || "Error deleting Book");
+    //       console.error("Error deleting Book:", error);
+    //     }
+    //   };
       const columns = useMemo(() => ([
 
         createTextColumn<Book>({
@@ -126,7 +127,7 @@ export default function BookIndex({genres}:IndexBookProps) {
             }
 
           }),
-        ] as ColumnDef<Book>[]), [t, handleDeleteBook]);
+        ] as ColumnDef<Book>[]), [t]);
 
 
 
@@ -136,12 +137,14 @@ export default function BookIndex({genres}:IndexBookProps) {
                   <div className="space-y-6">
                       <div className="flex items-center justify-between">
                           <h1 className="text-3xl font-bold">{t('ui.books.title')}</h1>
+                        {auth.permissions.books.create && (
                           <Link href="/books/create">
                               <Button>
                                   <PlusIcon className="mr-2 h-4 w-4" />
                                   {t('ui.books.buttons.new')}
                               </Button>
                           </Link>
+                        )}
                       </div>
                       <div></div>
 

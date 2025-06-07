@@ -7,6 +7,7 @@ use Domain\Zones\Models\Zone;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Gate;
 
 class ChartZoneController extends Controller
 {
@@ -15,6 +16,7 @@ class ChartZoneController extends Controller
      */
     public function index(Request $request): Response
     {
+        Gate::authorize('statistics.view');
         $zones = Zone::with([
             'floor',
             'genre',

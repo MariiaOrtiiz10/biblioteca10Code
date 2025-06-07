@@ -109,29 +109,29 @@ export function useCreateBook() {
     });
 }
 
-export function useUpdateBook(bookId: string) {
-    return useMutation({
-      mutationFn: async (data: {isbn:string; title:string; author:string; editorial:string; pages:number; genres:string; bookshelf_id:string;}) => {
-        const response = await axios.put(`/api/books/${bookId}`, data, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
-        return response.data;
-      },
-    });
-  }
+// export function useUpdateBook(bookId: string) {
+//     return useMutation({
+//       mutationFn: async (data: {isbn:string; title:string; author:string; editorial:string; pages:number; genres:string; bookshelf_id:string;}) => {
+//         const response = await axios.put(`/api/books/${bookId}`, data, {
+//           headers: {
+//             'Accept': 'application/json',
+//             'X-Requested-With': 'XMLHttpRequest'
+//           }
+//         });
+//         return response.data;
+//       },
+//     });
+//   }
 
-  export function useDeleteBook() {
-    return useMutation({
-      mutationFn: async (bookId: string) => {
-        await axios.delete(`/api/books/${bookId}`, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        });
-      },
-    });
-  }
+//   export function useDeleteBook() {
+//     return useMutation({
+//       mutationFn: async (bookId: string) => {
+//         await axios.delete(`/api/books/${bookId}`, {
+//           headers: {
+//             'Accept': 'application/json',
+//             'X-Requested-With': 'XMLHttpRequest'
+//           }
+//         });
+//       },
+//     });
+//   }

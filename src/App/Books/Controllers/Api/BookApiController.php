@@ -13,18 +13,4 @@ class BookApiController extends Controller{
         return response()->json($action($request->search, $request->integer('per_page', 10)));
     }
 
-    public function destroy(Book $book, BookDestroyAction $action)
-    {
-        $success = $action($book);
-
-        if (!$success) {
-            return response()->json([
-                'message' => __('messages.books.noDeleted')
-            ]);
-        }
-
-        return response()->json([
-            'message' => __('messages.books.deleted')
-        ]);
-    }
 }

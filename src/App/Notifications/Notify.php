@@ -37,13 +37,16 @@ class Notify extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $expiryDate = now()->addDays(3)->format('d/m/Y');
+
         return (new MailMessage)
-                    ->subject('Book available: ' . $this->book->title)
-                    ->line('The book you reservated is now available to loan')
-                    ->line('Title: ' . $this->book->title)
+                    ->subject('Libro disponible: ' . $this->book->title)
+                    ->line('¡El libro que reservaste está listo para recoger!')
+                    ->line('Título: ' . $this->book->title)
                     ->line('ISBN: ' . $this->book->isbn)
-                    ->action('Take it loaned now', url("/loans/create?isbn={$this->book->isbn}"))
-                    ->line('Thank you for using our application!');
+                    ->line("**Tienes hasta el {$expiryDate} para recogerlo.**")
+                    ->action('Recoger ahora', url("/dashboard"))
+                    ->line('Pasada esta fecha, el libro estará disponible para otros.');
     }
 
     /**

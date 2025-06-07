@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->syncPermissions('books.view','view.users','settings.access','settings.modify');
 
 
         event(new Registered($user));

@@ -11,6 +11,7 @@ use Domain\Floors\Actions\FloorUpdateAction;
 use Domain\Floors\Models\Floor;
 use Illuminate\Support\Facades\Validator;
 use Domain\Genres\Models\Genre;
+use Illuminate\Support\Facades\Gate;
 
 class FloorApiController extends Controller{
 
@@ -67,8 +68,8 @@ class FloorApiController extends Controller{
     }
     public function destroy(Floor $floor, FloorDestroyAction $action)
     {
+         Gate::authorize('floors.delete');
         $action($floor);
-
         return response()->json([
             'message' => __('messages.floors.deleted')
         ]);

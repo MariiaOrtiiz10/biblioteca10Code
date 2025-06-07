@@ -16,6 +16,7 @@ use Domain\Users\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Gate;
 
 class LoanController extends Controller
 {
@@ -24,12 +25,14 @@ class LoanController extends Controller
      */
     public function index()
     {
+        Gate::authorize('loans.view');
         return Inertia::render('loans/Index');
     }
 
 
     public function create()
     {
+        Gate::authorize('loans.create');
         $allBooksISBN = Book::orderBy('isbn')->get(['id', 'isbn'])->toArray();
         $usersData = User::get()->toArray();
         return Inertia::render('loans/Create',[
@@ -59,6 +62,7 @@ class LoanController extends Controller
 
     public function edit(Request $request, Loan $loan)
     {
+        Gate::authorize('loans.edit');
         $allBooksISBN = Book::orderBy('isbn')->get(['id', 'isbn'])->toArray();
         $usersData = User::get()->toArray();
         return Inertia::render('loans/Edit', [
@@ -124,6 +128,7 @@ class LoanController extends Controller
 
     public function destroy(Loan $loan, LoanDestroyAction $action)
     {
+        Gate::authorize('loans.delete');
         $action($loan);
         return redirect()->route('loans.index')
             ->with('success', __('messages.loans.deleted'));

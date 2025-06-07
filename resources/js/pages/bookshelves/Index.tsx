@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { useTranslations } from '@/hooks/use-translations';
 import { Link, usePage } from '@inertiajs/react';
 import { PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
-
 import { createActionsColumn, createDateColumn, createTextColumn } from '@/components/stack-table/columnsTable';
 import { DeleteDialog } from '@/components/stack-table/DeleteDialog';
 import { FilterConfig, FiltersTable } from '@/components/stack-table/FiltersTable';
@@ -17,6 +16,7 @@ import { toast } from 'sonner';
 export default function BookshelfIndex() {
     const { t } = useTranslations();
     const { url } = usePage();
+    const { auth } = usePage().props;
 
     // Obtener los parámetros de la URL actual
     const urlParams = new URLSearchParams(url.split('?')[1] || '');
@@ -129,11 +129,15 @@ export default function BookshelfIndex() {
                     header: t('ui.bookshelves.columns.actions') || 'Actions',
                     renderActions: (bookshelf) => (
                         <>
+                        {auth.permissions.bookshelves.edit && (
                             <Link href={`/bookshelves/${bookshelf.id}/edit?page=${currentPage}&perPage=${perPage}`}>
                                 <Button variant="outline" size="icon" title={t('ui.zones.buttons.edit') || 'Edit Zone'}>
                                     <PencilIcon className="h-4 w-4" />
                                 </Button>
                             </Link>
+                            )}
+
+                        {auth.permissions.bookshelves.delete && (
                             <DeleteDialog
                                 id={bookshelf.id}
                                 onDelete={handleDeleteBookshelf}
@@ -153,6 +157,7 @@ export default function BookshelfIndex() {
                                     </Button>
                                 }
                             />
+                          )}
                         </>
                     ),
                 }),
@@ -166,12 +171,14 @@ export default function BookshelfIndex() {
                 <div className="space-y-6">
                     <div className="flex items-center justify-between">
                         <h1 className="text-3xl font-bold">{t('ui.bookshelves.title')}</h1>
+                        {auth.permissions.bookshelves.create && (
                         <Link href="/bookshelves/create">
                             <Button>
                                 <PlusIcon className="mr-2 h-4 w-4" />
                                 {t('ui.bookshelves.buttons.new')}
                             </Button>
                         </Link>
+                        )}
                     </div>
                     <div></div>
 

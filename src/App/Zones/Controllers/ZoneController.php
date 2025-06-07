@@ -15,6 +15,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 
 class ZoneController extends Controller
 {
@@ -23,6 +24,7 @@ class ZoneController extends Controller
      */
     public function index()
     {
+        Gate::authorize('zones.view');
         $genres = Genre::orderBy('genre')->get(['id', 'genre']);
         return Inertia::render('zones/Index',  [
             'genres' => $genres,
@@ -34,6 +36,7 @@ class ZoneController extends Controller
      */
     public function create()
     {
+        Gate::authorize('zones.create');
         $floorsData = Floor::select(['id','floorNumber','floorName','zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
         $zoneswithfloors = Zone::with(['floor'])->get()->toArray();
@@ -77,6 +80,7 @@ class ZoneController extends Controller
      */
     public function edit(Request $request, Zone $zone)
     {
+        Gate::authorize('zones.edit');
         $floorsData = Floor::select(['id','floorNumber','floorName', 'zonesCapacity', 'occupiedZones'])->orderBy("floorNumber","asc")->get()->toArray();
         $genresData = Genre::select(['id','genre'])->orderBy("genre","asc")->get()->toArray();
         $zoneswithfloors = Zone::with(['floor'])->get()->toArray();
@@ -140,7 +144,7 @@ class ZoneController extends Controller
      */
     public function destroy(Zone $zone, ZoneDestroyAction $action)
     {
-
+        Gate::authorize('zones.delete');
         $action($zone);
         return redirect()->route('zones.index')
             ->with('success', __('messages.zones.deleted'));

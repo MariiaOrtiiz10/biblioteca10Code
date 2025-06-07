@@ -19,8 +19,6 @@ class SearchbookIndexAction
         $floorNumber = $search[7] ?? "null";
         $zoneName = $search[8] ?? "null";
         $bookshelfNumber = $search[9]?? "null";
-
-
       $libros_prestados = Loan::where('status', '=', true)->pluck('book_id');
 
 

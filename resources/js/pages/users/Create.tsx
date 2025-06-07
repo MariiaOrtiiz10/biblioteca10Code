@@ -5,6 +5,7 @@ import { PageProps } from "@/types";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/ui/icon";
 import { User } from "lucide-react";
+import {usePage} from "@inertiajs/react";
 
 interface CreateUserProps extends PageProps {
   roles?: any[];
@@ -16,6 +17,7 @@ interface CreateUserProps extends PageProps {
 export default function CreateUser({roles, permissions, usersData}:CreateUserProps) {
 
   const { t } = useTranslations();
+  const { auth } = usePage().props;
 
 
   return (

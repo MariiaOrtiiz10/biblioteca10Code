@@ -25,7 +25,7 @@ interface IndexUserProps extends PageProps {
 export default function UsersIndex({userWithLoansansReservations}:IndexUserProps) {
   const { t } = useTranslations();
   const { url } = usePage();
-  console.log(userWithLoansansReservations);
+  const { auth } = usePage().props;
 
   // Obtener los parámetros de la URL actual
   const urlParams = new URLSearchParams(url.split('?')[1] || '');
@@ -105,7 +105,7 @@ export default function UsersIndex({userWithLoansansReservations}:IndexUserProps
       header: t("ui.users.columns.actions") || "Actions",
       renderActions: (user) => (
         <>
-                {(user.has_reservations || user.has_loans) && (
+        {(auth.permissions.users.timeline) && (user.has_reservations || user.has_loans) && (
            <Link href={`/users/${user.id}`}>
                 <Button
                 variant="outline"
@@ -117,26 +117,37 @@ export default function UsersIndex({userWithLoansansReservations}:IndexUserProps
             </Link>
             )}
 
+            {auth.permissions.users.edit && (
+            <Link href={`/users/${user.id}/edit?page=${currentPage}&perPage=${perPage}`}>
+                <Button variant="outline" size="icon" title={t("ui.users.buttons.edit") || "Edit user"}>
+                <PencilIcon className="h-4 w-4" />
+                </Button>
+            </Link>
+        )}
 
-          <Link href={`/users/${user.id}/edit?page=${currentPage}&perPage=${perPage}`}>
-            <Button variant="outline" size="icon" title={t("ui.users.buttons.edit") || "Edit user"}>
-              <PencilIcon className="h-4 w-4" />
-            </Button>
-          </Link>
+
+         {auth.permissions.users.delete && (
+            <DeleteDialog
+                id={user.id}
+                onDelete={handleDeleteUser}
+                title={t("ui.users.delete.title") || "Delete user"}
+                description={t("ui.users.delete.description") || "Are you sure you want to delete this user? This action cannot be undone."}
+                trigger={
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="text-destructive hover:text-destructive"
+                    title={t("ui.users.buttons.delete") || "Delete user"}
+                >
+                    <TrashIcon className="h-4 w-4" />
+                </Button>
+                }
+            />
+            )}
 
 
-          <DeleteDialog
-            id={user.id}
-            onDelete={handleDeleteUser}
-            title={t("ui.users.delete.title") || "Delete user"}
-            description={t("ui.users.delete.description") || "Are you sure you want to delete this user? This action cannot be undone."}
-            trigger={
-              <Button variant="outline" size="icon" className="text-destructive hover:text-destructive" title={t("ui.users.buttons.delete") || "Delete user"}>
-                <TrashIcon className="h-4 w-4" />
-              </Button>
-            }
-          />
         </>
+
       ),
     }),
   ] as ColumnDef<User>[]), [t, handleDeleteUser]);
@@ -147,12 +158,14 @@ export default function UsersIndex({userWithLoansansReservations}:IndexUserProps
               <div className="space-y-6">
                   <div className="flex items-center justify-between">
                       <h1 className="text-3xl font-bold">{t('ui.users.title')}</h1>
+                      {auth.permissions.users.create && (
                       <Link href="/users/create">
                           <Button>
                               <PlusIcon className="mr-2 h-4 w-4" />
                               {t('ui.users.buttons.new')}
                           </Button>
                       </Link>
+                      )}
                   </div>
                   <div></div>
 

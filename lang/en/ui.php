@@ -36,6 +36,7 @@ return [
         'users.create' => 'Create users',
         'users.edit' => 'Edit users',
         'users.delete' => 'Delete users',
+        'users.timeline' => 'View users timeline',
 
         'floors.view' => 'View floors',
         'floors.create' => 'Create floors',
@@ -64,13 +65,11 @@ return [
         'loans.delete' => 'Delete loans',
         'loans.return' => 'Return loans',
 
-        'reservations.view' => 'View reservaions',
+        'reservations.view' => 'View reservations',
         'reservations.create' => 'Create reservations',
-        'reservations.record' => 'View loans record',
+        'reservations.record' => 'View reservations record',
 
-        'statistics.books' => 'View books statistics',
-        'statistics.users' => 'View users statistics',
-        'statistics.zones' => 'View zones statistics',
+        'statistics.view' => 'View statistics',
 
         'view.users' => 'View user interface',
 
@@ -897,6 +896,13 @@ return [
         'Childrens literature' => 'Childrens literature',
         'Youth literature' => 'Youth literature',
     ],
+
+    'roles' => [
+        'Administrador' => 'Admin',
+        'Editor' => 'Editor',
+        'Reader' => 'Reader',
+        'User' => 'User',
+    ]
 
 
 

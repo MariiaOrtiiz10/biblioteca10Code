@@ -26,6 +26,7 @@ interface IndexZoneProps extends PageProps {
 export default function ZoneIndex({genres}:IndexZoneProps) {
   const { t } = useTranslations();
   const { url } = usePage();
+  const { auth } = usePage().props;
   console.log(genres)
 
     // Obtener los parámetros de la URL actual
@@ -129,11 +130,15 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
             header: t("ui.zones.columns.actions") || "Actions",
             renderActions: (zone) => (
               <>
+              {auth.permissions.zones.edit && (
                 <Link href={`/zones/${zone.id}/edit?page=${currentPage}&perPage=${perPage}`}>
                   <Button variant="outline" size="icon" title={t("ui.zones.buttons.edit") || "Edit Zone"}>
                     <PencilIcon className="h-4 w-4" />
                   </Button>
                 </Link>
+                )}
+
+            {auth.permissions.zones.delete && (
                 <DeleteDialog
                   id={zone.id}
                   onDelete={handleDeleteZone}
@@ -145,6 +150,7 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
                     </Button>
                   }
                 />
+                )}
               </>
             ),
           }),
@@ -158,12 +164,14 @@ export default function ZoneIndex({genres}:IndexZoneProps) {
                   <div className="space-y-6">
                       <div className="flex items-center justify-between">
                           <h1 className="text-3xl font-bold">{t('ui.zones.title')}</h1>
+                            {auth.permissions.zones.create && (
                           <Link href="/zones/create">
                               <Button>
                                   <PlusIcon className="mr-2 h-4 w-4" />
                                   {t('ui.zones.buttons.new')}
                               </Button>
                           </Link>
+                         )}
                       </div>
                       <div></div>
 

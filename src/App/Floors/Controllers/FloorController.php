@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class FloorController extends Controller
 {
@@ -22,6 +24,7 @@ class FloorController extends Controller
      */
     public function index()
     {
+         Gate::authorize('floors.view');
         return Inertia::render('floors/Index');
     }
 
@@ -30,6 +33,7 @@ class FloorController extends Controller
      */
     public function create()
     {
+         Gate::authorize('floors.create');
         $floorsData = Floor::get()->toArray();
         return Inertia::render('floors/Create', [
             'floorsData' => $floorsData,
@@ -72,6 +76,7 @@ class FloorController extends Controller
      */
     public function edit(Request $request, Floor $floor)
     {
+        Gate::authorize('floors.edit');
         $floorsData =  Floor::get()->toArray();
         return Inertia::render('floors/Edit', [
             'floor' => $floor,
@@ -124,6 +129,7 @@ class FloorController extends Controller
 
     public function destroy(Floor $floor, FloorDestroyAction $action)
     {
+        Gate::authorize('floors.delete');
         $action($floor);
         return redirect()->route('floors.index')
             ->with('success', __('messages.floors.deleted'));

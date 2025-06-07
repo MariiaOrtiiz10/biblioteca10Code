@@ -39,8 +39,9 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/books', [BookApiController::class, 'index']);
+
     Route::get('/searchBooks', [searchBookApiController::class, 'index']);
-    Route::delete('/books/{book}', [BookApiController::class, 'destroy']);
+    Route::delete('/searchBooks/{book}', [searchBookApiController::class, 'destroy']);
 });
 
 

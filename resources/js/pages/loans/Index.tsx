@@ -24,6 +24,7 @@ import axios from "../../lib/axios";
 export default function LoanIndex() {
   const { t } = useTranslations();
   const { url } = usePage();
+  const { auth } = usePage().props;
 
     // Obtener los parámetros de la URL actual
     const urlParams = new URLSearchParams(url.split('?')[1] || '');
@@ -201,7 +202,7 @@ export default function LoanIndex() {
             renderActions: (loan) => (
               <>
 
-                 {loan.status && (
+                 {(auth.permissions.loans.return) && (loan.status) && (
                         <Button
                         variant="outline"
                         onClick={() => handleChangeStatus(loan.id)}
@@ -212,7 +213,8 @@ export default function LoanIndex() {
 
                     )}
 
-                {loan.status && (
+
+                {(auth.permissions.loans.edit) && (loan.status) && (
                 <Link href={`/loans/${loan.id}/edit?page=${currentPage}&perPage=${perPage}`}>
                   <Button variant="outline" size="icon" title={t("ui.loans.buttons.edit") || "Edit Book"}>
                     <PencilIcon className="h-4 w-4" />
@@ -220,6 +222,7 @@ export default function LoanIndex() {
                 </Link>
                 )}
 
+                {auth.permissions.loans.delete && (
                 <DeleteDialog
                   id={loan.id}
                   onDelete={handleDeleteLoan}
@@ -231,6 +234,7 @@ export default function LoanIndex() {
                     </Button>
                   }
                 />
+                )}
               </>
             ),
           }),
@@ -244,12 +248,15 @@ export default function LoanIndex() {
                   <div className="space-y-6">
                       <div className="flex items-center justify-between">
                           <h1 className="text-3xl font-bold">{t('ui.loans.title')}</h1>
+                        {auth.permissions.loans.create && (
                           <Link href="/loans/create">
                               <Button>
                                   <PlusIcon className="mr-2 h-4 w-4" />
                                   {t('ui.loans.buttons.new')}
                               </Button>
                           </Link>
+                        )}
+
                       </div>
                       <div>
 

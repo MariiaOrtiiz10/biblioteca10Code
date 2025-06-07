@@ -16,6 +16,7 @@ use Domain\Zones\Models\Zone;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Response;
+use Illuminate\Support\Facades\Gate;
 
 class BookController extends Controller
 {
@@ -24,6 +25,7 @@ class BookController extends Controller
      */
     public function index()
     {
+        Gate::authorize('books.view');
         $genres = Genre::orderBy('genre')->get(['id', 'genre']);
         return Inertia::render('books/Index', [
             'genres' => $genres,
@@ -35,6 +37,7 @@ class BookController extends Controller
      */
     public function create()
     {
+        Gate::authorize('books.create');
         $genres = Genre::select(['id','genre'])->get()->toArray();
         $zonesData = Zone::with(['genre'])->get()->toArray();
         $floorsData = Floor::get()->toArray();
@@ -89,19 +92,10 @@ class BookController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, Book $book)
     {
+        Gate::authorize('books.edit');
         $genres = Genre::select(['id','genre'])->get()->toArray();
         $genresData = $book->genres()->pluck('id')->toArray();
         $zonesData = Zone::with(['genre'])->get()->toArray();
@@ -150,27 +144,8 @@ class BookController extends Controller
                 $redirectUrl .= "&per_page=" . $request->query('perPage');
             }
         }
-
         return redirect($redirectUrl)
             ->with('success', __('messages.books.updated'));
     }
 
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Book $book, BookDestroyAction $action)
-    {
-            $success = $action($book);
-
-        if (!$success) {
-            return redirect()->route('searchBooks.index')
-                ->with('error', __('messages.books.noDeleted'));
-        }
-
-        return redirect()->route('searchBooks.index')
-            ->with('success', __('messages.books.deleted'));
-    }
 }

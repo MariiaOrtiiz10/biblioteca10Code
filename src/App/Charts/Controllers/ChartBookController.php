@@ -9,6 +9,7 @@ use Domain\Users\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Gate;
 
 class ChartBookController extends Controller
 {
@@ -17,6 +18,7 @@ class ChartBookController extends Controller
      */
     public function index(Request $request): Response
     {
+        Gate::authorize('statistics.view');
         $bookswithLoansReservations = Book::withTrashed()
         ->with(['loans', 'reservations' => function($query) {
             $query->withTrashed();

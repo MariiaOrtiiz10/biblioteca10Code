@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Domain\Users\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class ChartUserController extends Controller
 {
@@ -15,6 +16,7 @@ class ChartUserController extends Controller
      */
     public function index(Request $request): Response
     {
+        Gate::authorize('statistics.view');
         $usersWithLoansReservation = User::withTrashed()
         ->withCount(['loans', 'reservations' => function($query) {
             $query->withTrashed();
