@@ -58,6 +58,7 @@ class UserController extends Controller
         });
         $usersData = User::get()->toArray();
 
+
         return Inertia::render('users/Create', [
             'roles' => $roles,
             'permissions' => $permissions,

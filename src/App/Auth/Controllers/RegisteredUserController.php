@@ -3,6 +3,7 @@
 namespace App\Auth\Controllers;
 
 use App\Core\Controllers\Controller;
+use App\Notifications\NewUserNotification;
 use Domain\Users\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -41,8 +42,8 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $user->syncPermissions('books.view','view.users','settings.access','settings.modify');
-
+        $user->syncPermissions('books.view','view.users');
+        $user->notify(new NewUserNotification($user));
 
         event(new Registered($user));
 

@@ -11,7 +11,7 @@ interface CreateBookProps extends PageProps {
     zonesData:any[];
     floorsData:any[];
     bookshelvesData:any[];
-    booksData?:any[];
+    booksData:any[];
 }
 
 export default function createBook({genres, zonesData, floorsData, bookshelvesData, booksData}:CreateBookProps) {

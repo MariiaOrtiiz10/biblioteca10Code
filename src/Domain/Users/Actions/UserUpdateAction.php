@@ -2,6 +2,7 @@
 
 namespace Domain\Users\Actions;
 
+use App\Notifications\UpdateUserNotification;
 use Domain\Users\Data\Resources\UserResource;
 use Domain\Users\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +21,8 @@ class UserUpdateAction
         }
 
         $user->update($updateData);
+        $user->notify(new UpdateUserNotification($user));
+
         $user->syncPermissions($data['permissions']);
 
         return UserResource::fromModel($user->fresh());

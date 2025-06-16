@@ -38,7 +38,7 @@ interface BookFormProps {
     zonesData: any[];
     floorsData: any[];
     bookshelvesData: any[];
-    booksData?: any[];
+    booksData: any[];
     image_path?: string;
 
     //paginación
@@ -71,6 +71,7 @@ export function BookForm({
     image_path,
 }: BookFormProps) {
     const { t } = useTranslations();
+    console.log(initialData);
     const queryClient = useQueryClient();
     let floorNow = undefined;
     let zoneNow = undefined;
@@ -184,11 +185,19 @@ export function BookForm({
         }
         return check;
     }
+    async function urlToFile(url: string, filename: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const mime = blob.type || 'image/jpeg';
+    return new File([blob], filename, { type: mime });
+}
 
-    function handleISBN(books: BookFormProps['booksData'], isbn: string) {
+
+    async function handleISBN(books: BookFormProps['booksData'], isbn: string) {
         const matchedBook = books?.find((book) => book.isbn === isbn);
+
         if (matchedBook) {
-            console.log(matchedBook);
+            console.log('matchedBook',matchedBook);
             form.setFieldValue('title', matchedBook.title);
             form.setFieldValue('author', matchedBook.author);
             form.setFieldValue('editorial', matchedBook.editorial);
@@ -196,22 +205,17 @@ export function BookForm({
             let genreNames = matchedBook.genres.split(', ');
             let genreIds = genres.filter((g) => genreNames.includes(g.genre)).map((g) => g.id);
             setSelectedGenres(genreIds);
-            const imageNew = matchedBook.image_path;
-            setImagePath(imageNew);
-            form.setFieldValue('image', matchedBook.image_path);
-        }
 
-        // if (book.length > 0) {
-        //     console.log('book', book[0]);
-        //     form.setFieldValue('title', book[0].title);
-        //     form.setFieldValue('author', book[0].author);
-        //     form.setFieldValue('editorial', book[0].editorial);
-        //     form.setFieldValue('pages', book[0].pages);
-        //     let genreNames = book[0].genres.split(', ');
-        //     let genreIds = genres.filter((g) => genreNames.includes(g.genre)).map((g) => g.id);
-        //     setSelectedGenres(genreIds);
-        //     setSameISBN(true);
-        // }
+            const imageUrl = matchedBook.image_path;
+            setImagePath(imageUrl);
+            try {
+            const fileFromUrl = await urlToFile(imageUrl, 'imagen_libro.jpg');
+            form.setFieldValue('image', fileFromUrl); // Esto es lo que usa el form
+            setSelectedImage(fileFromUrl); // Esto es lo que usas para la vista previa
+        } catch (error) {
+            console.error('Error al convertir imagen desde URL:', error);
+        }
+        }
     }
 
     function checkZone() {
@@ -800,7 +804,7 @@ export function BookForm({
                         type="button"
                         variant="outline"
                         onClick={() => {
-                            let url = '/books';
+                            let url = '/searchBooks';
                             if (page) {
                                 url += `?page=${page}`;
                                 if (perPage) {

@@ -2,6 +2,7 @@
 
 namespace Domain\Loans\Actions;
 
+use App\Notifications\LoanUserNotification;
 use Domain\Books\Models\Book;
 use Domain\Loans\Data\Resources\LoanResource;
 use Domain\Loans\Models\Loan;
@@ -29,6 +30,12 @@ class LoanStoreAction
             'end_date' => $end_date,
             'status' => true,
         ]);
+        $user->notify(new LoanUserNotification(
+        $book,
+        $user,
+        $start_date->format('d/m/Y'),
+        $end_date->format('d/m/Y')
+    ));
 
 
         return LoanResource::fromModel($loan);

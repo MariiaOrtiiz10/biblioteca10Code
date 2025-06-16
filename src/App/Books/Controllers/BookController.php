@@ -102,6 +102,20 @@ class BookController extends Controller
         $floorsData = Floor::get()->toArray();
         $bookshelvesData = Bookshelf::select(['id','bookshelfNumber','zone_id','booksCapacity','occupiedBooks'])->get()->toArray();
         $image_path = $book->getFirstMediaUrl('images');
+        $booksData = Book::get()->map(function ($book) {
+                return [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'author' => $book->author,
+                    'isbn' => $book->isbn,
+                    'genres' => $book->genres,
+                    'pages' => $book->pages,
+                    'editorial' => $book->editorial,
+                    'bookshelf_id' => $book->bookshelf_id,
+                    'image_path' => $book->getFirstMediaUrl('images'),
+                ];
+            })->toArray();
+
         return Inertia::render('books/Edit', [
             'book' => $book,
             'page' => $request->query('page'),
@@ -112,6 +126,7 @@ class BookController extends Controller
             'bookshelvesData' => $bookshelvesData,
             'genresData' => $genresData,
             'image_path' => $image_path,
+            'booksData' => $booksData,
         ]);
     }
 

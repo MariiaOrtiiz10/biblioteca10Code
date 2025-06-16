@@ -27,7 +27,7 @@ class BookUpdateAction
         $book->update($updateData);
 
         foreach ($image as $img) {
-            $book->getMedia('images')[0]->delete();
+            //$book->getMedia('images')[0]->delete();
             $book->addMedia($img)->toMediaCollection('images', 'images');
         }
 
